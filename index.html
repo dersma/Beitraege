@@ -1375,10 +1375,7 @@
         <div class="subtitle">Partybeiträge • Anglerheim Jena</div>
     </div>
     
-    <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-    </div>
-    <div class="progress-text" id="progressText">0/20 Einträge (0%)</div>
+    
     
     <div class="section-title">🎯 Benötigte Partybeiträge</div>
     
@@ -1473,16 +1470,7 @@
     ];
     
     // Definiere die benötigten Mengen für 100% Fortschritt
-    const requiredAmounts = {
-        "Nudelsalat": 3,
-        "Kartoffelsalat": 3,
-        "Kräuterbutter": 2,
-        "Kuchen": 6,
-        "Nutella, Erdnussbutter": 1,
-        "Marmelade, Honig": 1,
-        "Aufschnitt (Wurst, Käse)": 1,
-        "Aufstriche (herzhaft)": 1
-    };
+    
     
     let itemStates = {};
     let additionalItems = {}; // Für weitere Partybeiträge
@@ -1699,262 +1687,7 @@
         // Normale Items
         items.forEach(item => {
             const registrations = itemStates[item] || [];
-            const requiredCount = requiredAmounts[item] || 1;
-            const currentCount = registrations.length;
-            
-            if (registrations.length === 0) {
-                data.push([item, requiredCount, 0, '', '']);
-            } else {
-                registrations.forEach((reg, index) => {
-                    data.push([
-                        index === 0 ? item : '',
-                        index === 0 ? requiredCount : '',
-                        index === 0 ? currentCount : '',
-                        reg.person,
-                        reg.timestamp
-                    ]);
-                });
-            }
-        });
-        
-        // Zusätzliche Items
-        const additionalItemsKeys = Object.keys(additionalItems);
-        if (additionalItemsKeys.length > 0) {
-            data.push(['']);
-            data.push(['=== WEITERE PARTYBEITRÄGE ===']);
-            data.push(['Item', 'Typ', 'Eingetragen', 'Person', 'Timestamp']);
-            
-            additionalItemsKeys.forEach(item => {
-                const registrations = additionalItems[item] || [];
-                const currentCount = registrations.length;
-                
-                if (registrations.length === 0) {
-                    data.push([item, 'Zusätzlich', 0, '', '']);
-                } else {
-                    registrations.forEach((reg, index) => {
-                        data.push([
-                            index === 0 ? item : '',
-                            index === 0 ? 'Zusätzlich' : '',
-                            index === 0 ? currentCount : '',
-                            reg.person,
-                            reg.timestamp
-                        ]);
-                    });
-                }
-            });
-        }
-        
-        return data;
-    }
-    
-    // Konvertiere zu CSV
-    function convertToCSV(data) {
-        return data.map(row => 
-            row.map(cell => `"${cell}"`).join(',')
-        ).join('\n');
-    }
-    
-    // Synchronisiere mit Google Drive
-    async function syncToGoogleDrive() {
-        if (!isAdminLoggedIn) {
-            alert('Zugriff verweigert!');
-            return;
-        }
-        
-        if (!isGoogleDriveConnected || !googleDriveFileId) {
-            alert('Bitte verbinden Sie sich zuerst mit Google Drive');
-            return;
-        }
-        
-        try {
-            const data = createExcelData();
-            const csvContent = convertToCSV(data);
-            
-            await gapi.client.request({
-                'path': `https://www.googleapis.com/upload/drive/v3/files/${googleDriveFileId}`,
-                'method': 'PATCH',
-                'params': {
-                    'uploadType': 'media'
-                },
-                'headers': {
-                    'Content-Type': 'text/csv'
-                },
-                'body': csvContent
-            });
-            
-            alert('Daten erfolgreich mit Google Drive synchronisiert!');
-            
-        } catch (error) {
-            console.error('Synchronisation fehlgeschlagen:', error);
-            alert('Fehler bei der Synchronisation. Bitte versuchen Sie es erneut.');
-        }
-    }
-    
-    // Status-Anzeige aktualisieren
-    function updateDriveStatus() {
-        if (!isAdminLoggedIn) return;
-        
-        const statusElement = document.getElementById('driveStatus');
-        const statusText = document.getElementById('statusText');
-        const connectBtn = document.getElementById('connectBtn');
-        const syncBtn = document.getElementById('syncBtn');
-        
-        if (isGoogleDriveConnected) {
-            statusElement.className = 'drive-status connected';
-            statusText.textContent = 'Verbunden ✓';
-            connectBtn.style.display = 'none';
-            syncBtn.disabled = false;
-        } else {
-            statusElement.className = 'drive-status disconnected';
-            statusText.textContent = 'Nicht verbunden';
-            connectBtn.style.display = 'inline-block';
-            syncBtn.disabled = true;
-        }
-    }
-    
-    // Zeige Danke-Effekt direkt in der Karte
-    function showThankYouEffect(cardElement) {
-        const thankYouText = document.createElement('div');
-        thankYouText.className = 'thank-you-effect';
-        thankYouText.textContent = 'DANKE!';
-        
-        const matrixContainer = document.createElement('div');
-        matrixContainer.className = 'matrix-effect';
-        
-        for (let i = 0; i < 8; i++) {
-            const matrixLine = document.createElement('div');
-            matrixLine.className = 'matrix-line';
-            matrixLine.style.left = Math.random() * 100 + '%';
-            matrixLine.style.animationDelay = Math.random() * 0.5 + 's';
-            matrixContainer.appendChild(matrixLine);
-        }
-        
-        const scanline = document.createElement('div');
-        scanline.className = 'scanline';
-        
-        const particles = [];
-        for (let i = 0; i < 12; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 0.3 + 's';
-            particles.push(particle);
-        }
-        
-        cardElement.appendChild(matrixContainer);
-        cardElement.appendChild(scanline);
-        particles.forEach(particle => cardElement.appendChild(particle));
-        cardElement.appendChild(thankYouText);
-        
-        cardElement.style.boxShadow = '0 0 40px rgba(0, 255, 255, 0.6)';
-        cardElement.style.borderColor = '#00ffff';
-        cardElement.style.transform = 'scale(1.02)';
-        
-        setTimeout(() => {
-            if (thankYouText.parentNode) thankYouText.parentNode.removeChild(thankYouText);
-            if (matrixContainer.parentNode) matrixContainer.parentNode.removeChild(matrixContainer);
-            if (scanline.parentNode) scanline.parentNode.removeChild(scanline);
-            particles.forEach(particle => {
-                if (particle.parentNode) particle.parentNode.removeChild(particle);
-            });
-            
-            cardElement.style.boxShadow = '';
-            cardElement.style.borderColor = '';
-            cardElement.style.transform = '';
-        }, 3000); // Verlängert auf 3 Sekunden
-    }
-    
-    // Zeige Tschüss-Effekt
-    function showGoodbyeEffect(cardElement) {
-        const goodbyeText = document.createElement('div');
-        goodbyeText.className = 'goodbye-effect';
-        goodbyeText.textContent = 'TSCHÜSS!';
-        
-        const matrixContainer = document.createElement('div');
-        matrixContainer.className = 'matrix-effect';
-        
-        for (let i = 0; i < 6; i++) {
-            const matrixLine = document.createElement('div');
-            matrixLine.className = 'matrix-line matrix-line-orange';
-            matrixLine.style.left = Math.random() * 100 + '%';
-            matrixLine.style.animationDelay = Math.random() * 0.5 + 's';
-            matrixContainer.appendChild(matrixLine);
-        }
-        
-        const scanline = document.createElement('div');
-        scanline.className = 'scanline scanline-orange';
-        
-        const particles = [];
-        for (let i = 0; i < 8; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle particle-orange';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 0.3 + 's';
-            particles.push(particle);
-        }
-        
-        cardElement.appendChild(matrixContainer);
-        cardElement.appendChild(scanline);
-        particles.forEach(particle => cardElement.appendChild(particle));
-        cardElement.appendChild(goodbyeText);
-        
-        cardElement.style.boxShadow = '0 0 40px rgba(255, 170, 0, 0.6)';
-        cardElement.style.borderColor = '#ffaa00';
-        cardElement.style.transform = 'scale(1.02)';
-        
-        setTimeout(() => {
-            if (goodbyeText.parentNode) goodbyeText.parentNode.removeChild(goodbyeText);
-            if (matrixContainer.parentNode) matrixContainer.parentNode.removeChild(matrixContainer);
-            if (scanline.parentNode) scanline.parentNode.removeChild(scanline);
-            particles.forEach(particle => {
-                if (particle.parentNode) particle.parentNode.removeChild(particle);
-            });
-            
-            cardElement.style.boxShadow = '';
-            cardElement.style.borderColor = '';
-            cardElement.style.transform = '';
-        }, 3000); // Verlängert auf 3 Sekunden
-    }
-    
-    // Erstelle Sterne
-    function createStars() {
-        const starsContainer = document.querySelector('.stars');
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 2 + 's';
-            starsContainer.appendChild(star);
-        }
-    }
-    
-    // Erstelle Neon-Linien
-    function createNeonLines() {
-        const linesContainer = document.querySelector('.neon-lines');
-        for (let i = 0; i < 3; i++) {
-            const line = document.createElement('div');
-            line.className = 'neon-line';
-            line.style.top = Math.random() * 100 + '%';
-            line.style.width = '200px';
-            line.style.animationDelay = Math.random() * 4 + 's';
-            linesContainer.appendChild(line);
-        }
-    }
-    
-    // Aktualisiere Fortschritt
-    function updateProgress() {
-        let totalRegistered = 0;
-        let totalRequired = 0;
-        
-        items.forEach(item => {
-            const registeredCount = itemStates[item] ? itemStates[item].length : 0;
-            const requiredCount = requiredAmounts[item] || 1;
-            
-            totalRegistered += registeredCount;
-            totalRequired += requiredCount;
+            const requiredCount = 0;
         });
         
         const percentage = totalRequired > 0 ? (totalRegistered / totalRequired) * 100 : 0;
@@ -1970,9 +1703,9 @@
         
         items.forEach((item, index) => {
             const registrations = itemStates[item] || [];
-            const requiredCount = requiredAmounts[item] || 1;
+            const requiredCount = 0;
             const currentCount = registrations.length;
-            const isComplete = currentCount >= requiredCount;
+const isComplete = false;
             
             const card = document.createElement('div');
             card.className = `item-card ${isComplete ? 'taken' : ''}`;
@@ -2177,7 +1910,7 @@
                 
                 saveData();
                 createItemCards();
-                updateProgress();
+                
                 
                 if (isGoogleDriveConnected && isAdminLoggedIn) {
                     setTimeout(() => syncToGoogleDrive(), 1000);
@@ -2204,7 +1937,7 @@
                 
                 saveData();
                 createItemCards();
-                updateProgress();
+                
                 
                 if (isGoogleDriveConnected && isAdminLoggedIn) {
                     setTimeout(() => syncToGoogleDrive(), 1000);
@@ -2263,7 +1996,7 @@
                 // Aktualisiere die Anzeige
                 createItemCards();
                 createAdditionalItemCards();
-                updateProgress();
+                
                 
                 alert('Alle Daten wurden erfolgreich gelöscht!');
                 
@@ -2333,7 +2066,7 @@
         createNeonLines();
         createItemCards();
         createAdditionalItemCards();
-        updateProgress();
+        
         checkAdminStatus();
         
         // Enter-Taste für neues Item
