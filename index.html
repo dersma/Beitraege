@@ -89,16 +89,19 @@
     }
     
     .title {
-        font-size: 3rem;
+        font-size: clamp(1.8rem, 6vw, 3rem);
         font-weight: 900;
         color: #ff00ff;
         text-shadow: 0 0 20px #ff00ff;
         margin-bottom: 10px;
         letter-spacing: 3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     
     .date {
-        font-size: 1.5rem;
+        font-size: clamp(1rem, 3vw, 1.5rem);
         color: #00ffff;
         text-shadow: 0 0 10px #00ffff;
         margin-bottom: 20px;
@@ -106,7 +109,7 @@
     }
     
     .subtitle {
-        font-size: 1.2rem;
+        font-size: clamp(0.9rem, 2.5vw, 1.2rem);
         color: #ffffff;
         opacity: 0.8;
     }
@@ -143,7 +146,7 @@
     }
     
     .section-title {
-        font-size: 2rem;
+        font-size: clamp(1.5rem, 4vw, 2rem);
         font-weight: 900;
         color: #ff00ff;
         text-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
@@ -445,7 +448,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 2rem;
+        font-size: clamp(1.2rem, 3vw, 2rem);
         font-weight: 900;
         color: #00ffff;
         text-shadow: 0 0 20px #00ffff;
@@ -454,7 +457,10 @@
         opacity: 0;
         z-index: 100;
         pointer-events: none;
-        animation: thank-you-animation 3s ease-out forwards;
+        animation: thank-you-animation 4s ease-out forwards;
+        text-align: center;
+        white-space: nowrap;
+        padding: 0 20px;
     }
     
     .thank-you-effect::before {
@@ -482,7 +488,7 @@
         bottom: -10px;
         background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, transparent 70%);
         border-radius: 50%;
-        animation: pulse-glow 3s ease-out;
+        animation: pulse-glow 4s ease-out;
         z-index: -2;
     }
     
@@ -491,7 +497,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 1.8rem;
+        font-size: clamp(1rem, 2.5vw, 1.8rem);
         font-weight: 900;
         color: #ffaa00;
         text-shadow: 0 0 20px #ffaa00;
@@ -500,7 +506,10 @@
         opacity: 0;
         z-index: 100;
         pointer-events: none;
-        animation: goodbye-animation 3s ease-out forwards;
+        animation: goodbye-animation 4s ease-out forwards;
+        text-align: center;
+        white-space: nowrap;
+        padding: 0 20px;
     }
     
     .goodbye-effect::before {
@@ -527,7 +536,7 @@
         background: #00ffff;
         border-radius: 50%;
         pointer-events: none;
-        animation: particle-float 3s ease-out forwards;
+        animation: particle-float 4s ease-out forwards;
     }
     
     .particle:nth-child(odd) {
@@ -565,7 +574,7 @@
         width: 2px;
         height: 20px;
         background: linear-gradient(to bottom, transparent, #00ffff, transparent);
-        animation: matrix-fall 3s linear forwards;
+        animation: matrix-fall 4s linear forwards;
     }
     
     .matrix-line-orange {
@@ -580,7 +589,7 @@
         background: linear-gradient(90deg, transparent, #00ffff, transparent);
         top: 50%;
         left: 0;
-        animation: scanline-sweep 2.4s ease-out;
+        animation: scanline-sweep 3s ease-out;
         z-index: 98;
     }
     
@@ -963,7 +972,7 @@
     
     .admin-title {
         color: #ff00ff;
-        font-size: 1.8rem;
+        font-size: clamp(1.3rem, 3vw, 1.8rem);
         font-weight: 900;
         margin-bottom: 30px;
         text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
@@ -1167,12 +1176,12 @@
     
     @media (max-width: 768px) {
         .title {
-            font-size: 2rem;
-            white-space: nowrap;
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            letter-spacing: 1px;
         }
         
         .section-title {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3.5vw, 1.5rem);
             margin: 30px 0 20px;
         }
         
@@ -1245,16 +1254,16 @@
         }
         
         .admin-title {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
         }
         
         .thank-you-effect {
-            font-size: 1.5rem;
-            letter-spacing: 2px;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            letter-spacing: 1px;
         }
         
         .goodbye-effect {
-            font-size: 1.3rem;
+            font-size: clamp(0.9rem, 2vw, 1.3rem);
             letter-spacing: 1px;
         }
         
@@ -1271,11 +1280,20 @@
     
     @media (max-width: 480px) {
         .title {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 4.5vw, 1.5rem);
+            letter-spacing: 0px;
+        }
+        
+        .date {
+            font-size: clamp(0.8rem, 2.5vw, 1rem);
+        }
+        
+        .subtitle {
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
         }
         
         .section-title {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             margin: 25px 0 15px;
         }
         
@@ -1296,7 +1314,7 @@
         }
         
         .admin-title {
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 2vw, 1.3rem);
             margin-bottom: 25px;
         }
         
@@ -1340,12 +1358,12 @@
         }
         
         .thank-you-effect {
-            font-size: 1.2rem;
-            letter-spacing: 1px;
+            font-size: clamp(0.8rem, 2vw, 1.2rem);
+            letter-spacing: 0px;
         }
         
         .goodbye-effect {
-            font-size: 1rem;
+            font-size: clamp(0.7rem, 1.5vw, 1rem);
             letter-spacing: 0px;
         }
         
@@ -1375,7 +1393,10 @@
         <div class="subtitle">Partybeiträge • Anglerheim Jena</div>
     </div>
     
-    
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-text" id="progressText">0 Beiträge</div>
     
     <div class="section-title">🎯 Benötigte Partybeiträge</div>
     
@@ -1470,7 +1491,27 @@
     ];
     
     // Definiere die benötigten Mengen für 100% Fortschritt
+    const requiredAmounts = {
+        "Nudelsalat": 3,
+        "Kartoffelsalat": 3,
+        "Kräuterbutter": 2,
+        "Kuchen": 6,
+        "Nutella, Erdnussbutter": 1,
+        "Marmelade, Honig": 1,
+        "Aufschnitt (Wurst, Käse)": 1,
+        "Aufstriche (herzhaft)": 1
+    };
     
+    // Randomisierte Danke-Texte
+    const thankYouMessages = [
+        "🙏 Daaaaaankööö! 🙏",
+        "💕 Du bist die/der Geilste! 💕",
+        "💣 Hammerfettbombekrass! 💣",
+        "🥰 Echt?! Thnx!!! 🥰",
+        "🛟 Du bist die Rettung 🛟",
+        "❤️ Ich hasse alle: Außer DICH! ❤️",
+        "❤️‍🔥 Wir lieben Dich! ❤️‍🔥"
+    ];
     
     let itemStates = {};
     let additionalItems = {}; // Für weitere Partybeiträge
@@ -1687,13 +1728,274 @@
         // Normale Items
         items.forEach(item => {
             const registrations = itemStates[item] || [];
-            const requiredCount = 0;
+            const requiredCount = requiredAmounts[item] || 1;
+            const currentCount = registrations.length;
+            
+            if (registrations.length === 0) {
+                data.push([item, requiredCount, 0, '', '']);
+            } else {
+                registrations.forEach((reg, index) => {
+                    data.push([
+                        index === 0 ? item : '',
+                        index === 0 ? requiredCount : '',
+                        index === 0 ? currentCount : '',
+                        reg.person,
+                        reg.timestamp
+                    ]);
+                });
+            }
+        });
+        
+        // Zusätzliche Items
+        const additionalItemsKeys = Object.keys(additionalItems);
+        if (additionalItemsKeys.length > 0) {
+            data.push(['']);
+            data.push(['=== WEITERE PARTYBEITRÄGE ===']);
+            data.push(['Item', 'Typ', 'Eingetragen', 'Person', 'Timestamp']);
+            
+            additionalItemsKeys.forEach(item => {
+                const registrations = additionalItems[item] || [];
+                const currentCount = registrations.length;
+                
+                if (registrations.length === 0) {
+                    data.push([item, 'Zusätzlich', 0, '', '']);
+                } else {
+                    registrations.forEach((reg, index) => {
+                        data.push([
+                            index === 0 ? item : '',
+                            index === 0 ? 'Zusätzlich' : '',
+                            index === 0 ? currentCount : '',
+                            reg.person,
+                            reg.timestamp
+                        ]);
+                    });
+                }
+            });
+        }
+        
+        return data;
+    }
+    
+    // Konvertiere zu CSV
+    function convertToCSV(data) {
+        return data.map(row => 
+            row.map(cell => `"${cell}"`).join(',')
+        ).join('\n');
+    }
+    
+    // Synchronisiere mit Google Drive
+    async function syncToGoogleDrive() {
+        if (!isAdminLoggedIn) {
+            alert('Zugriff verweigert!');
+            return;
+        }
+        
+        if (!isGoogleDriveConnected || !googleDriveFileId) {
+            alert('Bitte verbinden Sie sich zuerst mit Google Drive');
+            return;
+        }
+        
+        try {
+            const data = createExcelData();
+            const csvContent = convertToCSV(data);
+            
+            await gapi.client.request({
+                'path': `https://www.googleapis.com/upload/drive/v3/files/${googleDriveFileId}`,
+                'method': 'PATCH',
+                'params': {
+                    'uploadType': 'media'
+                },
+                'headers': {
+                    'Content-Type': 'text/csv'
+                },
+                'body': csvContent
+            });
+            
+            alert('Daten erfolgreich mit Google Drive synchronisiert!');
+            
+        } catch (error) {
+            console.error('Synchronisation fehlgeschlagen:', error);
+            alert('Fehler bei der Synchronisation. Bitte versuchen Sie es erneut.');
+        }
+    }
+    
+    // Status-Anzeige aktualisieren
+    function updateDriveStatus() {
+        if (!isAdminLoggedIn) return;
+        
+        const statusElement = document.getElementById('driveStatus');
+        const statusText = document.getElementById('statusText');
+        const connectBtn = document.getElementById('connectBtn');
+        const syncBtn = document.getElementById('syncBtn');
+        
+        if (isGoogleDriveConnected) {
+            statusElement.className = 'drive-status connected';
+            statusText.textContent = 'Verbunden ✓';
+            connectBtn.style.display = 'none';
+            syncBtn.disabled = false;
+        } else {
+            statusElement.className = 'drive-status disconnected';
+            statusText.textContent = 'Nicht verbunden';
+            connectBtn.style.display = 'inline-block';
+            syncBtn.disabled = true;
+        }
+    }
+    
+    // Zeige Danke-Effekt direkt in der Karte
+    function showThankYouEffect(cardElement) {
+        // Wähle eine zufällige Nachricht
+        const randomMessage = thankYouMessages[Math.floor(Math.random() * thankYouMessages.length)];
+        
+        const thankYouText = document.createElement('div');
+        thankYouText.className = 'thank-you-effect';
+        thankYouText.textContent = randomMessage;
+        
+        const matrixContainer = document.createElement('div');
+        matrixContainer.className = 'matrix-effect';
+        
+        for (let i = 0; i < 8; i++) {
+            const matrixLine = document.createElement('div');
+            matrixLine.className = 'matrix-line';
+            matrixLine.style.left = Math.random() * 100 + '%';
+            matrixLine.style.animationDelay = Math.random() * 0.5 + 's';
+            matrixContainer.appendChild(matrixLine);
+        }
+        
+        const scanline = document.createElement('div');
+        scanline.className = 'scanline';
+        
+        const particles = [];
+        for (let i = 0; i < 12; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 0.3 + 's';
+            particles.push(particle);
+        }
+        
+        cardElement.appendChild(matrixContainer);
+        cardElement.appendChild(scanline);
+        particles.forEach(particle => cardElement.appendChild(particle));
+        cardElement.appendChild(thankYouText);
+        
+        cardElement.style.boxShadow = '0 0 40px rgba(0, 255, 255, 0.6)';
+        cardElement.style.borderColor = '#00ffff';
+        cardElement.style.transform = 'scale(1.02)';
+        
+        setTimeout(() => {
+            if (thankYouText.parentNode) thankYouText.parentNode.removeChild(thankYouText);
+            if (matrixContainer.parentNode) matrixContainer.parentNode.removeChild(matrixContainer);
+            if (scanline.parentNode) scanline.parentNode.removeChild(scanline);
+            particles.forEach(particle => {
+                if (particle.parentNode) particle.parentNode.removeChild(particle);
+            });
+            
+            cardElement.style.boxShadow = '';
+            cardElement.style.borderColor = '';
+            cardElement.style.transform = '';
+        }, 4000); // Verlängert auf 4 Sekunden
+    }
+    
+    // Zeige Tschüss-Effekt
+    function showGoodbyeEffect(cardElement) {
+        const goodbyeText = document.createElement('div');
+        goodbyeText.className = 'goodbye-effect';
+        goodbyeText.textContent = 'TSCHÜSS!';
+        
+        const matrixContainer = document.createElement('div');
+        matrixContainer.className = 'matrix-effect';
+        
+        for (let i = 0; i < 6; i++) {
+            const matrixLine = document.createElement('div');
+            matrixLine.className = 'matrix-line matrix-line-orange';
+            matrixLine.style.left = Math.random() * 100 + '%';
+            matrixLine.style.animationDelay = Math.random() * 0.5 + 's';
+            matrixContainer.appendChild(matrixLine);
+        }
+        
+        const scanline = document.createElement('div');
+        scanline.className = 'scanline scanline-orange';
+        
+        const particles = [];
+        for (let i = 0; i < 8; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle particle-orange';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 0.3 + 's';
+            particles.push(particle);
+        }
+        
+        cardElement.appendChild(matrixContainer);
+        cardElement.appendChild(scanline);
+        particles.forEach(particle => cardElement.appendChild(particle));
+        cardElement.appendChild(goodbyeText);
+        
+        cardElement.style.boxShadow = '0 0 40px rgba(255, 170, 0, 0.6)';
+        cardElement.style.borderColor = '#ffaa00';
+        cardElement.style.transform = 'scale(1.02)';
+        
+        setTimeout(() => {
+            if (goodbyeText.parentNode) goodbyeText.parentNode.removeChild(goodbyeText);
+            if (matrixContainer.parentNode) matrixContainer.parentNode.removeChild(matrixContainer);
+            if (scanline.parentNode) scanline.parentNode.removeChild(scanline);
+            particles.forEach(particle => {
+                if (particle.parentNode) particle.parentNode.removeChild(particle);
+            });
+            
+            cardElement.style.boxShadow = '';
+            cardElement.style.borderColor = '';
+            cardElement.style.transform = '';
+        }, 4000); // Verlängert auf 4 Sekunden
+    }
+    
+    // Erstelle Sterne
+    function createStars() {
+        const starsContainer = document.querySelector('.stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            starsContainer.appendChild(star);
+        }
+    }
+    
+    // Erstelle Neon-Linien
+    function createNeonLines() {
+        const linesContainer = document.querySelector('.neon-lines');
+        for (let i = 0; i < 3; i++) {
+            const line = document.createElement('div');
+            line.className = 'neon-line';
+            line.style.top = Math.random() * 100 + '%';
+            line.style.width = '200px';
+            line.style.animationDelay = Math.random() * 4 + 's';
+            linesContainer.appendChild(line);
+        }
+    }
+    
+    // Aktualisiere Fortschritt
+    function updateProgress() {
+        let totalRegistered = 0;
+        let totalRequired = 0;
+        
+        items.forEach(item => {
+            const registeredCount = itemStates[item] ? itemStates[item].length : 0;
+            const requiredCount = requiredAmounts[item] || 1;
+            
+            totalRegistered += registeredCount;
+            totalRequired += requiredCount;
         });
         
         const percentage = totalRequired > 0 ? (totalRegistered / totalRequired) * 100 : 0;
         
         document.getElementById('progressFill').style.width = Math.min(percentage, 100) + '%';
-        document.getElementById('progressText').textContent = `${totalRegistered}/${totalRequired} Einträge (${Math.round(percentage)}%)`;
+        
+        // Korrekte Singular/Plural-Form für "Beitrag"/"Beiträge"
+        const beitragText = totalRegistered === 1 ? 'Beitrag' : 'Beiträge';
+        document.getElementById('progressText').textContent = `${totalRegistered} ${beitragText} (${Math.round(percentage)}%)`;
     }
     
     // Erstelle Item-Karten
@@ -1703,9 +2005,9 @@
         
         items.forEach((item, index) => {
             const registrations = itemStates[item] || [];
-            const requiredCount = 0;
+            const requiredCount = requiredAmounts[item] || 1;
             const currentCount = registrations.length;
-const isComplete = false;
+            const isComplete = currentCount >= requiredCount;
             
             const card = document.createElement('div');
             card.className = `item-card ${isComplete ? 'taken' : ''}`;
@@ -1841,7 +2143,7 @@ const isComplete = false;
                 if (isGoogleDriveConnected && isAdminLoggedIn) {
                     setTimeout(() => syncToGoogleDrive(), 1000);
                 }
-            }, 1000);
+            }, 1500);
             
         } else {
             alert('Bitte gib deinen Namen ein!');
@@ -1872,7 +2174,7 @@ const isComplete = false;
                 if (isGoogleDriveConnected && isAdminLoggedIn) {
                     setTimeout(() => syncToGoogleDrive(), 1000);
                 }
-            }, 1000);
+            }, 1500);
             
         } else if (inputName) {
             alert('Der Name stimmt nicht überein. Nur die Person, die sich eingetragen hat, kann sich wieder austragen.');
@@ -1910,12 +2212,12 @@ const isComplete = false;
                 
                 saveData();
                 createItemCards();
-                
+                updateProgress();
                 
                 if (isGoogleDriveConnected && isAdminLoggedIn) {
                     setTimeout(() => syncToGoogleDrive(), 1000);
                 }
-            }, 1000);
+            }, 1500);
             
         } else {
             alert('Bitte gib deinen Namen ein!');
@@ -1937,12 +2239,12 @@ const isComplete = false;
                 
                 saveData();
                 createItemCards();
-                
+                updateProgress();
                 
                 if (isGoogleDriveConnected && isAdminLoggedIn) {
                     setTimeout(() => syncToGoogleDrive(), 1000);
                 }
-            }, 1000);
+            }, 1500);
             
         } else if (inputName) {
             alert('Der Name stimmt nicht überein. Nur die Person, die sich eingetragen hat, kann sich wieder austragen.');
@@ -1996,7 +2298,7 @@ const isComplete = false;
                 // Aktualisiere die Anzeige
                 createItemCards();
                 createAdditionalItemCards();
-                
+                updateProgress();
                 
                 alert('Alle Daten wurden erfolgreich gelöscht!');
                 
@@ -2066,7 +2368,7 @@ const isComplete = false;
         createNeonLines();
         createItemCards();
         createAdditionalItemCards();
-        
+        updateProgress();
         checkAdminStatus();
         
         // Enter-Taste für neues Item
@@ -2082,78 +2384,6 @@ const isComplete = false;
     });
 </script>
 ```
-
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const newItemInput = document.getElementById("newItemInput");
-    if (newItemInput) {
-        newItemInput.addEventListener("keypress", (event) => {
-            if (event.key === "Enter") {
-                addNewItem();
-            }
-        });
-    }
-
-    setTimeout(() => {
-        items.forEach((item, index) => {
-            const input = document.getElementById(`input-${index}`);
-            if (input) {
-                input.addEventListener("keypress", (event) => {
-                    if (event.key === "Enter") {
-                        addPerson(item, index);
-                    }
-                });
-            }
-        });
-
-        Object.keys(additionalItems).forEach((item, index) => {
-            const input = document.getElementById(`additional-input-${index}`);
-            if (input) {
-                input.addEventListener("keypress", (event) => {
-                    if (event.key === "Enter") {
-                        addAdditionalPerson(item, index);
-                    }
-                });
-            }
-        });
-    }, 1000);
-});
-
-
-function sendToGoogleSheet(name, item, type = 'Benötigt') {
-    fetch("https://script.google.com/macros/s/DEINE_WEBAPP_ID/exec", {
-        method: "POST",
-        body: JSON.stringify({
-            name: name,
-            item: item,
-            type: type
-        }),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).then(res => console.log("Gesendet:", res.status));
-}
-
-
-// Erweiterung der vorhandenen addPerson-Funktion
-const origAddPerson = addPerson;
-addPerson = function(item, index) {
-    const input = document.getElementById(`input-${index}`);
-    const name = input.value.trim();
-    if (name) sendToGoogleSheet(name, item, "Benötigt");
-    origAddPerson(item, index);
-};
-
-// Erweiterung für zusätzliche Beiträge
-const origAddAdditionalPerson = addAdditionalPerson;
-addAdditionalPerson = function(item, index) {
-    const input = document.getElementById(`additional-input-${index}`);
-    const name = input.value.trim();
-    if (name) sendToGoogleSheet(name, item, "Zusätzlich");
-    origAddAdditionalPerson(item, index);
-};
-</script>
 
 </body>
 </html>
