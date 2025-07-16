@@ -2350,5 +2350,77 @@
 </script>
 ```
 
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const newItemInput = document.getElementById("newItemInput");
+    if (newItemInput) {
+        newItemInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                addNewItem();
+            }
+        });
+    }
+
+    setTimeout(() => {
+        items.forEach((item, index) => {
+            const input = document.getElementById(`input-${index}`);
+            if (input) {
+                input.addEventListener("keypress", (event) => {
+                    if (event.key === "Enter") {
+                        addPerson(item, index);
+                    }
+                });
+            }
+        });
+
+        Object.keys(additionalItems).forEach((item, index) => {
+            const input = document.getElementById(`additional-input-${index}`);
+            if (input) {
+                input.addEventListener("keypress", (event) => {
+                    if (event.key === "Enter") {
+                        addAdditionalPerson(item, index);
+                    }
+                });
+            }
+        });
+    }, 1000);
+});
+
+
+function sendToGoogleSheet(name, item, type = 'Benötigt') {
+    fetch("https://script.google.com/macros/s/DEINE_WEBAPP_ID/exec", {
+        method: "POST",
+        body: JSON.stringify({
+            name: name,
+            item: item,
+            type: type
+        }),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(res => console.log("Gesendet:", res.status));
+}
+
+
+// Erweiterung der vorhandenen addPerson-Funktion
+const origAddPerson = addPerson;
+addPerson = function(item, index) {
+    const input = document.getElementById(`input-${index}`);
+    const name = input.value.trim();
+    if (name) sendToGoogleSheet(name, item, "Benötigt");
+    origAddPerson(item, index);
+};
+
+// Erweiterung für zusätzliche Beiträge
+const origAddAdditionalPerson = addAdditionalPerson;
+addAdditionalPerson = function(item, index) {
+    const input = document.getElementById(`additional-input-${index}`);
+    const name = input.value.trim();
+    if (name) sendToGoogleSheet(name, item, "Zusätzlich");
+    origAddAdditionalPerson(item, index);
+};
+</script>
+
 </body>
 </html>
