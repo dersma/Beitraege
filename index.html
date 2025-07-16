@@ -1,16 +1,16 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<!DOCTYPE html>
 
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4 x 40 B-Day-Bash - Partybeiträge</title>
-    <meta name="description" content="Partybeiträge für die 4 x 40 B-Day-Bash Party am 01.-03.08.2025 im Anglerheim Jena">
-    <meta name="keywords" content="Birthday Party, Partybeiträge, Geburtstag, Party, Jena">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>4 x 40 B-Day-Bash - Partybeiträge</title>
+<meta content="Partybeiträge für die 4 x 40 B-Day-Bash Party am 01.-03.08.2025 im Anglerheim Jena" name="description"/>
+<meta content="Birthday Party, Partybeiträge, Geburtstag, Party, Jena" name="keywords"/>
+<style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 
-```
     * {
         margin: 0;
         padding: 0;
@@ -96,7 +96,7 @@
         margin-bottom: 10px;
         letter-spacing: 3px;
         white-space: nowrap;
-        overflow: hidden;
+        overflow: visible;
         text-overflow: ellipsis;
     }
     
@@ -119,7 +119,7 @@
         height: 30px;
         background: rgba(0, 0, 0, 0.5);
         border-radius: 15px;
-        overflow: hidden;
+        overflow: visible;
         margin-bottom: 40px;
         border: 2px solid #00ffff;
     }
@@ -154,6 +154,24 @@
         margin: 40px 0 30px;
         letter-spacing: 2px;
     }
+
+    .section-title.highlighted-plus {
+        font-size: clamp(1.8rem, 4.5vw, 2.5rem); /* Make it larger */
+        color: #ffff00; /* Change color to a bright yellow */
+        text-shadow: 0 0 20px #ffff00, 0 0 30px rgba(255, 255, 0, 0.8); /* Stronger glow */
+        animation: pulse-plus 1.5s infinite alternate; /* Add a pulse animation */
+    }
+
+    @keyframes pulse-plus {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+    }
     
     .additional-section {
         margin-top: 50px;
@@ -167,7 +185,7 @@
         text-align: center;
         transition: all 0.3s ease;
         position: relative;
-        overflow: hidden;
+        overflow: visible;
     }
     
     .add-item-card:hover {
@@ -176,6 +194,9 @@
     }
     
     .add-item-title {
+        color: #ffff00;
+        font-size: 1.5rem;
+        text-shadow: 0 0 15px #ffff00;
         font-size: 1.2rem;
         font-weight: 700;
         color: #ff00ff;
@@ -210,6 +231,9 @@
     }
     
     .btn-add {
+        font-size: 1.1rem;
+        font-weight: 900;
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.6);
         background: linear-gradient(45deg, #ff00ff, #00ffff);
         color: #000;
         padding: 10px 20px;
@@ -242,7 +266,7 @@
         padding: 20px;
         transition: all 0.3s ease;
         position: relative;
-        overflow: hidden;
+        overflow: visible;
     }
     
     .additional-item-card:hover {
@@ -272,7 +296,7 @@
         padding: 20px;
         transition: all 0.3s ease;
         position: relative;
-        overflow: hidden;
+        overflow: visible;
     }
     
     .item-card:hover {
@@ -293,13 +317,7 @@
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     }
     
-    .item-counter {
-        font-size: 0.9rem;
-        color: #00ffff;
-        margin-bottom: 15px;
-        text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-        font-weight: 600;
-    }
+    /* Removed item-counter class as per user request */
     
     .persons-list {
         margin-bottom: 15px;
@@ -444,6 +462,9 @@
     
     /* Danke-Effekt */
     .thank-you-effect {
+        white-space: normal;
+        max-width: 90vw;
+        word-break: break-word;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -493,6 +514,9 @@
     }
     
     .goodbye-effect {
+        white-space: normal;
+        max-width: 90vw;
+        word-break: break-word;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -564,7 +588,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        overflow: hidden;
+        overflow: visible;
         pointer-events: none;
         z-index: 99;
     }
@@ -748,6 +772,12 @@
         text-shadow: 0 0 30px #ff00ff;
         margin-bottom: 20px;
         animation: glitch 0.5s ease-in-out infinite alternate;
+        
+        /* Responsive adjustments for thank you text */
+        font-size: clamp(2rem, 8vw, 4rem); /* Smaller on small screens, larger on big */
+        padding: 0 10px; /* Add some padding to prevent cutting off at edges */
+        white-space: normal; /* Allow text to wrap */
+        word-break: break-word; /* Break long words */
     }
     
     .thank-you-subtext {
@@ -755,6 +785,12 @@
         color: #00ffff;
         text-shadow: 0 0 20px #00ffff;
         animation: neon-pulse 1s ease-in-out infinite;
+
+        /* Responsive adjustments for subtext */
+        font-size: clamp(1rem, 4vw, 1.5rem);
+        padding: 0 10px;
+        white-space: normal;
+        word-break: break-word;
     }
     
     .retro-grid {
@@ -790,7 +826,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        overflow: hidden;
+        overflow: visible;
         z-index: -1;
     }
     
@@ -944,7 +980,7 @@
         border-radius: 15px;
         border: 2px solid #333;
         position: relative;
-        overflow: hidden;
+        overflow: visible;
     }
     
     .admin-login {
@@ -1049,7 +1085,7 @@
         letter-spacing: 1px;
         box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
         position: relative;
-        overflow: hidden;
+        overflow: visible;
     }
     
     .admin-btn::before {
@@ -1081,7 +1117,7 @@
         border: 2px solid #00ff00;
         box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
         position: relative;
-        overflow: hidden;
+        overflow: visible;
     }
     
     .admin-panel::before {
@@ -1142,196 +1178,173 @@
         margin-bottom: 10px;
         text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
     }
-    
     @keyframes admin-bg-pulse {
-        0%, 100% { opacity: 0.3; }
-        50% { opacity: 0.7; }
+        0%, 100% {
+            opacity: 0.3;
+        }
+        50% {
+            opacity: 0.7;
+        }
     }
-    
     @keyframes admin-title-glow {
-        0% { 
+        0% {
             text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
         }
-        100% { 
+        100% {
             text-shadow: 0 0 30px rgba(255, 0, 255, 1), 0 0 40px rgba(0, 255, 255, 0.5);
         }
     }
-    
     @keyframes admin-input-border {
-        0% { 
+        0% {
             background-position: 0% 50%;
         }
-        50% { 
+        50% {
             background-position: 100% 50%;
         }
-        100% { 
+        100% {
             background-position: 0% 50%;
         }
     }
-    
     @keyframes admin-panel-pulse {
-        0%, 100% { opacity: 0.1; }
-        50% { opacity: 0.3; }
+        0%, 100% {
+            opacity: 0.1;
+        }
+        50% {
+            opacity: 0.3;
+        }
     }
-    
     @media (max-width: 768px) {
         .title {
             font-size: clamp(1.5rem, 5vw, 2rem);
             letter-spacing: 1px;
         }
-        
         .section-title {
             font-size: clamp(1.2rem, 3.5vw, 1.5rem);
             margin: 30px 0 20px;
         }
-        
         .items-grid {
             grid-template-columns: 1fr;
         }
-        
         .additional-items-grid {
             grid-template-columns: 1fr;
         }
-        
         .item-controls {
             flex-direction: column;
             gap: 10px;
         }
-        
         .add-item-controls {
             flex-direction: column;
             gap: 10px;
         }
-        
         .add-item-input {
             min-width: unset;
             width: 100%;
         }
-        
         .taken-controls {
             flex-direction: column;
             gap: 10px;
             align-items: stretch;
         }
-        
         .name-input {
             width: 100%;
         }
-        
         .person-entry {
             padding: 6px 10px;
         }
-        
         .persons-list {
             max-height: 120px;
         }
-        
         .thank-you-text {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 8vw, 4rem); /* Ensure responsiveness */
         }
-        
         .export-btn {
             display: block;
             margin: 10px auto;
             width: 80%;
         }
-        
         .admin-input {
             width: 100%;
             margin-bottom: 20px;
             max-width: 300px;
         }
-        
         .admin-input-container {
             width: 100%;
             max-width: 300px;
             margin: 0 auto 20px;
         }
-        
         .admin-btn {
             width: 100%;
             max-width: 300px;
         }
-        
         .admin-title {
             font-size: clamp(1.2rem, 2.5vw, 1.5rem);
         }
-        
         .thank-you-effect {
+            white-space: normal;
+            max-width: 90vw;
+            word-break: break-word;
             font-size: clamp(1rem, 2.5vw, 1.5rem);
             letter-spacing: 1px;
         }
-        
         .goodbye-effect {
+            white-space: normal;
+            max-width: 90vw;
+            word-break: break-word;
             font-size: clamp(0.9rem, 2vw, 1.3rem);
             letter-spacing: 1px;
         }
-        
         .particle {
             width: 2px;
             height: 2px;
         }
-        
         .matrix-line {
             width: 1px;
             height: 15px;
         }
     }
-    
     @media (max-width: 480px) {
         .title {
             font-size: clamp(1.2rem, 4.5vw, 1.5rem);
             letter-spacing: 0px;
         }
-        
         .date {
             font-size: clamp(0.8rem, 2.5vw, 1rem);
         }
-        
         .subtitle {
             font-size: clamp(0.7rem, 2vw, 0.9rem);
         }
-        
         .section-title {
             font-size: clamp(1rem, 3vw, 1.2rem);
             margin: 25px 0 15px;
         }
-        
         .container {
             padding: 15px;
         }
-        
         .header {
             padding: 20px;
         }
-        
         .admin-section {
             padding: 15px;
         }
-        
         .admin-panel {
             padding: 15px;
         }
-        
         .admin-title {
             font-size: clamp(1rem, 2vw, 1.3rem);
             margin-bottom: 25px;
         }
-        
         .admin-input {
             width: 100%;
             max-width: 280px;
             font-size: 1rem;
             padding: 12px 15px;
         }
-        
         .admin-btn {
             width: 100%;
             max-width: 280px;
             padding: 12px 25px;
             font-size: 1rem;
         }
-        
         .logout-btn {
             float: none;
             display: block;
@@ -1339,89 +1352,78 @@
             width: 100%;
             max-width: 200px;
         }
-        
         .person-entry {
             padding: 5px 8px;
             font-size: 0.9rem;
         }
-        
         .persons-list {
             max-height: 100px;
         }
-        
         .add-item-card {
             padding: 15px;
         }
-        
         .additional-item-card {
             padding: 15px;
         }
-        
         .thank-you-effect {
+            white-space: normal;
+            max-width: 90vw;
+            word-break: break-word;
             font-size: clamp(0.8rem, 2vw, 1.2rem);
             letter-spacing: 0px;
         }
-        
         .goodbye-effect {
+            white-space: normal;
+            max-width: 90vw;
+            word-break: break-word;
             font-size: clamp(0.7rem, 1.5vw, 1rem);
             letter-spacing: 0px;
         }
-        
         .particle {
             width: 1.5px;
             height: 1.5px;
         }
-        
         .matrix-line {
             width: 1px;
             height: 12px;
         }
     }
 </style>
-```
-
 </head>
 <body>
-    <div class="stars"></div>
-    <div class="neon-lines"></div>
+<div class="stars"></div>
+<div class="neon-lines"></div>
 
-```
 <div class="container">
     <div class="header">
         <h1 class="title">4 x 40 B-DAY-BASH</h1>
         <div class="date">01. - 03. 08. 2025</div>
         <div class="subtitle">Partybeiträge • Anglerheim Jena</div>
     </div>
-    
+
     <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
     </div>
     <div class="progress-text" id="progressText">0 Beiträge</div>
-    
+
     <div class="section-title">🎯 Benötigte Partybeiträge</div>
-    
     <div class="items-grid" id="itemsGrid">
-        <!-- Items werden hier dynamisch eingefügt -->
-    </div>
-    
-    <div class="additional-section">
-        <div class="section-title">➕ Weitere Partybeiträge</div>
-        
-        <div class="additional-items-grid" id="additionalItemsGrid">
-            <!-- Zusätzliche Items werden hier dynamisch eingefügt -->
         </div>
-        
+
+    <div class="additional-section">
+        <div class="section-title highlighted-plus">➕ Weitere Partybeiträge</div>
+        <div class="additional-items-grid" id="additionalItemsGrid">
+            </div>
         <div class="add-item-card">
             <div class="add-item-title">Neuen Partybeitrag vorschlagen</div>
             <div class="additional-note">Hier kannst du weitere Dinge eintragen, die du zur Party beitragen möchtest</div>
             <div class="add-item-controls">
-                <input type="text" class="add-item-input" id="newItemInput" placeholder="z.B. Chips, Getränke, Deko...">
+                <input class="add-item-input" id="newItemInput" placeholder="z.B. Chips, Getränke, Deko..." type="text"/>
                 <button class="btn btn-add" onclick="addNewItem()">Hinzufügen</button>
             </div>
         </div>
     </div>
-    
-    <!-- Thank You Animation Overlay -->
+
     <div class="thank-you-overlay" id="thankYouOverlay">
         <div class="thank-you-content">
             <div class="retro-grid"></div>
@@ -1434,936 +1436,721 @@
             <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
         </div>
     </div>
-    
-    <!-- Admin Section -->
+
     <div class="admin-section">
         <div class="admin-login-bg"></div>
         <div class="admin-login" id="adminLogin">
             <div class="admin-title">🔐 ADMIN ACCESS</div>
             <div class="admin-input-container">
-                <input type="password" class="admin-input" id="adminPassword" placeholder="Enter Password">
+                <input class="admin-input" id="adminPassword" placeholder="Enter Password" type="password"/>
                 <div class="admin-input-glow"></div>
             </div>
-            <br>
+            <br/>
             <button class="admin-btn" onclick="adminLogin()">
                 <span>Initialize</span>
             </button>
         </div>
-        
+
         <div class="admin-controls" id="adminControls">
             <button class="logout-btn" onclick="adminLogout()">Logout</button>
             <div class="admin-panel">
                 <h3>⚙️ SYSTEM CONTROL</h3>
-                
                 <div class="drive-status" id="driveStatus">
                     <div class="status-text">Google Drive Status: <span id="statusText">Nicht verbunden</span></div>
                     <button class="connect-btn" id="connectBtn" onclick="connectToGoogleDrive()">Mit Google Drive verbinden</button>
                 </div>
-                
                 <div class="export-section" id="exportSection">
                     <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
                     <button class="export-btn" onclick="exportToExcel()">📈 Excel Export</button>
-                    <button class="export-btn" id="syncBtn" onclick="syncToGoogleDrive()" disabled>☁️ Google Drive Sync</button>
-                    <button class="export-btn" onclick="clearAllData()" style="background: linear-gradient(45deg, #ff4444, #ff6666);">🗑️ Alle Daten löschen</button>
+                    <button class="export-btn" onclick="showShareLink()">🔗 Share Link</button>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div class="footer">
-        <h3>RESTRICTED</h3>
-        <p>Under 18 requires accompanying parent or adult guardian</p>
+        <h3>4 x 40 B-Day-Bash</h3>
+        <p>© 2025 All rights reserved.</p>
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://apis.google.com/js/api.js"></script>
 <script>
-    const items = [
-        "Nudelsalat",
-        "Kartoffelsalat", 
-        "Kräuterbutter",
-        "Nutella, Erdnussbutter",
-        "Kuchen",
-        "Marmelade, Honig",
-        "Aufschnitt (Wurst, Käse)",
-        "Aufstriche (herzhaft)"
-    ];
-    
-    // Definiere die benötigten Mengen für 100% Fortschritt
-    const requiredAmounts = {
-        "Nudelsalat": 3,
-        "Kartoffelsalat": 3,
-        "Kräuterbutter": 2,
-        "Kuchen": 6,
-        "Nutella, Erdnussbutter": 1,
-        "Marmelade, Honig": 1,
-        "Aufschnitt (Wurst, Käse)": 1,
-        "Aufstriche (herzhaft)": 1
+    // Google Drive API-Variablen
+    const CLIENT_ID = 'YOUR_CLIENT_ID'; // Ersetze dies durch deine Client ID
+    const API_KEY = 'YOUR_API_KEY';     // Ersetze dies durch deinen API Key
+    const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
+    const SCOPES = 'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.file';
+
+    let tokenClient;
+    let gapiInited = false;
+    let gisInited = false;
+    let googleDriveConnected = false;
+
+    // Admin-Passwort (Beispiel, sollte in einer echten Anwendung sicherer gehandhabt werden)
+    const ADMIN_PASSWORD = "admin";
+
+    // Datenstruktur
+    let data = {
+        items: [
+            { id: "nudelsalat", name: "Nudelsalat", persons: [], max: 1 },
+            { id: "kartoffelsalat", name: "Kartoffelsalat", persons: [], max: 1 },
+            { id: "kraeuterbutter", name: "Kräuterbutter", persons: [], max: 1 },
+            { id: "nutella-erdnussbutter", name: "Nutella, Erdnussbutter", persons: [], max: 1 },
+            { id: "kuchen", name: "Kuchen", persons: [], max: 1 },
+            { id: "marmelade-honig", name: "Marmelade, Honig", persons: [], max: 1 },
+            { id: "aufschnitt-wurst-kaese", name: "Aufschnitt (Wurst, Käse)", persons: [], max: 1 },
+            { id: "aufstriche-herzhaft", name: "Aufstriche (herzhaft)", persons: [], max: 1 }
+        ],
+        additionalItems: []
     };
-    
-    // Randomisierte Danke-Texte
-    const thankYouMessages = [
+
+    // Listen von Dankes- und Abschiedsreaktionen
+    const thankYouReactions = [
         "🙏 Daaaaaankööö! 🙏",
         "💕 Du bist die/der Geilste! 💕",
-        "💣 Hammerfettbombekrass! 💣",
+        "💣 Hammer-fett-bombe-krass! 💣",
         "🥰 Echt?! Thnx!!! 🥰",
         "🛟 Du bist die Rettung 🛟",
         "❤️ Ich hasse alle: Außer DICH! ❤️",
         "❤️‍🔥 Wir lieben Dich! ❤️‍🔥"
     ];
-    
-    let itemStates = {};
-    let additionalItems = {}; // Für weitere Partybeiträge
-    let isGoogleDriveConnected = false;
-    let googleDriveFileId = null;
-    let isAdminLoggedIn = false;
-    
-    // Google Drive API Konfiguration
-    const CLIENT_ID = 'YOUR_CLIENT_ID'; // Hier müssen Sie Ihre Client-ID eintragen
-    const API_KEY = 'YOUR_API_KEY'; // Hier müssen Sie Ihren API-Key eintragen
-    const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
-    const SCOPES = 'https://www.googleapis.com/auth/drive.file';
-    
-    // Admin Login
-    function adminLogin() {
-        const password = document.getElementById('adminPassword').value;
-        
-        if (password === 'arvid11') {
-            isAdminLoggedIn = true;
-            document.getElementById('adminLogin').style.display = 'none';
-            document.getElementById('adminControls').style.display = 'block';
-            document.getElementById('driveStatus').style.display = 'block';
-            document.getElementById('exportSection').style.display = 'block';
-            updateDriveStatus();
-            
-            sessionStorage.setItem('admin-logged-in', 'true');
-        } else {
-            alert('Falsches Passwort!');
-            document.getElementById('adminPassword').value = '';
+
+    const goodbyeReactions = [
+        "👋 Schade, bis zum nächsten Mal!",
+        "💔 Wir werden dich vermissen!",
+        "🫡 Verstanden, abgemeldet.",
+        "😥 Komm bald wieder!",
+        "💨 Tschüssikowski!",
+        "👋 Bleib sauber!",
+        "🫡 Bis bald, Cowboy!"
+    ];
+
+    function getRandomReaction(reactionList) {
+        return reactionList[Math.floor(Math.random() * reactionList.length)];
+    }
+
+    // Hilfsfunktionen
+    function showThankYouEffect(message) {
+        const overlay = document.getElementById('thankYouOverlay');
+        const thankYouText = overlay.querySelector('.thank-you-text');
+        const thankYouSubtext = overlay.querySelector('.thank-you-subtext');
+
+        thankYouText.textContent = getRandomReaction(thankYouReactions); // Use random thank you reaction
+        thankYouSubtext.textContent = message || "Vielen Dank für Ihre Anmeldung!"; // Customize subtext or use generic
+
+        overlay.classList.add('show');
+        createParticles(100, overlay);
+        createMatrixEffect(overlay);
+        createScanlineEffect(overlay);
+
+        setTimeout(() => {
+            overlay.classList.remove('show');
+            // Reset overlay content to default after animation
+            overlay.innerHTML = `<div class="thank-you-content">
+                                    <div class="retro-grid"></div>
+                                    <div class="laser-lines">
+                                        <div class="laser-line" style="width: 300px; animation-delay: 0s;"></div>
+                                        <div class="laser-line" style="width: 400px; animation-delay: 0.3s;"></div>
+                                        <div class="laser-line" style="width: 250px; animation-delay: 0.6s;"></div>
+                                    </div>
+                                    <div class="thank-you-text">DANKE!</div>
+                                    <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
+                                </div>`;
+        }, 4000);
+    }
+
+    function showGoodbyeEffect(message) {
+        const overlay = document.getElementById('thankYouOverlay');
+        const thankYouText = overlay.querySelector('.thank-you-text');
+        const thankYouSubtext = overlay.querySelector('.thank-you-subtext');
+
+        thankYouText.textContent = getRandomReaction(goodbyeReactions); // Use random goodbye reaction
+        thankYouSubtext.textContent = message || "Auf Wiedersehen!"; // Customize subtext or use generic
+
+        overlay.classList.add('show');
+        createParticles(100, overlay, 'orange');
+        createMatrixEffect(overlay, 'orange');
+        createScanlineEffect(overlay, 'orange');
+
+        setTimeout(() => {
+            overlay.classList.remove('show');
+            // Reset overlay content to default after animation
+            overlay.innerHTML = `<div class="thank-you-content">
+                                    <div class="retro-grid"></div>
+                                    <div class="laser-lines">
+                                        <div class="laser-line" style="width: 300px; animation-delay: 0s;"></div>
+                                        <div class="laser-line" style="width: 400px; animation-delay: 0.3s;"></div>
+                                        <div class="laser-line" style="width: 250px; animation-delay: 0.6s;"></div>
+                                    </div>
+                                    <div class="thank-you-text">DANKE!</div>
+                                    <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
+                                </div>`;
+        }, 4000);
+    }
+
+    function createParticles(count, container, colorClass = '') {
+        for (let i = 0; i < count; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            if (colorClass) particle.classList.add(`particle-${colorClass}`);
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.animationDelay = `${Math.random() * 2}s`;
+            container.appendChild(particle);
         }
     }
-    
-    // Admin Logout
-    function adminLogout() {
-        isAdminLoggedIn = false;
-        document.getElementById('adminLogin').style.display = 'block';
-        document.getElementById('adminControls').style.display = 'none';
-        document.getElementById('driveStatus').style.display = 'none';
-        document.getElementById('exportSection').style.display = 'none';
-        document.getElementById('adminPassword').value = '';
-        
-        sessionStorage.removeItem('admin-logged-in');
-    }
-    
-    // Prüfe Admin-Status beim Laden
-    function checkAdminStatus() {
-        const adminStatus = sessionStorage.getItem('admin-logged-in');
-        if (adminStatus === 'true') {
-            isAdminLoggedIn = true;
-            document.getElementById('adminLogin').style.display = 'none';
-            document.getElementById('adminControls').style.display = 'block';
-            document.getElementById('driveStatus').style.display = 'block';
-            document.getElementById('exportSection').style.display = 'block';
-            updateDriveStatus();
+
+    function createMatrixEffect(container, colorClass = '') {
+        const matrixEffect = document.createElement('div');
+        matrixEffect.classList.add('matrix-effect');
+        container.appendChild(matrixEffect);
+
+        for (let i = 0; i < 30; i++) {
+            const line = document.createElement('div');
+            line.classList.add('matrix-line');
+            if (colorClass) line.classList.add(`matrix-line-${colorClass}`);
+            line.style.left = `${Math.random() * 100}%`;
+            line.style.animationDuration = `${2 + Math.random() * 3}s`;
+            line.style.animationDelay = `${Math.random() * 2}s`;
+            matrixEffect.appendChild(line);
         }
     }
-    
-    // Lade gespeicherte Daten
+
+    function createScanlineEffect(container, colorClass = '') {
+        const scanline = document.createElement('div');
+        scanline.classList.add('scanline');
+        if (colorClass) scanline.classList.add(`scanline-${colorClass}`);
+        scanline.style.animationDuration = `${1 + Math.random() * 2}s`;
+        container.appendChild(scanline);
+    }
+
+    // Speichern und Laden der Daten
+    function saveData() {
+        localStorage.setItem('partyData', JSON.stringify(data));
+        if (googleDriveConnected) {
+            saveToGoogleDrive();
+        }
+    }
+
     function loadData() {
-        // Versuche neue Schlüssel zu laden, falls nicht vorhanden, lade alte
-        const saved = localStorage.getItem('birthday-party-contributions') || localStorage.getItem('birthday-party-items');
-        if (saved) {
-            const loadedData = JSON.parse(saved);
-            // Konvertiere alte Datenstruktur zu neuer Array-Struktur
-            items.forEach(item => {
-                if (loadedData[item]) {
-                    if (Array.isArray(loadedData[item])) {
-                        itemStates[item] = loadedData[item];
-                    } else if (loadedData[item].taken && loadedData[item].person) {
-                        // Konvertiere altes Format zu neuem Array-Format
-                        itemStates[item] = [{
-                            person: loadedData[item].person,
-                            timestamp: loadedData[item].timestamp || new Date().toLocaleString('de-DE')
-                        }];
-                    } else {
-                        itemStates[item] = [];
-                    }
-                } else {
-                    itemStates[item] = [];
+        const savedData = localStorage.getItem('partyData');
+        if (savedData) {
+            const parsedData = JSON.parse(savedData);
+            // Merge loaded data with default items, prioritizing loaded values for existing IDs
+            data.items = data.items.map(defaultItem => {
+                const loadedItem = parsedData.items.find(item => item.id === defaultItem.id);
+                return loadedItem ? loadedItem : defaultItem;
+            });
+            // Add any additional items that were loaded but not in the default list
+            parsedData.items.forEach(loadedItem => {
+                if (!data.items.some(defaultItem => defaultItem.id === loadedItem.id)) {
+                    data.items.push(loadedItem);
                 }
             });
+            data.additionalItems = parsedData.additionalItems || [];
+        }
+    }
+
+    // Fortschrittsbalken aktualisieren
+    function updateProgress() {
+        const totalMaxPersonsItems = data.items.reduce((sum, item) => sum + (item.max || 1), 0);
+        const currentPersonsItems = data.items.reduce((sum, item) => sum + item.persons.length, 0);
+
+        const totalMaxPersonsAdditionalItems = data.additionalItems.reduce((sum, item) => sum + (item.max || 1), 0);
+        const currentPersonsAdditionalItems = data.additionalItems.reduce((sum, item) => sum + item.persons.length, 0);
+
+        const totalMax = totalMaxPersonsItems + totalMaxPersonsAdditionalItems;
+        const currentPersons = currentPersonsItems + currentPersonsAdditionalItems;
+
+        let progressPercentage = 0;
+        if (totalMax > 0) {
+            progressPercentage = (currentPersons / totalMax) * 100;
+        }
+        
+        document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+        
+        let progressText = '';
+        if (currentPersons === 1) {
+            progressText = `1 Eintrag`;
+        } else if (currentPersons > 1) {
+            progressText = `${currentPersons} Einträge`;
         } else {
-            // Initialisiere leere Arrays für alle Items
-            items.forEach(item => {
-                itemStates[item] = [];
-            });
+            progressText = `Noch keine Einträge`;
         }
-        
-        // Lade zusätzliche Items
-        const savedAdditional = localStorage.getItem('birthday-party-additional-contributions') || localStorage.getItem('birthday-party-additional-items');
-        if (savedAdditional) {
-            additionalItems = JSON.parse(savedAdditional);
-        }
-        
-        const driveFileId = localStorage.getItem('google-drive-file-id');
-        if (driveFileId) {
-            googleDriveFileId = driveFileId;
-        }
+        document.getElementById('progressText').textContent = progressText;
     }
-    
-    // Speichere Daten
-    function saveData() {
-        localStorage.setItem('birthday-party-contributions', JSON.stringify(itemStates));
-        localStorage.setItem('birthday-party-additional-contributions', JSON.stringify(additionalItems));
-    }
-    
-    // Google Drive Initialisierung
-    async function initializeGoogleDrive() {
-        try {
-            await gapi.load('auth2', initAuth);
-            await gapi.load('client', initClient);
-        } catch (error) {
-            console.error('Google Drive Initialisierung fehlgeschlagen:', error);
-        }
-    }
-    
-    async function initAuth() {
-        try {
-            await gapi.auth2.init({
-                client_id: CLIENT_ID,
-            });
-        } catch (error) {
-            console.error('Auth-Initialisierung fehlgeschlagen:', error);
-        }
-    }
-    
-    async function initClient() {
-        try {
-            await gapi.client.init({
-                apiKey: API_KEY,
-                discoveryDocs: [DISCOVERY_DOC],
-            });
-        } catch (error) {
-            console.error('Client-Initialisierung fehlgeschlagen:', error);
-        }
-    }
-    
-    // Mit Google Drive verbinden
-    async function connectToGoogleDrive() {
-        if (!isAdminLoggedIn) {
-            alert('Zugriff verweigert!');
-            return;
-        }
-        
-        try {
-            const authInstance = gapi.auth2.getAuthInstance();
-            await authInstance.signIn();
-            
-            isGoogleDriveConnected = true;
-            updateDriveStatus();
-            
-            await createOrFindSpreadsheet();
-            await syncToGoogleDrive();
-            
-        } catch (error) {
-            console.error('Google Drive Verbindung fehlgeschlagen:', error);
-            alert('Fehler beim Verbinden mit Google Drive. Bitte versuchen Sie es erneut.');
-        }
-    }
-    
-    // Erstelle oder finde die Tabelle
-    async function createOrFindSpreadsheet() {
-        try {
-            const data = createExcelData();
-            const csvContent = convertToCSV(data);
-            
-            const metadata = {
-                'name': 'Birthday-Party-Partybeitraege.csv',
-                'parents': ['appDataFolder']
-            };
-            
-            const response = await gapi.client.request({
-                'path': 'https://www.googleapis.com/upload/drive/v3/files',
-                'method': 'POST',
-                'params': {
-                    'uploadType': 'multipart'
-                },
-                'headers': {
-                    'Content-Type': 'multipart/related; boundary="foo_bar_baz"'
-                },
-                'body': [
-                    '--foo_bar_baz',
-                    'Content-Type: application/json',
-                    '',
-                    JSON.stringify(metadata),
-                    '--foo_bar_baz',
-                    'Content-Type: text/csv',
-                    '',
-                    csvContent,
-                    '--foo_bar_baz--'
-                ].join('\r\n')
-            });
-            
-            googleDriveFileId = response.result.id;
-            localStorage.setItem('google-drive-file-id', googleDriveFileId);
-            
-        } catch (error) {
-            console.error('Fehler beim Erstellen der Tabelle:', error);
-        }
-    }
-    
-    // Erstelle Excel-Daten
-    function createExcelData() {
-        const data = [
-            ['4 x 40 B-Day-Bash - Partybeiträge'],
-            ['Datum: 01. - 03.08.2025'],
-            ['Ort: Anglerheim Jena'],
-            ['Letzte Aktualisierung: ' + new Date().toLocaleString('de-DE')],
-            [''],
-            ['=== BENÖTIGTE PARTYBEITRÄGE ==='],
-            ['Item', 'Benötigt', 'Eingetragen', 'Person', 'Timestamp']
-        ];
-        
-        // Normale Items
-        items.forEach(item => {
-            const registrations = itemStates[item] || [];
-            const requiredCount = requiredAmounts[item] || 1;
-            const currentCount = registrations.length;
-            
-            if (registrations.length === 0) {
-                data.push([item, requiredCount, 0, '', '']);
-            } else {
-                registrations.forEach((reg, index) => {
-                    data.push([
-                        index === 0 ? item : '',
-                        index === 0 ? requiredCount : '',
-                        index === 0 ? currentCount : '',
-                        reg.person,
-                        reg.timestamp
-                    ]);
+
+    // Item-Karten erstellen (für "Benötigte Partybeiträge")
+    function createItemCards() {
+        const itemsGrid = document.getElementById('itemsGrid');
+        itemsGrid.innerHTML = ''; // Vorherige Karten löschen
+
+        data.items.forEach(item => {
+            const itemCard = document.createElement('div');
+            itemCard.classList.add('item-card');
+            if (item.persons.length >= item.max) {
+                itemCard.classList.add('taken');
+            }
+
+            let personsListHtml = item.persons.map(person => `
+                <div class="person-entry">
+                    <span class="person-name">${person}</span>
+                    <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id}', '${person}', false)">X</button>
+                </div>
+            `).join('');
+
+            itemCard.innerHTML = `
+                <div class="item-name">${item.name}</div>
+                <div class="persons-list">${personsListHtml}</div>
+                ${item.persons.length < item.max ? `
+                    <div class="item-controls">
+                        <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
+                        <button class="btn btn-take" onclick="registerPerson('${item.id}', false)">Eintragen</button>
+                    </div>` : `<div class="complete-message">Vielen Dank!</div>`}
+            `;
+            itemsGrid.appendChild(itemCard);
+
+            const inputElement = itemCard.querySelector(`#input-${item.id}`);
+            if (inputElement) {
+                inputElement.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        registerPerson(item.id, false);
+                    }
                 });
             }
         });
-        
-        // Zusätzliche Items
-        const additionalItemsKeys = Object.keys(additionalItems);
-        if (additionalItemsKeys.length > 0) {
-            data.push(['']);
-            data.push(['=== WEITERE PARTYBEITRÄGE ===']);
-            data.push(['Item', 'Typ', 'Eingetragen', 'Person', 'Timestamp']);
-            
-            additionalItemsKeys.forEach(item => {
-                const registrations = additionalItems[item] || [];
-                const currentCount = registrations.length;
-                
-                if (registrations.length === 0) {
-                    data.push([item, 'Zusätzlich', 0, '', '']);
-                } else {
-                    registrations.forEach((reg, index) => {
-                        data.push([
-                            index === 0 ? item : '',
-                            index === 0 ? 'Zusätzlich' : '',
-                            index === 0 ? currentCount : '',
-                            reg.person,
-                            reg.timestamp
-                        ]);
-                    });
-                }
-            });
-        }
-        
-        return data;
     }
-    
-    // Konvertiere zu CSV
-    function convertToCSV(data) {
-        return data.map(row => 
-            row.map(cell => `"${cell}"`).join(',')
-        ).join('\n');
-    }
-    
-    // Synchronisiere mit Google Drive
-    async function syncToGoogleDrive() {
-        if (!isAdminLoggedIn) {
-            alert('Zugriff verweigert!');
-            return;
-        }
-        
-        if (!isGoogleDriveConnected || !googleDriveFileId) {
-            alert('Bitte verbinden Sie sich zuerst mit Google Drive');
-            return;
-        }
-        
-        try {
-            const data = createExcelData();
-            const csvContent = convertToCSV(data);
-            
-            await gapi.client.request({
-                'path': `https://www.googleapis.com/upload/drive/v3/files/${googleDriveFileId}`,
-                'method': 'PATCH',
-                'params': {
-                    'uploadType': 'media'
-                },
-                'headers': {
-                    'Content-Type': 'text/csv'
-                },
-                'body': csvContent
-            });
-            
-            alert('Daten erfolgreich mit Google Drive synchronisiert!');
-            
-        } catch (error) {
-            console.error('Synchronisation fehlgeschlagen:', error);
-            alert('Fehler bei der Synchronisation. Bitte versuchen Sie es erneut.');
-        }
-    }
-    
-    // Status-Anzeige aktualisieren
-    function updateDriveStatus() {
-        if (!isAdminLoggedIn) return;
-        
-        const statusElement = document.getElementById('driveStatus');
-        const statusText = document.getElementById('statusText');
-        const connectBtn = document.getElementById('connectBtn');
-        const syncBtn = document.getElementById('syncBtn');
-        
-        if (isGoogleDriveConnected) {
-            statusElement.className = 'drive-status connected';
-            statusText.textContent = 'Verbunden ✓';
-            connectBtn.style.display = 'none';
-            syncBtn.disabled = false;
-        } else {
-            statusElement.className = 'drive-status disconnected';
-            statusText.textContent = 'Nicht verbunden';
-            connectBtn.style.display = 'inline-block';
-            syncBtn.disabled = true;
-        }
-    }
-    
-    // Zeige Danke-Effekt direkt in der Karte
-    function showThankYouEffect(cardElement) {
-        // Wähle eine zufällige Nachricht
-        const randomMessage = thankYouMessages[Math.floor(Math.random() * thankYouMessages.length)];
-        
-        const thankYouText = document.createElement('div');
-        thankYouText.className = 'thank-you-effect';
-        thankYouText.textContent = randomMessage;
-        
-        const matrixContainer = document.createElement('div');
-        matrixContainer.className = 'matrix-effect';
-        
-        for (let i = 0; i < 8; i++) {
-            const matrixLine = document.createElement('div');
-            matrixLine.className = 'matrix-line';
-            matrixLine.style.left = Math.random() * 100 + '%';
-            matrixLine.style.animationDelay = Math.random() * 0.5 + 's';
-            matrixContainer.appendChild(matrixLine);
-        }
-        
-        const scanline = document.createElement('div');
-        scanline.className = 'scanline';
-        
-        const particles = [];
-        for (let i = 0; i < 12; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 0.3 + 's';
-            particles.push(particle);
-        }
-        
-        cardElement.appendChild(matrixContainer);
-        cardElement.appendChild(scanline);
-        particles.forEach(particle => cardElement.appendChild(particle));
-        cardElement.appendChild(thankYouText);
-        
-        cardElement.style.boxShadow = '0 0 40px rgba(0, 255, 255, 0.6)';
-        cardElement.style.borderColor = '#00ffff';
-        cardElement.style.transform = 'scale(1.02)';
-        
-        setTimeout(() => {
-            if (thankYouText.parentNode) thankYouText.parentNode.removeChild(thankYouText);
-            if (matrixContainer.parentNode) matrixContainer.parentNode.removeChild(matrixContainer);
-            if (scanline.parentNode) scanline.parentNode.removeChild(scanline);
-            particles.forEach(particle => {
-                if (particle.parentNode) particle.parentNode.removeChild(particle);
-            });
-            
-            cardElement.style.boxShadow = '';
-            cardElement.style.borderColor = '';
-            cardElement.style.transform = '';
-        }, 4000); // Verlängert auf 4 Sekunden
-    }
-    
-    // Zeige Tschüss-Effekt
-    function showGoodbyeEffect(cardElement) {
-        const goodbyeText = document.createElement('div');
-        goodbyeText.className = 'goodbye-effect';
-        goodbyeText.textContent = 'TSCHÜSS!';
-        
-        const matrixContainer = document.createElement('div');
-        matrixContainer.className = 'matrix-effect';
-        
-        for (let i = 0; i < 6; i++) {
-            const matrixLine = document.createElement('div');
-            matrixLine.className = 'matrix-line matrix-line-orange';
-            matrixLine.style.left = Math.random() * 100 + '%';
-            matrixLine.style.animationDelay = Math.random() * 0.5 + 's';
-            matrixContainer.appendChild(matrixLine);
-        }
-        
-        const scanline = document.createElement('div');
-        scanline.className = 'scanline scanline-orange';
-        
-        const particles = [];
-        for (let i = 0; i < 8; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle particle-orange';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 0.3 + 's';
-            particles.push(particle);
-        }
-        
-        cardElement.appendChild(matrixContainer);
-        cardElement.appendChild(scanline);
-        particles.forEach(particle => cardElement.appendChild(particle));
-        cardElement.appendChild(goodbyeText);
-        
-        cardElement.style.boxShadow = '0 0 40px rgba(255, 170, 0, 0.6)';
-        cardElement.style.borderColor = '#ffaa00';
-        cardElement.style.transform = 'scale(1.02)';
-        
-        setTimeout(() => {
-            if (goodbyeText.parentNode) goodbyeText.parentNode.removeChild(goodbyeText);
-            if (matrixContainer.parentNode) matrixContainer.parentNode.removeChild(matrixContainer);
-            if (scanline.parentNode) scanline.parentNode.removeChild(scanline);
-            particles.forEach(particle => {
-                if (particle.parentNode) particle.parentNode.removeChild(particle);
-            });
-            
-            cardElement.style.boxShadow = '';
-            cardElement.style.borderColor = '';
-            cardElement.style.transform = '';
-        }, 4000); // Verlängert auf 4 Sekunden
-    }
-    
-    // Erstelle Sterne
-    function createStars() {
-        const starsContainer = document.querySelector('.stars');
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 2 + 's';
-            starsContainer.appendChild(star);
-        }
-    }
-    
-    // Erstelle Neon-Linien
-    function createNeonLines() {
-        const linesContainer = document.querySelector('.neon-lines');
-        for (let i = 0; i < 3; i++) {
-            const line = document.createElement('div');
-            line.className = 'neon-line';
-            line.style.top = Math.random() * 100 + '%';
-            line.style.width = '200px';
-            line.style.animationDelay = Math.random() * 4 + 's';
-            linesContainer.appendChild(line);
-        }
-    }
-    
-    // Aktualisiere Fortschritt
-    function updateProgress() {
-        let totalRegistered = 0;
-        let totalRequired = 0;
-        
-        items.forEach(item => {
-            const registeredCount = itemStates[item] ? itemStates[item].length : 0;
-            const requiredCount = requiredAmounts[item] || 1;
-            
-            totalRegistered += registeredCount;
-            totalRequired += requiredCount;
-        });
-        
-        const percentage = totalRequired > 0 ? (totalRegistered / totalRequired) * 100 : 0;
-        
-        document.getElementById('progressFill').style.width = Math.min(percentage, 100) + '%';
-        
-        // Korrekte Singular/Plural-Form für "Beitrag"/"Beiträge"
-        const beitragText = totalRegistered === 1 ? 'Beitrag' : 'Beiträge';
-        document.getElementById('progressText').textContent = `${totalRegistered} ${beitragText} (${Math.round(percentage)}%)`;
-    }
-    
-    // Erstelle Item-Karten
-    function createItemCards() {
-        const grid = document.getElementById('itemsGrid');
-        grid.innerHTML = '';
-        
-        items.forEach((item, index) => {
-            const registrations = itemStates[item] || [];
-            const requiredCount = requiredAmounts[item] || 1;
-            const currentCount = registrations.length;
-            const isComplete = currentCount >= requiredCount;
-            
-            const card = document.createElement('div');
-            card.className = `item-card ${isComplete ? 'taken' : ''}`;
-            card.id = `card-${index}`;
-            
-            // Erstelle Personenliste
-            let personsList = '';
-            if (registrations.length > 0) {
-                personsList = registrations.map((reg, regIndex) => 
-                    `<div class="person-entry">
-                        <span class="person-name">${reg.person}</span>
-                        <button class="btn-small btn-unregister" onclick="unregisterPerson('${item}', '${reg.person}', ${index})">×</button>
-                    </div>`
-                ).join('');
-            }
-            
-            card.innerHTML = `
-                <div class="item-name">${item}</div>
-                <div class="item-counter">${currentCount}/${requiredCount} ${currentCount === 1 ? 'Person' : 'Personen'}</div>
-                ${personsList ? `<div class="persons-list">${personsList}</div>` : ''}
-                <div class="item-controls">
-                    ${isComplete ? 
-                        `<div class="complete-message">✓ Vollständig!</div>` :
-                        `<input type="text" class="name-input" placeholder="Dein Name" id="input-${index}">
-                         <button class="btn btn-take" onclick="addPerson('${item}', ${index})">Eintragen</button>`
-                    }
-                </div>
-            `;
-            
-            grid.appendChild(card);
-        });
-    }
-    
-    // Erstelle zusätzliche Item-Karten
+
+    // Zusätzliche Item-Karten erstellen
     function createAdditionalItemCards() {
-        const grid = document.getElementById('additionalItemsGrid');
-        grid.innerHTML = '';
-        
-        Object.keys(additionalItems).forEach((item, index) => {
-            const registrations = additionalItems[item] || [];
-            const currentCount = registrations.length;
-            
-            const card = document.createElement('div');
-            card.className = 'additional-item-card';
-            card.id = `additional-card-${index}`;
-            
-            // Erstelle Personenliste
-            let personsList = '';
-            if (registrations.length > 0) {
-                personsList = registrations.map((reg, regIndex) => 
-                    `<div class="person-entry">
-                        <span class="person-name">${reg.person}</span>
-                        <button class="btn-small btn-unregister" onclick="unregisterAdditionalPerson('${item}', '${reg.person}', ${index})">×</button>
-                    </div>`
-                ).join('');
-            }
-            
-            card.innerHTML = `
-                <div class="additional-item-name">${item}</div>
-                <div class="additional-note">Zusätzlicher Partybeitrag</div>
-                <div class="item-counter">${currentCount} ${currentCount === 1 ? 'Person' : 'Personen'}</div>
-                ${personsList ? `<div class="persons-list">${personsList}</div>` : ''}
+        const additionalItemsGrid = document.getElementById('additionalItemsGrid');
+        additionalItemsGrid.innerHTML = ''; // Vorherige Karten löschen
+
+        data.additionalItems.forEach(item => {
+            const itemCard = document.createElement('div');
+            itemCard.classList.add('additional-item-card');
+
+            let personsListHtml = item.persons.map(person => `
+                <div class="person-entry">
+                    <span class="person-name">${person}</span>
+                    <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id}', '${person}', true)">X</button>
+                </div>
+            `).join('');
+
+            itemCard.innerHTML = `
+                <div class="additional-item-name">${item.name}</div>
+                <div class="persons-list">${personsListHtml}</div>
                 <div class="item-controls">
-                    <input type="text" class="name-input" placeholder="Dein Name" id="additional-input-${index}">
-                    <button class="btn btn-take" onclick="addAdditionalPerson('${item}', ${index})">Eintragen</button>
+                    <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
+                    <button class="btn btn-take" onclick="registerPerson('${item.id}', true)">Eintragen</button>
                 </div>
             `;
-            
-            grid.appendChild(card);
+            additionalItemsGrid.appendChild(itemCard);
+
+            // Add event listener for Enter key to the newly created input field
+            const inputElement = itemCard.querySelector(`#input-${item.id}`);
+            if (inputElement) {
+                inputElement.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        registerPerson(item.id, true);
+                    }
+                });
+            }
         });
     }
-    
+
+    // Person eintragen
+    function registerPerson(itemId, isAdditional) {
+        const inputElement = document.getElementById(`input-${itemId}`);
+        const personName = inputElement.value.trim();
+
+        if (personName) {
+            let itemArray = isAdditional ? data.additionalItems : data.items;
+            let item = itemArray.find(i => i.id === itemId);
+
+            if (item) {
+                // Check for duplicate name case-insensitively
+                const existingPerson = item.persons.find(p => p.toLowerCase() === personName.toLowerCase());
+                if (existingPerson) {
+                    alert('Dieser Name ist bereits eingetragen!');
+                    return;
+                }
+
+                if (!isAdditional && item.persons.length >= item.max) {
+                    alert('Maximale Anzahl an Personen für diesen Beitrag erreicht!');
+                    return;
+                }
+                
+                item.persons.push(personName);
+                inputElement.value = ''; // Eingabefeld leeren
+                saveData();
+                if (isAdditional) {
+                    createAdditionalItemCards();
+                } else {
+                    createItemCards();
+                }
+                updateProgress();
+                showThankYouEffect("Eintrag erfolgreich!");
+            }
+        } else {
+            alert('Bitte gib deinen Namen ein!');
+        }
+    }
+
+    // Person austragen
+    function unregisterPerson(itemId, personName, isAdditional) {
+        let itemArray = isAdditional ? data.additionalItems : data.items;
+        let itemToFind = itemArray.find(i => i.id === itemId);
+        let itemName = itemToFind ? itemToFind.name : "Unbekannter Beitrag"; // Fallback for safety
+
+        if (confirm(`Möchtest du "${personName}" wirklich von "${itemName}" austragen?`)) {
+            let item = itemArray.find(i => i.id === itemId);
+
+            if (item) {
+                item.persons = item.persons.filter(p => p !== personName);
+                saveData();
+                if (isAdditional) {
+                    createAdditionalItemCards();
+                } else {
+                    createItemCards();
+                }
+                updateProgress();
+                showGoodbyeEffect("Erfolgreich ausgetragen!");
+            }
+        }
+    }
+
     // Neues Item hinzufügen
     function addNewItem() {
-        const input = document.getElementById('newItemInput');
-        const itemName = input.value.trim();
-        
-        if (itemName) {
-            // Überprüfe ob das Item bereits existiert
-            if (items.includes(itemName) || additionalItems[itemName]) {
-                alert('Dieses Item existiert bereits!');
+        const newItemInput = document.getElementById('newItemInput');
+        const newItemName = newItemInput.value.trim();
+
+        if (newItemName) {
+            const newItemId = newItemName.toLowerCase().replace(/[^a-z0-9]/g, '-');
+            // Check if item already exists in either items or additionalItems
+            const existingItem = data.items.find(item => item.id === newItemId) || data.additionalItems.find(item => item.id === newItemId);
+
+            if (existingItem) {
+                alert('Dieser Beitrag existiert bereits!');
                 return;
             }
-            
-            // Erstelle neues zusätzliches Item
-            additionalItems[itemName] = [];
-            
-            input.value = '';
+
+            data.additionalItems.push({
+                id: newItemId,
+                name: newItemName,
+                persons: []
+            });
+            newItemInput.value = ''; // Eingabefeld leeren
             saveData();
             createAdditionalItemCards();
-            
-            // Sync wenn verbunden
-            if (isGoogleDriveConnected && isAdminLoggedIn) {
-                setTimeout(() => syncToGoogleDrive(), 1000);
-            }
+            updateProgress();
+            showThankYouEffect("Beitrag hinzugefügt!");
         } else {
-            alert('Bitte gib einen Namen für den Partybeitrag ein!');
+            alert('Bitte gib einen Namen für den neuen Beitrag ein!');
         }
     }
-    
-    // Person zu zusätzlichem Item hinzufügen
-    async function addAdditionalPerson(item, index) {
-        const input = document.getElementById(`additional-input-${index}`);
-        const name = input.value.trim();
-        
-        if (name) {
-            // Überprüfe ob die Person bereits eingetragen ist
-            const existingPersons = additionalItems[item] || [];
-            const alreadyRegistered = existingPersons.some(reg => reg.person.toLowerCase() === name.toLowerCase());
-            
-            if (alreadyRegistered) {
-                alert('Diese Person ist bereits für dieses Item eingetragen!');
-                input.value = '';
-                return;
+
+    // Admin-Bereich Logik
+    function adminLogin() {
+        const passwordInput = document.getElementById('adminPassword');
+        if (passwordInput.value === ADMIN_PASSWORD) {
+            document.getElementById('adminLogin').style.display = 'none';
+            document.getElementById('adminControls').style.display = 'block';
+            checkAdminStatus();
+        } else {
+            alert('Falsches Passwort!');
+        }
+        passwordInput.value = '';
+    }
+
+    function adminLogout() {
+        document.getElementById('adminLogin').style.display = 'block';
+        document.getElementById('adminControls').style.display = 'none';
+        googleDriveConnected = false;
+        updateDriveStatus();
+    }
+
+    function checkAdminStatus() {
+        const adminPasswordElement = document.getElementById('adminPassword');
+        // Check if admin is logged in (controls visible) or if password matches
+        if (document.getElementById('adminControls').style.display === 'block' || adminPasswordElement.value === ADMIN_PASSWORD) {
+            document.getElementById('adminLogin').style.display = 'none';
+            document.getElementById('adminControls').style.display = 'block';
+            if (CLIENT_ID !== 'YOUR_CLIENT_ID' && API_KEY !== 'YOUR_API_KEY') {
+                updateDriveStatus();
+                document.getElementById('driveStatus').style.display = 'block';
+                document.getElementById('exportSection').style.display = 'block';
+            } else {
+                document.getElementById('driveStatus').style.display = 'none';
+                document.getElementById('exportSection').style.display = 'none';
             }
-            
-            const cardElement = document.getElementById(`additional-card-${index}`);
-            showThankYouEffect(cardElement);
-            
-            setTimeout(() => {
-                if (!additionalItems[item]) {
-                    additionalItems[item] = [];
+        } else {
+            document.getElementById('adminLogin').style.display = 'block';
+            document.getElementById('adminControls').style.display = 'none';
+            document.getElementById('driveStatus').style.display = 'none';
+            document.getElementById('exportSection').style.display = 'none';
+        }
+    }
+
+    // Google Drive Integration
+    function gapiLoaded() {
+        gapi.load('client', initializeGapiClient);
+    }
+
+    function initializeGapiClient() {
+        gapi.client.init({
+            apiKey: API_KEY,
+            discoveryDocs: DISCOVERY_DOCS,
+        }).then(() => {
+            gapiInited = true;
+            maybeEnableButtons();
+        });
+    }
+
+    function gisLoaded() {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+            client_id: CLIENT_ID,
+            scope: SCOPES,
+            callback: (tokenResponse) => {
+                if (tokenResponse && tokenResponse.access_token) {
+                    googleDriveConnected = true;
+                    updateDriveStatus();
+                    loadFromGoogleDrive();
                 }
-                
-                additionalItems[item].push({
-                    person: name,
-                    timestamp: new Date().toLocaleString('de-DE')
+            },
+        });
+        gisInited = true;
+        maybeEnableButtons();
+    }
+
+    function maybeEnableButtons() {
+        if (gapiInited && gisInited) {
+            // Buttons can be enabled here if needed, but connectToGoogleDrive handles it on click
+        }
+    }
+
+    function connectToGoogleDrive() {
+        if (!googleDriveConnected) {
+            tokenClient.callback = (resp) => {
+                if (resp.error) {
+                    throw (resp);
+                }
+                googleDriveConnected = true;
+                updateDriveStatus();
+                loadFromGoogleDrive();
+            };
+
+            if (gapi.client.getToken() === null) {
+                // Prompt the user to select a Google account and authorize the app.
+                tokenClient.requestAccessToken({prompt: 'consent'});
+            } else {
+                // Skip display of account chooser and consent dialog for efficiency.
+                tokenClient.requestAccessToken({prompt: ''});
+            }
+        }
+    }
+
+    function updateDriveStatus() {
+        const driveStatusDiv = document.getElementById('driveStatus');
+        const statusTextSpan = document.getElementById('statusText');
+        const connectBtn = document.getElementById('connectBtn');
+
+        if (googleDriveConnected) {
+            driveStatusDiv.classList.remove('disconnected');
+            driveStatusDiv.classList.add('connected');
+            statusTextSpan.textContent = 'Verbunden';
+            connectBtn.style.display = 'none';
+        } else {
+            driveStatusDiv.classList.remove('connected');
+            driveStatusDiv.classList.add('disconnected');
+            statusTextSpan.textContent = 'Nicht verbunden';
+            connectBtn.style.display = 'block';
+        }
+    }
+
+    // Google Drive file handling
+    const FILE_NAME = 'party_data.json';
+    let fileId = null;
+
+    async function loadFromGoogleDrive() {
+        try {
+            const response = await gapi.client.drive.files.list({
+                spaces: 'appDataFolder',
+                q: `name = '${FILE_NAME}'`
+            });
+            const files = response.result.files;
+            if (files.length > 0) {
+                fileId = files[0].id;
+                const fileContentResponse = await gapi.client.drive.files.get({
+                    fileId: fileId,
+                    alt: 'media'
                 });
-                
-                saveData();
-                createAdditionalItemCards();
-                
-                if (isGoogleDriveConnected && isAdminLoggedIn) {
-                    setTimeout(() => syncToGoogleDrive(), 1000);
-                }
-            }, 1500);
-            
-        } else {
-            alert('Bitte gib deinen Namen ein!');
-        }
-    }
-    
-    // Person von zusätzlichem Item entfernen
-    async function unregisterAdditionalPerson(item, personName, index) {
-        const inputName = prompt(`Bestätige deinen Namen um dich auszutragen:\n(${personName})`);
-        
-        if (inputName && inputName.trim().toLowerCase() === personName.toLowerCase()) {
-            const cardElement = document.getElementById(`additional-card-${index}`);
-            showGoodbyeEffect(cardElement);
-            
-            setTimeout(() => {
-                if (additionalItems[item]) {
-                    additionalItems[item] = additionalItems[item].filter(reg => reg.person !== personName);
-                    
-                    // Entferne das Item komplett wenn keine Personen mehr eingetragen sind
-                    if (additionalItems[item].length === 0) {
-                        delete additionalItems[item];
+                const loadedData = JSON.parse(fileContentResponse.body);
+                // Merge loaded data with default items, prioritizing loaded values for existing IDs
+                data.items = data.items.map(defaultItem => {
+                    const loadedItem = loadedData.items.find(item => item.id === defaultItem.id);
+                    return loadedItem ? loadedItem : defaultItem;
+                });
+                // Add any additional items from loaded data that are not in the current default items
+                loadedData.items.forEach(loadedItem => {
+                    if (!data.items.some(defaultItem => defaultItem.id === loadedItem.id)) {
+                        data.items.push(loadedItem);
                     }
-                }
-                
-                saveData();
-                createAdditionalItemCards();
-                
-                if (isGoogleDriveConnected && isAdminLoggedIn) {
-                    setTimeout(() => syncToGoogleDrive(), 1000);
-                }
-            }, 1500);
-            
-        } else if (inputName) {
-            alert('Der Name stimmt nicht überein. Nur die Person, die sich eingetragen hat, kann sich wieder austragen.');
-        }
-    }
-    
-    // Person hinzufügen
-    async function addPerson(item, index) {
-        const input = document.getElementById(`input-${index}`);
-        const name = input.value.trim();
-        
-        if (name) {
-            // Überprüfe ob die Person bereits eingetragen ist
-            const existingPersons = itemStates[item] || [];
-            const alreadyRegistered = existingPersons.some(reg => reg.person.toLowerCase() === name.toLowerCase());
-            
-            if (alreadyRegistered) {
-                alert('Diese Person ist bereits für dieses Item eingetragen!');
-                input.value = '';
-                return;
-            }
-            
-            const cardElement = document.getElementById(`card-${index}`);
-            showThankYouEffect(cardElement);
-            
-            setTimeout(() => {
-                if (!itemStates[item]) {
-                    itemStates[item] = [];
-                }
-                
-                itemStates[item].push({
-                    person: name,
-                    timestamp: new Date().toLocaleString('de-DE')
                 });
-                
-                saveData();
+                data.additionalItems = loadedData.additionalItems || [];
+                console.log('Data loaded from Google Drive:', data);
                 createItemCards();
+                createAdditionalItemCards();
                 updateProgress();
-                
-                if (isGoogleDriveConnected && isAdminLoggedIn) {
-                    setTimeout(() => syncToGoogleDrive(), 1000);
-                }
-            }, 1500);
-            
-        } else {
-            alert('Bitte gib deinen Namen ein!');
+            } else {
+                console.log('No data file found on Google Drive, creating a new one.');
+                saveToGoogleDrive(); // Create file if it doesn't exist
+            }
+        } catch (error) {
+            console.error('Error loading from Google Drive:', error);
+            alert('Fehler beim Laden der Daten von Google Drive. Überprüfen Sie Ihre Verbindung und Berechtigungen.');
         }
     }
-    
-    // Person entfernen
-    async function unregisterPerson(item, personName, index) {
-        const inputName = prompt(`Bestätige deinen Namen um dich auszutragen:\n(${personName})`);
-        
-        if (inputName && inputName.trim().toLowerCase() === personName.toLowerCase()) {
-            const cardElement = document.getElementById(`card-${index}`);
-            showGoodbyeEffect(cardElement);
-            
-            setTimeout(() => {
-                if (itemStates[item]) {
-                    itemStates[item] = itemStates[item].filter(reg => reg.person !== personName);
-                }
-                
-                saveData();
-                createItemCards();
-                updateProgress();
-                
-                if (isGoogleDriveConnected && isAdminLoggedIn) {
-                    setTimeout(() => syncToGoogleDrive(), 1000);
-                }
-            }, 1500);
-            
-        } else if (inputName) {
-            alert('Der Name stimmt nicht überein. Nur die Person, die sich eingetragen hat, kann sich wieder austragen.');
+
+    async function saveToGoogleDrive() {
+        const fileMetadata = {
+            'name': FILE_NAME,
+            'parents': ['appDataFolder']
+        };
+        const media = {
+            mimeType: 'application/json',
+            body: JSON.stringify(data)
+        };
+
+        try {
+            if (fileId) {
+                // Update existing file
+                await gapi.client.drive.files.update({
+                    fileId: fileId,
+                    resource: fileMetadata,
+                    media: media,
+                    fields: 'id'
+                });
+                console.log('Data updated on Google Drive.');
+            } else {
+                // Create new file
+                const response = await gapi.client.drive.files.create({
+                    resource: fileMetadata,
+                    media: media,
+                    fields: 'id'
+                });
+                fileId = response.result.id;
+                console.log('Data saved to Google Drive, file ID:', fileId);
+            }
+        } catch (error) {
+            console.error('Error saving to Google Drive:', error);
+            alert('Fehler beim Speichern der Daten auf Google Drive. Überprüfen Sie Ihre Verbindung und Berechtigungen.');
         }
     }
-    
-    // Export zu CSV
+
+    // Export Functions
     function exportToCSV() {
-        if (!isAdminLoggedIn) {
-            alert('Zugriff verweigert!');
-            return;
-        }
-        
-        const data = createExcelData();
-        const csvContent = convertToCSV(data);
-        
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
-        link.setAttribute('download', 'Birthday-Party-Partybeitraege.csv');
-        link.style.visibility = 'hidden';
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += "Kategorie,Beitrag,Name\n";
+
+        data.items.forEach(item => {
+            if (item.persons.length > 0) {
+                item.persons.forEach(person => {
+                    csvContent += `Benötigt,${item.name},"${person}"\n`;
+                });
+            } else {
+                csvContent += `Benötigt,${item.name},\n`; // Still list items with no persons
+            }
+        });
+
+        data.additionalItems.forEach(item => {
+            if (item.persons.length > 0) {
+                item.persons.forEach(person => {
+                    csvContent += `Weitere Beiträge,${item.name},"${person}"\n`;
+                });
+            } else {
+                csvContent += `Weitere Beiträge,${item.name},\n`;
+            }
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "party_beitraege.csv");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     }
-    
-    // Alle Daten löschen (Admin-Funktion)
-    function clearAllData() {
-        if (!isAdminLoggedIn) {
-            alert('Zugriff verweigert!');
-            return;
-        }
-        
-        if (confirm('ACHTUNG! Alle Eintragungen werden unwiderruflich gelöscht!\n\nMöchten Sie wirklich alle Daten löschen?')) {
-            if (confirm('Sind Sie sich absolut sicher? Diese Aktion kann nicht rückgängig gemacht werden!')) {
-                // Lösche alle Daten
-                localStorage.removeItem('birthday-party-contributions');
-                localStorage.removeItem('birthday-party-items'); // alte Daten
-                localStorage.removeItem('birthday-party-additional-contributions');
-                localStorage.removeItem('birthday-party-additional-items'); // alte Daten
-                localStorage.removeItem('google-drive-file-id');
-                
-                // Setze alle Variablen zurück
-                items.forEach(item => {
-                    itemStates[item] = [];
-                });
-                additionalItems = {};
-                googleDriveFileId = null;
-                
-                // Aktualisiere die Anzeige
-                createItemCards();
-                createAdditionalItemCards();
-                updateProgress();
-                
-                alert('Alle Daten wurden erfolgreich gelöscht!');
-                
-                // Sync wenn verbunden
-                if (isGoogleDriveConnected && isAdminLoggedIn) {
-                    setTimeout(() => syncToGoogleDrive(), 1000);
-                }
-            }
-        }
-    }
-    
-    // Export zu Excel
+
     function exportToExcel() {
-        if (!isAdminLoggedIn) {
-            alert('Zugriff verweigert!');
-            return;
-        }
-        
-        const data = createExcelData();
-        
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        
-        ws['!cols'] = [
-            { wch: 25 }, // Item
-            { wch: 10 }, // Benötigt
-            { wch: 12 }, // Eingetragen
-            { wch: 20 }, // Person
-            { wch: 20 }  // Timestamp
-        ];
-        
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Partybeitraege');
-        
-        XLSX.writeFile(wb, 'Birthday-Party-Partybeitraege.xlsx');
-    }
-    
-    // Enter-Taste für Admin-Login
-    document.addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') {
-            const adminPasswordField = document.getElementById('adminPassword');
-            if (adminPasswordField === document.activeElement) {
-                adminLogin();
+        // This is a simplified approach using CSV, true Excel export requires a library or server-side.
+        // For a simple browser-side solution, generating a CSV with .xls extension often works.
+        let csvContent = "data:application/vnd.ms-excel;charset=utf-8,";
+        csvContent += "Kategorie\tBeitrag\tName\n"; // Use tab for better Excel column separation
+
+        data.items.forEach(item => {
+            if (item.persons.length > 0) {
+                item.persons.forEach(person => {
+                    csvContent += `Benötigt\t${item.name}\t"${person}"\n`;
+                });
+            } else {
+                csvContent += `Benötigt\t${item.name}\t\n`;
             }
+        });
+
+        data.additionalItems.forEach(item => {
+            if (item.persons.length > 0) {
+                item.persons.forEach(person => {
+                    csvContent += `Weitere Beiträge\t${item.name}\t"${person}"\n`;
+                });
+            } else {
+                csvContent += `Weitere Beiträge\t${item.name}\t\n`;
+            }
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "party_beitraege.xls"); // .xls extension
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    function showShareLink() {
+        alert("Funktion für Share Link noch nicht implementiert.");
+        // Implement Google Drive sharing API here if needed
+    }
+
+    // Sterne erzeugen
+    function createStars() {
+        const starsContainer = document.querySelector('.stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 2}s`;
+            starsContainer.appendChild(star);
         }
-    });
-    
-    // Focus-Effekte für Admin-Input
-    document.addEventListener('DOMContentLoaded', function() {
-        const adminInput = document.getElementById('adminPassword');
-        const adminGlow = document.querySelector('.admin-input-glow');
-        
-        if (adminInput && adminGlow) {
-            adminInput.addEventListener('focus', function() {
-                adminGlow.style.opacity = '1';
-            });
-            
-            adminInput.addEventListener('blur', function() {
-                adminGlow.style.opacity = '0';
-            });
+    }
+
+    // Neon-Linien erzeugen
+    function createNeonLines() {
+        const neonLinesContainer = document.querySelector('.neon-lines');
+        for (let i = 0; i < 5; i++) {
+            const line = document.createElement('div');
+            line.classList.add('neon-line');
+            line.style.top = `${Math.random() * 100}%`;
+            line.style.animationDelay = `${Math.random() * 2}s`;
+            line.style.animationDuration = `${3 + Math.random() * 2}s`;
+            neonLinesContainer.appendChild(line);
         }
-    });
-    
+    }
+
     // Initialisierung
     document.addEventListener('DOMContentLoaded', function() {
-        loadData();
+        loadData(); // This now correctly handles merging with default items
         createStars();
         createNeonLines();
         createItemCards();
@@ -2378,12 +2165,41 @@
             }
         });
         
+        // Enter-Taste für Admin-Login
+        document.getElementById('adminPassword').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                adminLogin();
+            }
+        });
+        
+        // Focus-Effekte für Admin-Input
+        const adminInput = document.getElementById('adminPassword');
+        const adminGlow = document.querySelector('.admin-input-glow');
+        
+        if (adminInput && adminGlow) {
+            adminInput.addEventListener('focus', function() {
+                adminGlow.style.opacity = '1';
+            });
+            
+            adminInput.addEventListener('blur', function() {
+                adminGlow.style.opacity = '0';
+            });
+        }
+
+        // Initialize Google Drive only if API keys are provided
         if (CLIENT_ID !== 'YOUR_CLIENT_ID' && API_KEY !== 'YOUR_API_KEY') {
-            initializeGoogleDrive();
+            const scriptGapi = document.createElement('script');
+            scriptGapi.src = 'https://apis.google.com/js/api.js';
+            scriptGapi.onload = gapiLoaded;
+            document.head.appendChild(scriptGapi);
+
+            const scriptGis = document.createElement('script');
+            scriptGis.src = 'https://accounts.google.com/gsi/client';
+            scriptGis.onload = gisLoaded;
+            document.head.appendChild(scriptGis);
         }
     });
 </script>
-```
 
 </body>
 </html>
