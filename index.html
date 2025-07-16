@@ -10,7 +10,6 @@
 <meta content="Birthday Party, Partybeiträge, Geburtstag, Party, Jena" name="keywords"/>
 <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
-
     * {
         margin: 0;
         padding: 0;
@@ -112,30 +111,6 @@
         font-size: clamp(0.9rem, 2.5vw, 1.2rem);
         color: #ffffff;
         opacity: 0.8;
-    }
-    
-    .progress-bar {
-        width: 100%;
-        height: 30px;
-        background: rgba(0, 0, 0, 0.5);
-        border-radius: 15px;
-        overflow: visible;
-        margin-bottom: 40px;
-        border: 2px solid #00ffff;
-    }
-    
-    .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #ff00ff, #00ffff);
-        transition: width 0.3s ease;
-        border-radius: 15px;
-    }
-    
-    .progress-text {
-        text-align: center;
-        margin-top: 10px;
-        font-size: 1.1rem;
-        color: #00ffff;
     }
     
     .items-grid {
@@ -772,7 +747,6 @@
         text-shadow: 0 0 30px #ff00ff;
         margin-bottom: 20px;
         animation: glitch 0.5s ease-in-out infinite alternate;
-        
         /* Responsive adjustments for thank you text */
         font-size: clamp(2rem, 8vw, 4rem); /* Smaller on small screens, larger on big */
         padding: 0 10px; /* Add some padding to prevent cutting off at edges */
@@ -785,7 +759,6 @@
         color: #00ffff;
         text-shadow: 0 0 20px #00ffff;
         animation: neon-pulse 1s ease-in-out infinite;
-
         /* Responsive adjustments for subtext */
         font-size: clamp(1rem, 4vw, 1.5rem);
         padding: 0 10px;
@@ -1178,988 +1151,134 @@
         margin-bottom: 10px;
         text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
     }
+    
     @keyframes admin-bg-pulse {
-        0%, 100% {
-            opacity: 0.3;
-        }
-        50% {
-            opacity: 0.7;
-        }
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.7; }
     }
+    
     @keyframes admin-title-glow {
-        0% {
-            text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
-        }
-        100% {
-            text-shadow: 0 0 30px rgba(255, 0, 255, 1), 0 0 40px rgba(0, 255, 255, 0.5);
-        }
+        0% { text-shadow: 0 0 20px rgba(255, 0, 255, 0.8); }
+        100% { text-shadow: 0 0 30px rgba(255, 0, 255, 1), 0 0 40px rgba(0, 255, 255, 0.5); }
     }
+    
     @keyframes admin-input-border {
-        0% {
-            background-position: 0% 50%;
-        }
-        50% {
-            background-position: 100% 50%;
-        }
-        100% {
-            background-position: 0% 50%;
-        }
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
+    
     @keyframes admin-panel-pulse {
-        0%, 100% {
-            opacity: 0.1;
-        }
-        50% {
-            opacity: 0.3;
-        }
+        0%, 100% { opacity: 0.1; }
+        50% { opacity: 0.3; }
     }
+    
     @media (max-width: 768px) {
-        .title {
-            font-size: clamp(1.5rem, 5vw, 2rem);
-            letter-spacing: 1px;
-        }
-        .section-title {
-            font-size: clamp(1.2rem, 3.5vw, 1.5rem);
-            margin: 30px 0 20px;
-        }
-        .items-grid {
-            grid-template-columns: 1fr;
-        }
-        .additional-items-grid {
-            grid-template-columns: 1fr;
-        }
-        .item-controls {
-            flex-direction: column;
-            gap: 10px;
-        }
-        .add-item-controls {
-            flex-direction: column;
-            gap: 10px;
-        }
-        .add-item-input {
-            min-width: unset;
-            width: 100%;
-        }
-        .taken-controls {
-            flex-direction: column;
-            gap: 10px;
-            align-items: stretch;
-        }
-        .name-input {
-            width: 100%;
-        }
-        .person-entry {
-            padding: 6px 10px;
-        }
-        .persons-list {
-            max-height: 120px;
-        }
-        .thank-you-text {
-            font-size: clamp(2rem, 8vw, 4rem); /* Ensure responsiveness */
-        }
-        .export-btn {
-            display: block;
-            margin: 10px auto;
-            width: 80%;
-        }
-        .admin-input {
-            width: 100%;
-            margin-bottom: 20px;
-            max-width: 300px;
-        }
-        .admin-input-container {
-            width: 100%;
-            max-width: 300px;
-            margin: 0 auto 20px;
-        }
-        .admin-btn {
-            width: 100%;
-            max-width: 300px;
-        }
-        .admin-title {
-            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-        }
-        .thank-you-effect {
-            white-space: normal;
-            max-width: 90vw;
-            word-break: break-word;
-            font-size: clamp(1rem, 2.5vw, 1.5rem);
-            letter-spacing: 1px;
-        }
-        .goodbye-effect {
-            white-space: normal;
-            max-width: 90vw;
-            word-break: break-word;
-            font-size: clamp(0.9rem, 2vw, 1.3rem);
-            letter-spacing: 1px;
-        }
-        .particle {
-            width: 2px;
-            height: 2px;
-        }
-        .matrix-line {
-            width: 1px;
-            height: 15px;
-        }
-    }
-    @media (max-width: 480px) {
-        .title {
-            font-size: clamp(1.2rem, 4.5vw, 1.5rem);
-            letter-spacing: 0px;
-        }
-        .date {
-            font-size: clamp(0.8rem, 2.5vw, 1rem);
-        }
-        .subtitle {
-            font-size: clamp(0.7rem, 2vw, 0.9rem);
-        }
-        .section-title {
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            margin: 25px 0 15px;
-        }
-        .container {
-            padding: 15px;
-        }
-        .header {
-            padding: 20px;
-        }
-        .admin-section {
-            padding: 15px;
-        }
-        .admin-panel {
-            padding: 15px;
-        }
-        .admin-title {
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            margin-bottom: 25px;
-        }
-        .admin-input {
-            width: 100%;
-            max-width: 280px;
-            font-size: 1rem;
-            padding: 12px 15px;
-        }
-        .admin-btn {
-            width: 100%;
-            max-width: 280px;
-            padding: 12px 25px;
-            font-size: 1rem;
-        }
-        .logout-btn {
-            float: none;
-            display: block;
-            margin: 0 auto 15px;
-            width: 100%;
-            max-width: 200px;
-        }
-        .person-entry {
-            padding: 5px 8px;
-            font-size: 0.9rem;
-        }
-        .persons-list {
-            max-height: 100px;
-        }
-        .add-item-card {
-            padding: 15px;
-        }
-        .additional-item-card {
-            padding: 15px;
-        }
-        .thank-you-effect {
-            white-space: normal;
-            max-width: 90vw;
-            word-break: break-word;
-            font-size: clamp(0.8rem, 2vw, 1.2rem);
-            letter-spacing: 0px;
-        }
-        .goodbye-effect {
-            white-space: normal;
-            max-width: 90vw;
-            word-break: break-word;
-            font-size: clamp(0.7rem, 1.5vw, 1rem);
-            letter-spacing: 0px;
-        }
-        .particle {
-            width: 1.5px;
-            height: 1.5px;
-        }
-        .matrix-line {
-            width: 1px;
-            height: 12px;
-        }
-    }
+        .title { font-size: clamp(1.5rem, 5vw, 2rem); letter-spacing: 1px; }
+        .section-title { font-size: clamp(1.2rem, 3.5vw, 1.5rem); margin: 30px 0 20px; }
+        .items-grid { grid-template-columns: 1fr; }
+        .additional-items-grid { grid-template-columns: 1fr; }
+        .item-controls { flex-direction: column; gap: 10px; }
+        .add-item-controls { flex-direction: column; gap: 10px; }
+        .add-item-input { min-width: unset; width: 100%; }
+        .taken-controls { flex-direction: column; gap: 10px; align-items: stretch; }
+        .name-input { width: 100%; }
+        .person-entry { padding: 6px 10px; }
+        .persons-list { max-height: 120px; }
+        .thank-you-text { font-size: clamp(2rem, 8vw, 4rem); /* Ensure...
 </style>
 </head>
 <body>
-<div class="stars"></div>
-<div class="neon-lines"></div>
+    <div class="stars"></div>
+    <div class="neon-lines"></div>
 
-<div class="container">
-    <div class="header">
-        <h1 class="title">4 x 40 B-DAY-BASH</h1>
-        <div class="date">01. - 03. 08. 2025</div>
-        <div class="subtitle">Partybeiträge • Anglerheim Jena</div>
-    </div>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">4 x 40 B-Day-Bash</h1>
+            <p class="date">01. - 03. August 2025 | Anglerheim Jena</p>
+            <p class="subtitle">Wir bitten um Euren Beitrag zur Party:</p>
+        </header>
 
-    <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-    </div>
-    <div class="progress-text" id="progressText">0 Beiträge</div>
+        <section class="items-grid" id="contributionsGrid">
+            </section>
 
-    <div class="section-title">🎯 Benötigte Partybeiträge</div>
-    <div class="items-grid" id="itemsGrid">
-        </div>
-
-    <div class="additional-section">
-        <div class="section-title highlighted-plus">➕ Weitere Partybeiträge</div>
-        <div class="additional-items-grid" id="additionalItemsGrid">
-            </div>
-        <div class="add-item-card">
-            <div class="add-item-title">Neuen Partybeitrag vorschlagen</div>
-            <div class="additional-note">Hier kannst du weitere Dinge eintragen, die du zur Party beitragen möchtest</div>
+        <h2 class="section-title highlighted-plus">Ich bringe noch etwas mit!</h2>
+        <section class="add-item-card">
+            <h3 class="add-item-title">Eintrag hinzufügen:</h3>
             <div class="add-item-controls">
-                <input class="add-item-input" id="newItemInput" placeholder="z.B. Chips, Getränke, Deko..." type="text"/>
-                <button class="btn btn-add" onclick="addNewItem()">Hinzufügen</button>
+                <input type="text" id="newItemName" class="add-item-input" placeholder="Was bringst du mit?">
+                <button class="btn-add" onclick="addNewItem()">Hinzufügen</button>
+            </div>
+        </section>
+
+        <h2 class="section-title">Party Extras</h2>
+        <section class="additional-items-grid" id="additionalItemsGrid">
+            </section>
+
+        <div class="thank-you-overlay" id="thankYouOverlay">
+            <div class="thank-you-content">
+                <div class="retro-grid"></div>
+                <div class="laser-lines"></div>
+                <p class="thank-you-text">Vielen Dank für deinen Eintrag!</p>
+                <p class="thank-you-subtext">Wir freuen uns auf dich!</p>
             </div>
         </div>
-    </div>
 
-    <div class="thank-you-overlay" id="thankYouOverlay">
-        <div class="thank-you-content">
-            <div class="retro-grid"></div>
-            <div class="laser-lines">
-                <div class="laser-line" style="width: 300px; animation-delay: 0s;"></div>
-                <div class="laser-line" style="width: 400px; animation-delay: 0.3s;"></div>
-                <div class="laser-line" style="width: 250px; animation-delay: 0.6s;"></div>
-            </div>
-            <div class="thank-you-text">DANKE!</div>
-            <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
-        </div>
-    </div>
-
-    <div class="admin-section">
-        <div class="admin-login-bg"></div>
-        <div class="admin-login" id="adminLogin">
-            <div class="admin-title">🔐 ADMIN ACCESS</div>
-            <div class="admin-input-container">
-                <input class="admin-input" id="adminPassword" placeholder="Enter Password" type="password"/>
-                <div class="admin-input-glow"></div>
-            </div>
-            <br/>
-            <button class="admin-btn" onclick="adminLogin()">
-                <span>Initialize</span>
-            </button>
-        </div>
-
-        <div class="admin-controls" id="adminControls">
-            <button class="logout-btn" onclick="adminLogout()">Logout</button>
-            <div class="admin-panel">
-                <h3>⚙️ SYSTEM CONTROL</h3>
-                <div class="drive-status" id="driveStatus">
-                    <div class="status-text">Google Drive Status: <span id="statusText">Nicht verbunden</span></div>
-                    <button class="connect-btn" id="connectBtn" onclick="connectToGoogleDrive()">Mit Google Drive verbinden</button>
+        <section class="admin-section">
+            <div class="admin-login" id="adminLogin">
+                <div class="admin-login-bg"></div>
+                <h3 class="admin-title">Admin Login</h3>
+                <div class="admin-input-container">
+                    <input type="password" id="adminPassword" class="admin-input" placeholder="Passwort">
+                    <div class="admin-input-glow"></div>
                 </div>
-                <div class="export-section" id="exportSection">
-                    <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
-                    <button class="export-btn" onclick="exportToExcel()">📈 Excel Export</button>
-                    <button class="export-btn" onclick="showShareLink()">🔗 Share Link</button>
-                </div>
+                <button class="admin-btn" onclick="adminLogin()">Login</button>
             </div>
+
+            <div class="admin-controls" id="adminControls">
+                <button class="logout-btn" onclick="adminLogout()">Logout</button>
+                <h3>Admin Panel</h3>
+                <button class="btn" onclick="syncWithDrive()">Sync mit Drive</button>
+                <button class="btn" onclick="exportToCsv()">Export als CSV</button>
+                <button class="btn" onclick="exportToJson()">Export als JSON</button>
+            </div>
+        </section>
+
+        <div class="drive-status" id="driveStatus">
+            <p class="status-text" id="statusText">Google Drive Status: Nicht verbunden</p>
+            <button class="connect-btn" id="connectToDriveBtn" onclick="handleAuthClick()">Mit Google Drive verbinden</button>
         </div>
+        
+        <div class="export-section" id="exportSection">
+            <button class="export-btn" id="exportToCsvBtn" onclick="exportToCsv()" disabled>Exportiere Beiträge (CSV)</button>
+            <button class="export-btn" id="exportToJsonBtn" onclick="exportToJson()" disabled>Exportiere Beiträge (JSON)</button>
+        </div>
+
     </div>
 
-    <div class="footer">
-        <h3>4 x 40 B-Day-Bash</h3>
-        <p>© 2025 All rights reserved.</p>
-    </div>
-</div>
+    <footer class="footer">
+        <h3>Powered by AI & Retro-Future Vibes</h3>
+    </footer>
 
 <script>
-    // Google Drive API-Variablen
-    const CLIENT_ID = 'YOUR_CLIENT_ID'; // Ersetze dies durch deine Client ID
-    const API_KEY = 'YOUR_API_KEY';     // Ersetze dies durch deinen API Key
+    // Google API-Parameter
+    const CLIENT_ID = 'YOUR_CLIENT_ID'; // Ersetzen Sie dies durch Ihre Client ID
+    const API_KEY = 'YOUR_API_KEY';     // Ersetzen Sie dies durch Ihren API Key
     const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
     const SCOPES = 'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.file';
 
     let tokenClient;
     let gapiInited = false;
     let gisInited = false;
-    let googleDriveConnected = false;
 
-    // Admin-Passwort (Beispiel, sollte in einer echten Anwendung sicherer gehandhabt werden)
-    const ADMIN_PASSWORD = "admin";
+    // Admin Passwort (für diese Demo im Code, in einer echten Anwendung sicherer handhaben)
+    const ADMIN_PASSWORD = 'admin'; 
 
-    // Datenstruktur
-    let data = {
-        items: [
-            { id: "nudelsalat", name: "Nudelsalat", persons: [], max: 1 },
-            { id: "kartoffelsalat", name: "Kartoffelsalat", persons: [], max: 1 },
-            { id: "kraeuterbutter", name: "Kräuterbutter", persons: [], max: 1 },
-            { id: "nutella-erdnussbutter", name: "Nutella, Erdnussbutter", persons: [], max: 1 },
-            { id: "kuchen", name: "Kuchen", persons: [], max: 1 },
-            { id: "marmelade-honig", name: "Marmelade, Honig", persons: [], max: 1 },
-            { id: "aufschnitt-wurst-kaese", name: "Aufschnitt (Wurst, Käse)", persons: [], max: 1 },
-            { id: "aufstriche-herzhaft", name: "Aufstriche (herzhaft)", persons: [], max: 1 }
-        ],
-        additionalItems: []
-    };
-
-    // Listen von Dankes- und Abschiedsreaktionen
-    const thankYouReactions = [
-        "🙏 Daaaaaankööö! 🙏",
-        "💕 Du bist die/der Geilste! 💕",
-        "💣 Hammer-fett-bombe-krass! 💣",
-        "🥰 Echt?! Thnx!!! 🥰",
-        "🛟 Du bist die Rettung 🛟",
-        "❤️ Ich hasse alle: Außer DICH! ❤️",
-        "❤️‍🔥 Wir lieben Dich! ❤️‍🔥"
-    ];
-
-    const goodbyeReactions = [
-        "👋 Schade, bis zum nächsten Mal!",
-        "💔 Wir werden dich vermissen!",
-        "🫡 Verstanden, abgemeldet.",
-        "😥 Komm bald wieder!",
-        "💨 Tschüssikowski!",
-        "👋 Bleib sauber!",
-        "🫡 Bis bald, Cowboy!"
-    ];
-
-    function getRandomReaction(reactionList) {
-        return reactionList[Math.floor(Math.random() * reactionList.length)];
-    }
-
-    // Hilfsfunktionen
-    function showThankYouEffect(message) {
-        const overlay = document.getElementById('thankYouOverlay');
-        const thankYouText = overlay.querySelector('.thank-you-text');
-        const thankYouSubtext = overlay.querySelector('.thank-you-subtext');
-
-        thankYouText.textContent = getRandomReaction(thankYouReactions); // Use random thank you reaction
-        thankYouSubtext.textContent = message || "Vielen Dank für Ihre Anmeldung!"; // Customize subtext or use generic
-
-        overlay.classList.add('show');
-        createParticles(100, overlay);
-        createMatrixEffect(overlay);
-        createScanlineEffect(overlay);
-
-        setTimeout(() => {
-            overlay.classList.remove('show');
-            // Reset overlay content to default after animation
-            overlay.innerHTML = `<div class="thank-you-content">
-                                    <div class="retro-grid"></div>
-                                    <div class="laser-lines">
-                                        <div class="laser-line" style="width: 300px; animation-delay: 0s;"></div>
-                                        <div class="laser-line" style="width: 400px; animation-delay: 0.3s;"></div>
-                                        <div class="laser-line" style="width: 250px; animation-delay: 0.6s;"></div>
-                                    </div>
-                                    <div class="thank-you-text">DANKE!</div>
-                                    <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
-                                </div>`;
-        }, 4000);
-    }
-
-    function showGoodbyeEffect(message) {
-        const overlay = document.getElementById('thankYouOverlay');
-        const thankYouText = overlay.querySelector('.thank-you-text');
-        const thankYouSubtext = overlay.querySelector('.thank-you-subtext');
-
-        thankYouText.textContent = getRandomReaction(goodbyeReactions); // Use random goodbye reaction
-        thankYouSubtext.textContent = message || "Auf Wiedersehen!"; // Customize subtext or use generic
-
-        overlay.classList.add('show');
-        createParticles(100, overlay, 'orange');
-        createMatrixEffect(overlay, 'orange');
-        createScanlineEffect(overlay, 'orange');
-
-        setTimeout(() => {
-            overlay.classList.remove('show');
-            // Reset overlay content to default after animation
-            overlay.innerHTML = `<div class="thank-you-content">
-                                    <div class="retro-grid"></div>
-                                    <div class="laser-lines">
-                                        <div class="laser-line" style="width: 300px; animation-delay: 0s;"></div>
-                                        <div class="laser-line" style="width: 400px; animation-delay: 0.3s;"></div>
-                                        <div class="laser-line" style="width: 250px; animation-delay: 0.6s;"></div>
-                                    </div>
-                                    <div class="thank-you-text">DANKE!</div>
-                                    <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
-                                </div>`;
-        }, 4000);
-    }
-
-    function createParticles(count, container, colorClass = '') {
-        for (let i = 0; i < count; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            if (colorClass) particle.classList.add(`particle-${colorClass}`);
-            particle.style.left = `${Math.random() * 100}%`;
-            particle.style.top = `${Math.random() * 100}%`;
-            particle.style.animationDelay = `${Math.random() * 2}s`;
-            container.appendChild(particle);
-        }
-    }
-
-    function createMatrixEffect(container, colorClass = '') {
-        const matrixEffect = document.createElement('div');
-        matrixEffect.classList.add('matrix-effect');
-        container.appendChild(matrixEffect);
-
-        for (let i = 0; i < 30; i++) {
-            const line = document.createElement('div');
-            line.classList.add('matrix-line');
-            if (colorClass) line.classList.add(`matrix-line-${colorClass}`);
-            line.style.left = `${Math.random() * 100}%`;
-            line.style.animationDuration = `${2 + Math.random() * 3}s`;
-            line.style.animationDelay = `${Math.random() * 2}s`;
-            matrixEffect.appendChild(line);
-        }
-    }
-
-    function createScanlineEffect(container, colorClass = '') {
-        const scanline = document.createElement('div');
-        scanline.classList.add('scanline');
-        if (colorClass) scanline.classList.add(`scanline-${colorClass}`);
-        scanline.style.animationDuration = `${1 + Math.random() * 2}s`;
-        container.appendChild(scanline);
-    }
-
-    // Speichern und Laden der Daten
-    function saveData() {
-        localStorage.setItem('partyData', JSON.stringify(data));
-        if (googleDriveConnected) {
-            saveToGoogleDrive();
-        }
-    }
-
-    function loadData() {
-        const savedData = localStorage.getItem('partyData');
-        if (savedData) {
-            const parsedData = JSON.parse(savedData);
-            // Merge loaded data with default items, prioritizing loaded values for existing IDs
-            data.items = data.items.map(defaultItem => {
-                const loadedItem = parsedData.items.find(item => item.id === defaultItem.id);
-                return loadedItem ? loadedItem : defaultItem;
-            });
-            // Add any additional items that were loaded but not in the default list
-            parsedData.items.forEach(loadedItem => {
-                if (!data.items.some(defaultItem => defaultItem.id === loadedItem.id)) {
-                    data.items.push(loadedItem);
-                }
-            });
-            data.additionalItems = parsedData.additionalItems || [];
-        }
-    }
-
-    // Fortschrittsbalken aktualisieren
-    function updateProgress() {
-        const totalMaxPersonsItems = data.items.reduce((sum, item) => sum + (item.max || 1), 0);
-        const currentPersonsItems = data.items.reduce((sum, item) => sum + item.persons.length, 0);
-
-        const totalMaxPersonsAdditionalItems = data.additionalItems.reduce((sum, item) => sum + (item.max || 1), 0);
-        const currentPersonsAdditionalItems = data.additionalItems.reduce((sum, item) => sum + item.persons.length, 0);
-
-        const totalMax = totalMaxPersonsItems + totalMaxPersonsAdditionalItems;
-        const currentPersons = currentPersonsItems + currentPersonsAdditionalItems;
-
-        let progressPercentage = 0;
-        if (totalMax > 0) {
-            progressPercentage = (currentPersons / totalMax) * 100;
-        }
-        
-        document.getElementById('progressFill').style.width = `${progressPercentage}%`;
-        
-        let progressText = '';
-        if (currentPersons === 1) {
-            progressText = `1 Eintrag`;
-        } else if (currentPersons > 1) {
-            progressText = `${currentPersons} Einträge`;
-        } else {
-            progressText = `Noch keine Einträge`;
-        }
-        document.getElementById('progressText').textContent = progressText;
-    }
-
-    // Item-Karten erstellen (für "Benötigte Partybeiträge")
-    function createItemCards() {
-        const itemsGrid = document.getElementById('itemsGrid');
-        itemsGrid.innerHTML = ''; // Vorherige Karten löschen
-
-        data.items.forEach(item => {
-            const itemCard = document.createElement('div');
-            itemCard.classList.add('item-card');
-            if (item.persons.length >= item.max) {
-                itemCard.classList.add('taken');
-            }
-
-            let personsListHtml = item.persons.map(person => `
-                <div class="person-entry">
-                    <span class="person-name">${person}</span>
-                    <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id}', '${person}', false)">X</button>
-                </div>
-            `).join('');
-
-            itemCard.innerHTML = `
-                <div class="item-name">${item.name}</div>
-                <div class="persons-list">${personsListHtml}</div>
-                ${item.persons.length < item.max ? `
-                    <div class="item-controls">
-                        <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
-                        <button class="btn btn-take" onclick="registerPerson('${item.id}', false)">Eintragen</button>
-                    </div>` : `<div class="complete-message">Vielen Dank!</div>`}
-            `;
-            itemsGrid.appendChild(itemCard);
-
-            const inputElement = itemCard.querySelector(`#input-${item.id}`);
-            if (inputElement) {
-                inputElement.addEventListener('keypress', function(event) {
-                    if (event.key === 'Enter') {
-                        registerPerson(item.id, false);
-                    }
-                });
-            }
-        });
-    }
-
-    // Zusätzliche Item-Karten erstellen
-    function createAdditionalItemCards() {
-        const additionalItemsGrid = document.getElementById('additionalItemsGrid');
-        additionalItemsGrid.innerHTML = ''; // Vorherige Karten löschen
-
-        data.additionalItems.forEach(item => {
-            const itemCard = document.createElement('div');
-            itemCard.classList.add('additional-item-card');
-
-            let personsListHtml = item.persons.map(person => `
-                <div class="person-entry">
-                    <span class="person-name">${person}</span>
-                    <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id}', '${person}', true)">X</button>
-                </div>
-            `).join('');
-
-            itemCard.innerHTML = `
-                <div class="additional-item-name">${item.name}</div>
-                <div class="persons-list">${personsListHtml}</div>
-                <div class="item-controls">
-                    <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
-                    <button class="btn btn-take" onclick="registerPerson('${item.id}', true)">Eintragen</button>
-                </div>
-            `;
-            additionalItemsGrid.appendChild(itemCard);
-
-            // Add event listener for Enter key to the newly created input field
-            const inputElement = itemCard.querySelector(`#input-${item.id}`);
-            if (inputElement) {
-                inputElement.addEventListener('keypress', function(event) {
-                    if (event.key === 'Enter') {
-                        registerPerson(item.id, true);
-                    }
-                });
-            }
-        });
-    }
-
-    // Person eintragen
-    function registerPerson(itemId, isAdditional) {
-        const inputElement = document.getElementById(`input-${itemId}`);
-        const personName = inputElement.value.trim();
-
-        if (personName) {
-            let itemArray = isAdditional ? data.additionalItems : data.items;
-            let item = itemArray.find(i => i.id === itemId);
-
-            if (item) {
-                // Check for duplicate name case-insensitively
-                const existingPerson = item.persons.find(p => p.toLowerCase() === personName.toLowerCase());
-                if (existingPerson) {
-                    alert('Dieser Name ist bereits eingetragen!');
-                    return;
-                }
-
-                if (!isAdditional && item.persons.length >= item.max) {
-                    alert('Maximale Anzahl an Personen für diesen Beitrag erreicht!');
-                    return;
-                }
-                
-                item.persons.push(personName);
-                inputElement.value = ''; // Eingabefeld leeren
-                saveData();
-                if (isAdditional) {
-                    createAdditionalItemCards();
-                } else {
-                    createItemCards();
-                }
-                updateProgress();
-                showThankYouEffect("Eintrag erfolgreich!");
-            }
-        } else {
-            alert('Bitte gib deinen Namen ein!');
-        }
-    }
-
-    // Person austragen
-    function unregisterPerson(itemId, personName, isAdditional) {
-        let itemArray = isAdditional ? data.additionalItems : data.items;
-        let itemToFind = itemArray.find(i => i.id === itemId);
-        let itemName = itemToFind ? itemToFind.name : "Unbekannter Beitrag"; // Fallback for safety
-
-        if (confirm(`Möchtest du "${personName}" wirklich von "${itemName}" austragen?`)) {
-            let item = itemArray.find(i => i.id === itemId);
-
-            if (item) {
-                item.persons = item.persons.filter(p => p !== personName);
-                saveData();
-                if (isAdditional) {
-                    createAdditionalItemCards();
-                } else {
-                    createItemCards();
-                }
-                updateProgress();
-                showGoodbyeEffect("Erfolgreich ausgetragen!");
-            }
-        }
-    }
-
-    // Neues Item hinzufügen
-    function addNewItem() {
-        const newItemInput = document.getElementById('newItemInput');
-        const newItemName = newItemInput.value.trim();
-
-        if (newItemName) {
-            const newItemId = newItemName.toLowerCase().replace(/[^a-z0-9]/g, '-');
-            // Check if item already exists in either items or additionalItems
-            const existingItem = data.items.find(item => item.id === newItemId) || data.additionalItems.find(item => item.id === newItemId);
-
-            if (existingItem) {
-                alert('Dieser Beitrag existiert bereits!');
-                return;
-            }
-
-            data.additionalItems.push({
-                id: newItemId,
-                name: newItemName,
-                persons: []
-            });
-            newItemInput.value = ''; // Eingabefeld leeren
-            saveData();
-            createAdditionalItemCards();
-            updateProgress();
-            showThankYouEffect("Beitrag hinzugefügt!");
-        } else {
-            alert('Bitte gib einen Namen für den neuen Beitrag ein!');
-        }
-    }
-
-    // Admin-Bereich Logik
-    function adminLogin() {
-        const passwordInput = document.getElementById('adminPassword');
-        if (passwordInput.value === ADMIN_PASSWORD) {
-            document.getElementById('adminLogin').style.display = 'none';
-            document.getElementById('adminControls').style.display = 'block';
-            checkAdminStatus();
-        } else {
-            alert('Falsches Passwort!');
-        }
-        passwordInput.value = '';
-    }
-
-    function adminLogout() {
-        document.getElementById('adminLogin').style.display = 'block';
-        document.getElementById('adminControls').style.display = 'none';
-        googleDriveConnected = false;
-        updateDriveStatus();
-    }
-
-    function checkAdminStatus() {
-        const adminPasswordElement = document.getElementById('adminPassword');
-        // Check if admin is logged in (controls visible) or if password matches
-        if (document.getElementById('adminControls').style.display === 'block' || adminPasswordElement.value === ADMIN_PASSWORD) {
-            document.getElementById('adminLogin').style.display = 'none';
-            document.getElementById('adminControls').style.display = 'block';
-            if (CLIENT_ID !== 'YOUR_CLIENT_ID' && API_KEY !== 'YOUR_API_KEY') {
-                updateDriveStatus();
-                document.getElementById('driveStatus').style.display = 'block';
-                document.getElementById('exportSection').style.display = 'block';
-            } else {
-                document.getElementById('driveStatus').style.display = 'none';
-                document.getElementById('exportSection').style.display = 'none';
-            }
-        } else {
-            document.getElementById('adminLogin').style.display = 'block';
-            document.getElementById('adminControls').style.display = 'none';
-            document.getElementById('driveStatus').style.display = 'none';
-            document.getElementById('exportSection').style.display = 'none';
-        }
-    }
-
-    // Google Drive Integration
-    function gapiLoaded() {
-        gapi.load('client', initializeGapiClient);
-    }
-
-    function initializeGapiClient() {
-        gapi.client.init({
-            apiKey: API_KEY,
-            discoveryDocs: DISCOVERY_DOCS,
-        }).then(() => {
-            gapiInited = true;
-            maybeEnableButtons();
-        });
-    }
-
-    function gisLoaded() {
-        tokenClient = google.accounts.oauth2.initTokenClient({
-            client_id: CLIENT_ID,
-            scope: SCOPES,
-            callback: (tokenResponse) => {
-                if (tokenResponse && tokenResponse.access_token) {
-                    googleDriveConnected = true;
-                    updateDriveStatus();
-                    loadFromGoogleDrive();
-                }
-            },
-        });
-        gisInited = true;
-        maybeEnableButtons();
-    }
-
-    function maybeEnableButtons() {
-        if (gapiInited && gisInited) {
-            // Buttons can be enabled here if needed, but connectToGoogleDrive handles it on click
-        }
-    }
-
-    function connectToGoogleDrive() {
-        if (!googleDriveConnected) {
-            tokenClient.callback = (resp) => {
-                if (resp.error) {
-                    throw (resp);
-                }
-                googleDriveConnected = true;
-                updateDriveStatus();
-                loadFromGoogleDrive();
-            };
-
-            if (gapi.client.getToken() === null) {
-                // Prompt the user to select a Google account and authorize the app.
-                tokenClient.requestAccessToken({prompt: 'consent'});
-            } else {
-                // Skip display of account chooser and consent dialog for efficiency.
-                tokenClient.requestAccessToken({prompt: ''});
-            }
-        }
-    }
-
-    function updateDriveStatus() {
-        const driveStatusDiv = document.getElementById('driveStatus');
-        const statusTextSpan = document.getElementById('statusText');
-        const connectBtn = document.getElementById('connectBtn');
-
-        if (googleDriveConnected) {
-            driveStatusDiv.classList.remove('disconnected');
-            driveStatusDiv.classList.add('connected');
-            statusTextSpan.textContent = 'Verbunden';
-            connectBtn.style.display = 'none';
-        } else {
-            driveStatusDiv.classList.remove('connected');
-            driveStatusDiv.classList.add('disconnected');
-            statusTextSpan.textContent = 'Nicht verbunden';
-            connectBtn.style.display = 'block';
-        }
-    }
-
-    // Google Drive file handling
-    const FILE_NAME = 'party_data.json';
-    let fileId = null;
-
-    async function loadFromGoogleDrive() {
-        try {
-            const response = await gapi.client.drive.files.list({
-                spaces: 'appDataFolder',
-                q: `name = '${FILE_NAME}'`
-            });
-            const files = response.result.files;
-            if (files.length > 0) {
-                fileId = files[0].id;
-                const fileContentResponse = await gapi.client.drive.files.get({
-                    fileId: fileId,
-                    alt: 'media'
-                });
-                const loadedData = JSON.parse(fileContentResponse.body);
-                // Merge loaded data with default items, prioritizing loaded values for existing IDs
-                data.items = data.items.map(defaultItem => {
-                    const loadedItem = loadedData.items.find(item => item.id === defaultItem.id);
-                    return loadedItem ? loadedItem : defaultItem;
-                });
-                // Add any additional items from loaded data that are not in the current default items
-                loadedData.items.forEach(loadedItem => {
-                    if (!data.items.some(defaultItem => defaultItem.id === loadedItem.id)) {
-                        data.items.push(loadedItem);
-                    }
-                });
-                data.additionalItems = loadedData.additionalItems || [];
-                console.log('Data loaded from Google Drive:', data);
-                createItemCards();
-                createAdditionalItemCards();
-                updateProgress();
-            } else {
-                console.log('No data file found on Google Drive, creating a new one.');
-                saveToGoogleDrive(); // Create file if it doesn't exist
-            }
-        } catch (error) {
-            console.error('Error loading from Google Drive:', error);
-            alert('Fehler beim Laden der Daten von Google Drive. Überprüfen Sie Ihre Verbindung und Berechtigungen.');
-        }
-    }
-
-    async function saveToGoogleDrive() {
-        const fileMetadata = {
-            'name': FILE_NAME,
-            'parents': ['appDataFolder']
-        };
-        const media = {
-            mimeType: 'application/json',
-            body: JSON.stringify(data)
-        };
-
-        try {
-            if (fileId) {
-                // Update existing file
-                await gapi.client.drive.files.update({
-                    fileId: fileId,
-                    resource: fileMetadata,
-                    media: media,
-                    fields: 'id'
-                });
-                console.log('Data updated on Google Drive.');
-            } else {
-                // Create new file
-                const response = await gapi.client.drive.files.create({
-                    resource: fileMetadata,
-                    media: media,
-                    fields: 'id'
-                });
-                fileId = response.result.id;
-                console.log('Data saved to Google Drive, file ID:', fileId);
-            }
-        } catch (error) {
-            console.error('Error saving to Google Drive:', error);
-            alert('Fehler beim Speichern der Daten auf Google Drive. Überprüfen Sie Ihre Verbindung und Berechtigungen.');
-        }
-    }
-
-    // Export Functions
-    function exportToCSV() {
-        let csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += "Kategorie,Beitrag,Name\n";
-
-        data.items.forEach(item => {
-            if (item.persons.length > 0) {
-                item.persons.forEach(person => {
-                    csvContent += `Benötigt,${item.name},"${person}"\n`;
-                });
-            } else {
-                csvContent += `Benötigt,${item.name},\n`; // Still list items with no persons
-            }
-        });
-
-        data.additionalItems.forEach(item => {
-            if (item.persons.length > 0) {
-                item.persons.forEach(person => {
-                    csvContent += `Weitere Beiträge,${item.name},"${person}"\n`;
-                });
-            } else {
-                csvContent += `Weitere Beiträge,${item.name},\n`;
-            }
-        });
-
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "party_beitraege.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    function exportToExcel() {
-        // This is a simplified approach using CSV, true Excel export requires a library or server-side.
-        // For a simple browser-side solution, generating a CSV with .xls extension often works.
-        let csvContent = "data:application/vnd.ms-excel;charset=utf-8,";
-        csvContent += "Kategorie\tBeitrag\tName\n"; // Use tab for better Excel column separation
-
-        data.items.forEach(item => {
-            if (item.persons.length > 0) {
-                item.persons.forEach(person => {
-                    csvContent += `Benötigt\t${item.name}\t"${person}"\n`;
-                });
-            } else {
-                csvContent += `Benötigt\t${item.name}\t\n`;
-            }
-        });
-
-        data.additionalItems.forEach(item => {
-            if (item.persons.length > 0) {
-                item.persons.forEach(person => {
-                    csvContent += `Weitere Beiträge\t${item.name}\t"${person}"\n`;
-                });
-            } else {
-                csvContent += `Weitere Beiträge\t${item.name}\t\n`;
-            }
-        });
-
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "party_beitraege.xls"); // .xls extension
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    function showShareLink() {
-        alert("Funktion für Share Link noch nicht implementiert.");
-        // Implement Google Drive sharing API here if needed
-    }
-
-    // Sterne erzeugen
-    function createStars() {
-        const starsContainer = document.querySelector('.stars');
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.style.top = `${Math.random() * 100}%`;
-            star.style.left = `${Math.random() * 100}%`;
-            star.style.animationDelay = `${Math.random() * 2}s`;
-            starsContainer.appendChild(star);
-        }
-    }
-
-    // Neon-Linien erzeugen
-    function createNeonLines() {
-        const neonLinesContainer = document.querySelector('.neon-lines');
-        for (let i = 0; i < 5; i++) {
-            const line = document.createElement('div');
-            line.classList.add('neon-line');
-            line.style.top = `${Math.random() * 100}%`;
-            line.style.animationDelay = `${Math.random() * 2}s`;
-            line.style.animationDuration = `${3 + Math.random() * 2}s`;
-            neonLinesContainer.appendChild(line);
-        }
-    }
-
-    // Initialisierung
     document.addEventListener('DOMContentLoaded', function() {
-        loadData(); // This now correctly handles merging with default items
-        createStars();
-        createNeonLines();
-        createItemCards();
-        createAdditionalItemCards();
-        updateProgress();
-        checkAdminStatus();
-        
-        // Enter-Taste für neues Item
-        document.getElementById('newItemInput').addEventListener('keypress', function(event) {
+        loadItems();
+        loadAdditionalItems();
+        // Add event listener for Enter key on new item input
+        document.getElementById('newItemName').addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 addNewItem();
             }
@@ -2199,6 +1318,542 @@
             document.head.appendChild(scriptGis);
         }
     });
+
+    function gapiLoaded() {
+        gapi.load('client', initializeGapiClient);
+    }
+
+    function gisLoaded() {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+            client_id: CLIENT_ID,
+            scope: SCOPES,
+            callback: '', // defined at request time in await call
+        });
+        gisInited = true;
+        updateDriveStatus();
+    }
+
+    async function initializeGapiClient() {
+        await gapi.client.init({
+            apiKey: API_KEY,
+            discoveryDocs: DISCOVERY_DOCS,
+        });
+        gapiInited = true;
+        updateDriveStatus();
+    }
+
+    function handleAuthClick() {
+        if (gapi.client.getToken() === null) {
+            // Prompt the user to select a Google Account and ask for consent to share their data
+            // when establishing a new session.
+            tokenClient.requestAccessToken({prompt: 'consent'});
+        } else {
+            // Skip display of account chooser and consent dialog for an existing session.
+            tokenClient.requestAccessToken({prompt: ''});
+        }
+    }
+
+    function updateDriveStatus() {
+        const driveStatusDiv = document.getElementById('driveStatus');
+        const statusText = document.getElementById('statusText');
+        const connectBtn = document.getElementById('connectToDriveBtn');
+        const exportSection = document.getElementById('exportSection');
+        const exportToCsvBtn = document.getElementById('exportToCsvBtn');
+        const exportToJsonBtn = document.getElementById('exportToJsonBtn');
+
+        if (gapiInited && gisInited) {
+            driveStatusDiv.style.display = 'block';
+            if (gapi.client.getToken() !== null) {
+                driveStatusDiv.classList.remove('disconnected');
+                driveStatusDiv.classList.add('connected');
+                statusText.textContent = 'Google Drive Status: Verbunden';
+                connectBtn.textContent = 'Verbindung trennen';
+                connectBtn.onclick = handleSignoutClick;
+                if (isAdminLoggedIn()) {
+                    exportSection.style.display = 'block';
+                    exportToCsvBtn.disabled = false;
+                    exportToJsonBtn.disabled = false;
+                } else {
+                    exportSection.style.display = 'none';
+                }
+            } else {
+                driveStatusDiv.classList.remove('connected');
+                driveStatusDiv.classList.add('disconnected');
+                statusText.textContent = 'Google Drive Status: Nicht verbunden';
+                connectBtn.textContent = 'Mit Google Drive verbinden';
+                connectBtn.onclick = handleAuthClick;
+                exportSection.style.display = 'none';
+            }
+        } else {
+            driveStatusDiv.style.display = 'none';
+        }
+    }
+
+    function handleSignoutClick() {
+        const user = gapi.client.getToken();
+        if (user) {
+            google.accounts.oauth2.revoke(user.access_token);
+            gapi.client.setToken('');
+            updateDriveStatus();
+        }
+    }
+
+    async function createFile(content, mimeType, fileName) {
+        if (!gapi.client.getToken()) {
+            await tokenClient.requestAccessToken({prompt: 'consent'});
+        }
+
+        const accessToken = gapi.client.getToken().access_token;
+        const form = new FormData();
+        form.append('metadata', new Blob([JSON.stringify({
+            name: fileName,
+            mimeType: mimeType,
+            parents: ['appDataFolder']
+        })], { type: 'application/json' }));
+        form.append('file', new Blob([content], { type: mimeType }));
+
+        const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+            method: 'POST',
+            headers: new Headers({ 'Authorization': 'Bearer ' + accessToken }),
+            body: form
+        });
+        return response.json();
+    }
+
+    async function updateFile(fileId, content, mimeType, fileName) {
+        if (!gapi.client.getToken()) {
+            await tokenClient.requestAccessToken({prompt: 'consent'});
+        }
+
+        const accessToken = gapi.client.getToken().access_token;
+        const form = new FormData();
+        form.append('metadata', new Blob([JSON.stringify({
+            name: fileName,
+            mimeType: mimeType
+        })], { type: 'application/json' }));
+        form.append('file', new Blob([content], { type: mimeType }));
+
+        const response = await fetch(`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=multipart`, {
+            method: 'PATCH',
+            headers: new Headers({ 'Authorization': 'Bearer ' + accessToken }),
+            body: form
+        });
+        return response.json();
+    }
+
+    async function listFiles() {
+        if (!gapi.client.getToken()) {
+            await tokenClient.requestAccessToken({prompt: 'consent'});
+        }
+        const response = await gapi.client.drive.files.list({
+            spaces: 'appDataFolder',
+            fields: 'files(id, name)',
+            q: "name = 'contributions.json'"
+        });
+        return response.result.files;
+    }
+
+    async function downloadFile(fileId) {
+        if (!gapi.client.getToken()) {
+            await tokenClient.requestAccessToken({prompt: 'consent'});
+        }
+        const response = await gapi.client.drive.files.get({
+            fileId: fileId,
+            alt: 'media'
+        });
+        return response.body;
+    }
+
+    async function syncWithDrive() {
+        showThankYouEffect("Synchronisiere mit Google Drive...");
+        let items = loadItemsFromLocalStorage();
+        try {
+            const files = await listFiles();
+            let fileId = null;
+            if (files.length > 0) {
+                fileId = files[0].id;
+                const driveContent = await downloadFile(fileId);
+                const driveItems = JSON.parse(driveContent);
+                // Merge logic: Add new items from Drive to local, and update existing ones
+                const mergedItems = new Map(items.map(item => [item.id, item]));
+                driveItems.forEach(driveItem => {
+                    if (mergedItems.has(driveItem.id)) {
+                        // Merge persons if item exists locally
+                        const localItem = mergedItems.get(driveItem.id);
+                        driveItem.persons.forEach(drivePerson => {
+                            if (!localItem.persons.some(p => p.name === drivePerson.name)) {
+                                localItem.persons.push(drivePerson);
+                            }
+                        });
+                        localItem.taken = localItem.persons.length;
+                    } else {
+                        mergedItems.set(driveItem.id, driveItem);
+                    }
+                });
+                items = Array.from(mergedItems.values());
+                saveItemsToLocalStorage(items);
+                renderItems();
+                showThankYouEffect("Daten erfolgreich von Drive geladen und zusammengeführt!");
+            }
+
+            // Upload merged data back to Drive
+            const contentToUpload = JSON.stringify(items, null, 2);
+            if (fileId) {
+                await updateFile(fileId, contentToUpload, 'application/json', 'contributions.json');
+                showThankYouEffect("Daten erfolgreich mit Drive synchronisiert!");
+            } else {
+                const newFile = await createFile(contentToUpload, 'application/json', 'contributions.json');
+                showThankYouEffect("Neue Datei auf Drive erstellt und synchronisiert!");
+            }
+        } catch (error) {
+            console.error("Fehler bei der Synchronisierung mit Google Drive:", error);
+            showThankYouEffect("Fehler bei der Synchronisierung!", true);
+        }
+    }
+    
+    let items = [
+        { id: 'bier', name: 'Bier (Fass/Kasten)', max: 80, persons: [] },
+        { id: 'softdrinks', name: 'Softdrinks', max: 50, persons: [] },
+        { id: 'kurze', name: 'Kurze/Schnaps', max: 40, persons: [] },
+        { id: 'sekt', name: 'Sekt/Wein', max: 30, persons: [] },
+        { id: 'salate', name: 'Salate', max: 10, persons: [] },
+        { id: 'kuchen', name: 'Kuchen/Dessert', max: 10, persons: [] }
+    ];
+
+    let additionalItems = [
+        { id: 'kaffee', name: 'Kaffee-Maschine', note: 'Filterkaffee wäre super!', persons: [] },
+        { id: 'grill', name: 'Grill (groß)', note: 'Für ca. 20 Personen', persons: [] },
+        { id: 'sound', name: 'Soundanlage', note: 'Mit Bluetooth-Anschluss', persons: [] },
+        { id: 'licht', name: 'Lichteffekte', note: 'Party-Lichterkette oder Discokugel', persons: [] }
+    ];
+
+    function loadItemsFromLocalStorage() {
+        const storedItems = localStorage.getItem('partyContributions');
+        return storedItems ? JSON.parse(storedItems) : items;
+    }
+
+    function saveItemsToLocalStorage(currentItems) {
+        localStorage.setItem('partyContributions', JSON.stringify(currentItems));
+    }
+
+    function renderItems() {
+        const contributionsGrid = document.getElementById('contributionsGrid');
+        contributionsGrid.innerHTML = '';
+        items.forEach(item => {
+            const takenCount = item.persons.length;
+            const percentage = (takenCount / item.max) * 100;
+            const isComplete = takenCount >= item.max;
+            const itemCardClass = `item-card ${isComplete ? 'taken' : ''}`;
+
+            let personsHtml = item.persons.map(p => `
+                <div class="person-entry">
+                    <span class="person-name">${p.name}</span>
+                    <button class="btn-small btn-unregister" onclick="unregister('${item.id}', '${p.name}')">X</button>
+                </div>
+            `).join('');
+
+            contributionsGrid.innerHTML += `
+                <div class="${itemCardClass}" id="${item.id}">
+                    <h3 class="item-name">${item.name}</h3>
+                    <div class="item-counter">
+                        <span class="taken-count">${takenCount}</span> / <span class="max-count">${item.max}</span>
+                    </div>
+                    ${isComplete ? `<p class="complete-message">Ziel erreicht! Vielen Dank!</p>` : `
+                        <div class="item-controls">
+                            <input type="text" id="nameInput-${item.id}" class="name-input" placeholder="Dein Name">
+                            <button class="btn btn-take" onclick="takeItem('${item.id}')">Übernehmen</button>
+                        </div>
+                    `}
+                    ${personsHtml ? `<div class="persons-list">${personsHtml}</div>` : ''}
+                </div>
+            `;
+        });
+        updateProgressBar();
+    }
+
+    function loadAdditionalItems() {
+        const storedAdditionalItems = localStorage.getItem('partyAdditionalItems');
+        additionalItems = storedAdditionalItems ? JSON.parse(storedAdditionalItems) : additionalItems;
+        renderAdditionalItems();
+    }
+
+    function saveAdditionalItems() {
+        localStorage.setItem('partyAdditionalItems', JSON.stringify(additionalItems));
+    }
+
+    function renderAdditionalItems() {
+        const additionalItemsGrid = document.getElementById('additionalItemsGrid');
+        additionalItemsGrid.innerHTML = '';
+        additionalItems.forEach(item => {
+            const takenCount = item.persons.length;
+            const isTaken = takenCount > 0;
+            const itemCardClass = `additional-item-card ${isTaken ? 'taken' : ''}`;
+
+            let personsHtml = item.persons.map(p => `
+                <div class="person-entry">
+                    <span class="person-name">${p.name}</span>
+                    <button class="btn-small btn-unregister" onclick="unregisterAdditional('${item.id}', '${p.name}')">X</button>
+                </div>
+            `).join('');
+
+            additionalItemsGrid.innerHTML += `
+                <div class="${itemCardClass}" id="additional-${item.id}">
+                    <h3 class="additional-item-name">${item.name}</h3>
+                    ${item.note ? `<p class="additional-note">${item.note}</p>` : ''}
+                    ${isTaken ? `
+                        <p class="taken-by">Übernommen von: ${item.persons[0].name}</p>
+                        <div class="taken-controls">
+                            <input type="text" id="additional-nameInput-${item.id}" class="name-input" placeholder="Dein Name">
+                            <button class="btn btn-release" onclick="releaseAdditional('${item.id}')">Freigeben</button>
+                        </div>
+                    ` : `
+                        <div class="item-controls">
+                            <input type="text" id="additional-nameInput-${item.id}" class="name-input" placeholder="Dein Name">
+                            <button class="btn btn-take" onclick="takeAdditionalItem('${item.id}')">Übernehmen</button>
+                        </div>
+                    `}
+                    ${personsHtml ? `<div class="persons-list">${personsHtml}</div>` : ''}
+                </div>
+            `;
+        });
+    }
+
+    function takeItem(itemId) {
+        const item = items.find(i => i.id === itemId);
+        const nameInput = document.getElementById(`nameInput-${itemId}`);
+        const name = nameInput.value.trim();
+
+        if (name && item && item.persons.length < item.max) {
+            item.persons.push({ name: name, timestamp: new Date().toISOString() });
+            saveItemsToLocalStorage(items);
+            renderItems();
+            nameInput.value = ''; // Clear input after taking
+            showThankYouEffect("Vielen Dank für deinen Beitrag!");
+        } else if (item.persons.length >= item.max) {
+            showThankYouEffect("Entschuldigung, das Ziel für diesen Beitrag wurde bereits erreicht!", true);
+        } else {
+            showThankYouEffect("Bitte gib deinen Namen ein.", true);
+        }
+    }
+
+    function unregister(itemId, personName) {
+        const item = items.find(i => i.id === itemId);
+        if (item) {
+            item.persons = item.persons.filter(p => p.name !== personName);
+            saveItemsToLocalStorage(items);
+            renderItems();
+            showThankYouEffect("Du wurdest erfolgreich abgemeldet.", true);
+        }
+    }
+
+    function takeAdditionalItem(itemId) {
+        const item = additionalItems.find(i => i.id === itemId);
+        const nameInput = document.getElementById(`additional-nameInput-${itemId}`);
+        const name = nameInput.value.trim();
+
+        if (name && item && item.persons.length === 0) {
+            item.persons.push({ name: name, timestamp: new Date().toISOString() });
+            saveAdditionalItems();
+            renderAdditionalItems();
+            nameInput.value = '';
+            showThankYouEffect("Vielen Dank für deine Hilfe!");
+        } else if (item.persons.length > 0) {
+            showThankYouEffect("Dieses Extra wurde bereits übernommen.", true);
+        } else {
+            showThankYouEffect("Bitte gib deinen Namen ein.", true);
+        }
+    }
+
+    function releaseAdditional(itemId) {
+        const item = additionalItems.find(i => i.id === itemId);
+        const nameInput = document.getElementById(`additional-nameInput-${itemId}`);
+        const name = nameInput.value.trim();
+
+        if (name && item && item.persons.some(p => p.name === name)) {
+            item.persons = item.persons.filter(p => p.name !== name);
+            saveAdditionalItems();
+            renderAdditionalItems();
+            nameInput.value = '';
+            showThankYouEffect("Du hast das Extra freigegeben.", true);
+        } else {
+            showThankYouEffect("Bitte gib deinen Namen ein, um die Übernahme freizugeben.", true);
+        }
+    }
+
+    function addNewItem() {
+        const newItemNameInput = document.getElementById('newItemName');
+        const newItemName = newItemNameInput.value.trim();
+
+        if (newItemName && isAdminLoggedIn()) {
+            const newItem = {
+                id: newItemName.toLowerCase().replace(/[^a-z0-9]/g, ''), // Simple ID generation
+                name: newItemName,
+                max: 1, // Default to 1 for custom items
+                persons: []
+            };
+            items.push(newItem);
+            saveItemsToLocalStorage(items);
+            renderItems();
+            newItemNameInput.value = '';
+            showThankYouEffect("Neuer Beitrag hinzugefügt!");
+        } else if (!isAdminLoggedIn()) {
+            showThankYouEffect("Nur Administratoren können neue Beiträge hinzufügen.", true);
+        } else {
+            showThankYouEffect("Bitte gib einen Namen für den neuen Beitrag ein.", true);
+        }
+    }
+
+    function showThankYouEffect(message, isError = false) {
+        const thankYouOverlay = document.getElementById('thankYouOverlay');
+        const thankYouText = thankYouOverlay.querySelector('.thank-you-text');
+        const thankYouSubtext = thankYouOverlay.querySelector('.thank-you-subtext');
+        
+        thankYouText.textContent = message;
+        thankYouSubtext.textContent = isError ? "Bitte versuche es erneut." : "Wir freuen uns auf dich!";
+        thankYouText.style.color = isError ? '#ff4444' : '#ff00ff';
+        thankYouSubtext.style.color = isError ? '#ff6666' : '#00ffff';
+        thankYouText.style.textShadow = isError ? '0 0 30px #ff4444' : '0 0 30px #ff00ff';
+        thankYouSubtext.style.textShadow = isError ? '0 0 20px #ff6666' : '0 0 20px #00ffff';
+
+        thankYouOverlay.classList.add('show');
+        
+        // Create particles
+        createParticles(thankYouText.getBoundingClientRect(), isError ? 'orange' : 'blue');
+        
+        // Create matrix lines
+        createMatrixEffect(thankYouOverlay.getBoundingClientRect(), isError ? 'orange' : 'blue');
+
+        // Create scanline effect
+        createScanlineEffect(thankYouOverlay.getBoundingClientRect(), isError ? 'orange' : 'blue');
+
+        setTimeout(() => {
+            thankYouOverlay.classList.remove('show');
+            // Remove all particles, matrix lines, and scanlines after animation
+            document.querySelectorAll('.particle, .matrix-line, .scanline').forEach(el => el.remove());
+        }, 4000); // Animation duration
+    }
+
+    function createParticles(rect, color) {
+        const particleCount = 20;
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            if (color === 'orange') {
+                particle.classList.add('particle-orange');
+            }
+            particle.style.left = `${rect.left + Math.random() * rect.width}px`;
+            particle.style.top = `${rect.top + Math.random() * rect.height}px`;
+            particle.style.animationDelay = `${Math.random() * 0.5}s`;
+            document.body.appendChild(particle);
+        }
+    }
+
+    function createMatrixEffect(rect, color) {
+        const matrixEffect = document.createElement('div');
+        matrixEffect.classList.add('matrix-effect');
+        document.body.appendChild(matrixEffect);
+
+        const lineCount = 10;
+        for (let i = 0; i < lineCount; i++) {
+            const line = document.createElement('div');
+            line.classList.add('matrix-line');
+            if (color === 'orange') {
+                line.classList.add('matrix-line-orange');
+            }
+            line.style.left = `${Math.random() * 100}%`;
+            line.style.animationDelay = `${Math.random() * 2}s`;
+            line.style.animationDuration = `${3 + Math.random() * 2}s`;
+            matrixEffect.appendChild(line);
+        }
+    }
+
+    function createScanlineEffect(rect, color) {
+        const scanline = document.createElement('div');
+        scanline.classList.add('scanline');
+        if (color === 'orange') {
+            scanline.classList.add('scanline-orange');
+        }
+        scanline.style.animationDelay = `${Math.random() * 0.5}s`;
+        document.body.appendChild(scanline);
+    }
+
+    function adminLogin() {
+        const passwordInput = document.getElementById('adminPassword').value;
+        if (passwordInput === ADMIN_PASSWORD) {
+            localStorage.setItem('isAdmin', 'true');
+            document.getElementById('adminLogin').style.display = 'none';
+            document.getElementById('adminControls').style.display = 'block';
+            updateDriveStatus(); // Update Drive status to show export buttons if connected
+            showThankYouEffect("Admin Login erfolgreich!");
+        } else {
+            showThankYouEffect("Falsches Admin Passwort.", true);
+        }
+    }
+
+    function adminLogout() {
+        localStorage.removeItem('isAdmin');
+        document.getElementById('adminLogin').style.display = 'block';
+        document.getElementById('adminControls').style.display = 'none';
+        updateDriveStatus(); // Hide export buttons
+        showThankYouEffect("Admin Logout erfolgreich!", true);
+    }
+
+    function isAdminLoggedIn() {
+        return localStorage.getItem('isAdmin') === 'true';
+    }
+
+    // Initial check for admin status on page load
+    if (isAdminLoggedIn()) {
+        document.getElementById('adminLogin').style.display = 'none';
+        document.getElementById('adminControls').style.display = 'block';
+    }
+
+    function convertToCsv(data) {
+        if (data.length === 0) return '';
+
+        const headers = Object.keys(data[0]);
+        const csvRows = [];
+        csvRows.push(headers.join(','));
+
+        for (const row of data) {
+            const values = headers.map(header => {
+                const val = row[header];
+                if (Array.isArray(val)) {
+                    return `"${val.map(p => p.name).join('; ')}"`; // Join person names for CSV
+                }
+                return `"${String(val).replace(/"/g, '""')}"`; // Handle double quotes
+            });
+            csvRows.push(values.join(','));
+        }
+        return csvRows.join('\n');
+    }
+
+    function downloadFile(content, fileName, mimeType) {
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function exportToCsv() {
+        const allItems = [...items, ...additionalItems];
+        const csvContent = convertToCsv(allItems);
+        downloadFile(csvContent, 'party_contributions.csv', 'text/csv');
+        showThankYouEffect("CSV Export erfolgreich!");
+    }
+
+    function exportToJson() {
+        const allItems = [...items, ...additionalItems];
+        const jsonContent = JSON.stringify(allItems, null, 2);
+        downloadFile(jsonContent, 'party_contributions.json', 'application/json');
+        showThankYouEffect("JSON Export erfolgreich!");
+    }
+
 </script>
 
 </body>
