@@ -41,11 +41,22 @@
         background: #ffffff;
         border-radius: 50%;
         animation: twinkle 2s infinite alternate;
+        box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
     }
     
     @keyframes twinkle {
-        0% { opacity: 0.3; }
-        100% { opacity: 1; }
+        0% { 
+            opacity: 0.2;
+            transform: scale(0.8);
+        }
+        50% { 
+            opacity: 0.8;
+            transform: scale(1.2);
+        }
+        100% { 
+            opacity: 1;
+            transform: scale(1);
+        }
     }
     
     .neon-lines {
@@ -60,14 +71,28 @@
     
     .neon-line {
         position: absolute;
-        height: 2px;
+        height: 1px;
         background: linear-gradient(90deg, transparent, #ff00ff, transparent);
         animation: neon-sweep 4s linear infinite;
+        opacity: 0.7;
+        box-shadow: 0 0 4px rgba(255, 0, 255, 0.5);
     }
     
     @keyframes neon-sweep {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(100vw); }
+        0% { 
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+        10% { 
+            opacity: 0.7;
+        }
+        90% { 
+            opacity: 0.7;
+        }
+        100% { 
+            transform: translateX(100vw);
+            opacity: 0;
+        }
     }
 
     .laser-background {
@@ -97,12 +122,6 @@
 
     .laser-beam:nth-child(2) {
         animation-delay: -2s;
-        background: linear-gradient(0deg, 
-            transparent 0%, 
-            rgba(255, 0, 255, 0.1) 20%, 
-            rgba(0, 255, 255, 0.15) 50%, 
-            rgba(255, 0, 255, 0.1) 80%, 
-            transparent 100%);
     }
 
     .laser-beam:nth-child(3) {
@@ -113,12 +132,6 @@
     .laser-beam:nth-child(4) {
         animation-delay: -6s;
         animation-duration: 12s;
-        background: linear-gradient(0deg, 
-            transparent 0%, 
-            rgba(255, 255, 0, 0.08) 20%, 
-            rgba(255, 0, 255, 0.12) 50%, 
-            rgba(255, 255, 0, 0.08) 80%, 
-            transparent 100%);
     }
 
     @keyframes laser-move {
@@ -243,9 +256,6 @@
     }
     
     .add-item-title {
-        color: #ffff00;
-        font-size: 1.5rem;
-        text-shadow: 0 0 15px #ffff00;
         font-size: 1.2rem;
         font-weight: 700;
         color: #ff00ff;
@@ -280,9 +290,6 @@
     }
     
     .btn-add {
-        font-size: 1.1rem;
-        font-weight: 900;
-        box-shadow: 0 0 20px rgba(255, 0, 255, 0.6);
         background: linear-gradient(45deg, #ff00ff, #00ffff);
         color: #000;
         padding: 10px 20px;
@@ -423,15 +430,6 @@
         transform: scale(1.1);
     }
     
-    .complete-message {
-        color: #00ff00;
-        font-weight: 700;
-        font-size: 1.1rem;
-        text-align: center;
-        text-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
-        animation: neon-pulse 2s ease-in-out infinite;
-    }
-    
     .item-controls {
         display: flex;
         gap: 10px;
@@ -477,41 +475,6 @@
     .btn-take:hover {
         box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
         transform: translateY(-2px);
-    }
-    
-    .btn-release {
-        background: linear-gradient(45deg, #ff4444, #ff6666);
-        color: #fff;
-    }
-    
-    .btn-release:hover {
-        box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
-        transform: translateY(-2px);
-    }
-    
-    .btn-unregister {
-        background: linear-gradient(45deg, #ffaa00, #ff6600);
-        color: #fff;
-        margin-left: 10px;
-    }
-    
-    .btn-unregister:hover {
-        box-shadow: 0 0 15px rgba(255, 170, 0, 0.5);
-        transform: translateY(-2px);
-    }
-    
-    .taken-by {
-        color: #00ff00;
-        font-weight: 700;
-        text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-        flex: 1;
-    }
-    
-    .taken-controls {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        flex-wrap: wrap;
     }
     
     /* Sync Status */
@@ -580,72 +543,25 @@
     }
     
     .thank-you-text {
-        font-size: 4rem;
+        font-size: clamp(2rem, 8vw, 4rem);
         font-weight: 900;
         color: #ff00ff;
         text-shadow: 0 0 30px #ff00ff;
         margin-bottom: 20px;
         animation: glitch 0.5s ease-in-out infinite alternate;
-        font-size: clamp(2rem, 8vw, 4rem);
         padding: 0 10px;
         white-space: normal;
         word-break: break-word;
     }
     
     .thank-you-subtext {
-        font-size: 1.5rem;
+        font-size: clamp(1rem, 4vw, 1.5rem);
         color: #00ffff;
         text-shadow: 0 0 20px #00ffff;
         animation: neon-pulse 1s ease-in-out infinite;
-        font-size: clamp(1rem, 4vw, 1.5rem);
         padding: 0 10px;
         white-space: normal;
         word-break: break-word;
-    }
-    
-    .retro-grid {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 800px;
-        height: 600px;
-        background: linear-gradient(
-            90deg,
-            transparent 49%,
-            #ff00ff 50%,
-            #ff00ff 51%,
-            transparent 52%
-        ),
-        linear-gradient(
-            0deg,
-            transparent 49%,
-            #ff00ff 50%,
-            #ff00ff 51%,
-            transparent 52%
-        );
-        background-size: 40px 40px;
-        opacity: 0.3;
-        animation: grid-move 2s linear infinite;
-        z-index: -1;
-    }
-    
-    .laser-lines {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: visible;
-        z-index: -1;
-    }
-    
-    .laser-line {
-        position: absolute;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, #00ffff, transparent);
-        animation: laser-sweep 1s linear infinite;
-        box-shadow: 0 0 10px #00ffff;
     }
     
     @keyframes glitch {
@@ -680,169 +596,6 @@
         }
     }
     
-    @keyframes grid-move {
-        0% {
-            transform: translate(-50%, -50%);
-        }
-        100% {
-            transform: translate(-50%, -70%);
-        }
-    }
-    
-    @keyframes laser-sweep {
-        0% {
-            left: -100%;
-            top: 20%;
-        }
-        100% {
-            left: 100%;
-            top: 80%;
-        }
-    }
-    
-    /* Particle-Effekt */
-    .particle {
-        position: absolute;
-        width: 3px;
-        height: 3px;
-        background: #00ffff;
-        border-radius: 50%;
-        pointer-events: none;
-        animation: particle-float 4s ease-out forwards;
-    }
-    
-    .particle:nth-child(odd) {
-        background: #ff00ff;
-        animation-delay: 0.1s;
-    }
-    
-    .particle:nth-child(3n) {
-        background: #ffffff;
-        animation-delay: 0.2s;
-    }
-    
-    .particle-orange {
-        background: #ffaa00;
-    }
-    
-    .particle-orange:nth-child(odd) {
-        background: #ff6600;
-    }
-    
-    @keyframes particle-float {
-        0% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-        100% {
-            opacity: 0;
-            transform: translateY(-50px) scale(0.5);
-        }
-    }
-    
-    /* Matrix-Effekt */
-    .matrix-effect {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: visible;
-        pointer-events: none;
-        z-index: 99;
-    }
-    
-    .matrix-line {
-        position: absolute;
-        width: 2px;
-        height: 20px;
-        background: linear-gradient(to bottom, transparent, #00ffff, transparent);
-        animation: matrix-fall 4s linear forwards;
-    }
-    
-    .matrix-line-orange {
-        background: linear-gradient(to bottom, transparent, #ffaa00, transparent);
-    }
-    
-    @keyframes matrix-fall {
-        0% {
-            top: -20px;
-            opacity: 0;
-        }
-        50% {
-            opacity: 1;
-        }
-        100% {
-            top: 100%;
-            opacity: 0;
-        }
-    }
-    
-    /* Scanline-Effekt */
-    .scanline {
-        position: absolute;
-        width: 100%;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, #00ffff, transparent);
-        top: 50%;
-        left: 0;
-        animation: scanline-sweep 3s ease-out;
-        z-index: 98;
-    }
-    
-    .scanline-orange {
-        background: linear-gradient(90deg, transparent, #ffaa00, transparent);
-    }
-    
-    @keyframes scanline-sweep {
-        0% {
-            transform: translateY(-100px);
-            opacity: 0;
-        }
-        50% {
-            opacity: 1;
-        }
-        100% {
-            transform: translateY(100px);
-            opacity: 0;
-        }
-    }
-    
-    /* Export Section */
-    .export-section {
-        text-align: center;
-        margin-bottom: 30px;
-        display: none;
-        position: relative;
-        z-index: 2;
-    }
-    
-    .export-btn {
-        background: linear-gradient(45deg, #00ffff, #ff00ff);
-        color: #000;
-        padding: 15px 30px;
-        border: none;
-        border-radius: 10px;
-        font-family: 'Orbitron', monospace;
-        font-weight: 700;
-        font-size: 1.1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        margin: 0 10px;
-        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-    }
-    
-    .export-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
-    }
-    
-    .export-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-    
     /* Admin Login Section */
     .admin-section {
         text-align: center;
@@ -867,31 +620,13 @@
         z-index: 2;
     }
     
-    .admin-login-bg {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(45deg, transparent, rgba(255, 0, 255, 0.1), transparent);
-        animation: admin-bg-pulse 3s ease-in-out infinite;
-        z-index: 1;
-    }
-    
     .admin-title {
         color: #ff00ff;
         font-size: clamp(1.3rem, 3vw, 1.8rem);
         font-weight: 900;
         margin-bottom: 30px;
         text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
-        animation: admin-title-glow 2s ease-in-out infinite alternate;
         letter-spacing: 2px;
-    }
-    
-    .admin-input-container {
-        position: relative;
-        display: inline-block;
-        margin-bottom: 20px;
     }
     
     .admin-input {
@@ -905,13 +640,7 @@
         width: 300px;
         text-align: center;
         transition: all 0.3s ease;
-        position: relative;
-        z-index: 2;
-    }
-    
-    .admin-input::placeholder {
-        color: rgba(255, 255, 255, 0.5);
-        font-style: italic;
+        margin-bottom: 20px;
     }
     
     .admin-input:focus {
@@ -919,27 +648,6 @@
         border-color: #ff00ff;
         box-shadow: 0 0 25px rgba(255, 0, 255, 0.5);
         background: rgba(0, 0, 0, 0.9);
-        transform: scale(1.05);
-    }
-    
-    .admin-input-glow {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: 2px solid transparent;
-        border-radius: 10px;
-        background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff);
-        background-size: 200% 200%;
-        animation: admin-input-border 3s ease-in-out infinite;
-        z-index: 1;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-    
-    .admin-input:focus + .admin-input-glow {
-        opacity: 1;
     }
     
     .admin-btn {
@@ -961,7 +669,6 @@
     .admin-btn:hover {
         transform: translateY(-3px);
         box-shadow: 0 0 35px rgba(255, 0, 255, 0.7);
-        background: linear-gradient(45deg, #00ffff, #ff00ff);
     }
     
     .admin-panel {
@@ -971,19 +678,6 @@
         border-radius: 15px;
         border: 2px solid #00ff00;
         box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
-        position: relative;
-        overflow: visible;
-    }
-    
-    .admin-panel::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(45deg, transparent, rgba(0, 255, 0, 0.05), transparent);
-        animation: admin-panel-pulse 4s ease-in-out infinite;
     }
     
     .admin-panel h3 {
@@ -993,8 +687,27 @@
         font-size: 1.5rem;
         font-weight: 900;
         letter-spacing: 1px;
-        position: relative;
-        z-index: 2;
+    }
+    
+    .export-btn {
+        background: linear-gradient(45deg, #00ffff, #ff00ff);
+        color: #000;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 10px;
+        font-family: 'Orbitron', monospace;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        margin: 0 10px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    }
+    
+    .export-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
     }
     
     .logout-btn {
@@ -1010,8 +723,6 @@
         text-transform: uppercase;
         float: right;
         box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
-        position: relative;
-        z-index: 2;
     }
     
     .logout-btn:hover {
@@ -1034,63 +745,7 @@
         text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
     }
     
-    @keyframes admin-bg-pulse {
-        0%, 100% {
-            opacity: 0.3;
-        }
-        50% {
-            opacity: 0.7;
-        }
-    }
-    
-    @keyframes admin-title-glow {
-        0% {
-            text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
-        }
-        100% {
-            text-shadow: 0 0 30px rgba(255, 0, 255, 1), 0 0 40px rgba(0, 255, 255, 0.5);
-        }
-    }
-    
-    @keyframes admin-input-border {
-        0% {
-            background-position: 0% 50%;
-        }
-        50% {
-            background-position: 100% 50%;
-        }
-        100% {
-            background-position: 0% 50%;
-        }
-    }
-    
-    @keyframes admin-panel-pulse {
-        0%, 100% {
-            opacity: 0.1;
-        }
-        50% {
-            opacity: 0.3;
-        }
-    }
-    
     @media (max-width: 768px) {
-        .title {
-            font-size: clamp(2rem, 6vw, 2.5rem);
-            letter-spacing: 1px;
-        }
-        .header {
-            padding: 35px;
-        }
-        .date {
-            font-size: clamp(1.1rem, 3.5vw, 1.6rem);
-        }
-        .subtitle {
-            font-size: clamp(1rem, 2.8vw, 1.3rem);
-        }
-        .section-title {
-            font-size: clamp(1.2rem, 3.5vw, 1.5rem);
-            margin: 30px 0 20px;
-        }
         .items-grid {
             grid-template-columns: 1fr;
         }
@@ -1109,125 +764,21 @@
             min-width: unset;
             width: 100%;
         }
-        .taken-controls {
-            flex-direction: column;
-            gap: 10px;
-            align-items: stretch;
-        }
         .name-input {
             width: 100%;
         }
-        .person-entry {
-            padding: 6px 10px;
+        .admin-input {
+            width: 100%;
+            max-width: 300px;
         }
-        .persons-list {
-            max-height: 120px;
-        }
-        .thank-you-text {
-            font-size: clamp(2rem, 8vw, 4rem);
+        .admin-btn {
+            width: 100%;
+            max-width: 300px;
         }
         .export-btn {
             display: block;
             margin: 10px auto;
             width: 80%;
-        }
-        .admin-input {
-            width: 100%;
-            margin-bottom: 20px;
-            max-width: 300px;
-        }
-        .admin-input-container {
-            width: 100%;
-            max-width: 300px;
-            margin: 0 auto 20px;
-        }
-        .admin-btn {
-            width: 100%;
-            max-width: 300px;
-        }
-        .admin-title {
-            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-        }
-        .particle {
-            width: 2px;
-            height: 2px;
-        }
-        .matrix-line {
-            width: 1px;
-            height: 15px;
-        }
-    }
-    
-    @media (max-width: 480px) {
-        .title {
-            font-size: clamp(1.8rem, 5.5vw, 2rem);
-            letter-spacing: 0px;
-        }
-        .date {
-            font-size: clamp(1rem, 3vw, 1.3rem);
-        }
-        .subtitle {
-            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-        }
-        .section-title {
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            margin: 25px 0 15px;
-        }
-        .container {
-            padding: 15px;
-        }
-        .header {
-            padding: 25px;
-        }
-        .admin-section {
-            padding: 15px;
-        }
-        .admin-panel {
-            padding: 15px;
-        }
-        .admin-title {
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            margin-bottom: 25px;
-        }
-        .admin-input {
-            width: 100%;
-            max-width: 280px;
-            font-size: 1rem;
-            padding: 12px 15px;
-        }
-        .admin-btn {
-            width: 100%;
-            max-width: 280px;
-            padding: 12px 25px;
-            font-size: 1rem;
-        }
-        .logout-btn {
-            float: none;
-            display: block;
-            margin: 0 auto 15px;
-            width: 100%;
-            max-width: 200px;
-        }
-        .person-entry {
-            padding: 5px 8px;
-            font-size: 0.9rem;
-        }
-        .persons-list {
-            max-height: 100px;
-        }
-        .add-item-card {
-            padding: 15px;
-        }
-        .additional-item-card {
-            padding: 15px;
-        }
-        .particle {
-            width: 1.5px;
-            height: 1.5px;
-        }
-        .matrix-line {
-            width: 1px;
-            height: 12px;
         }
     }
 </style>
@@ -1248,14 +799,17 @@
         <div class="date">01. - 03. 08. 2025</div>
         <div class="subtitle">Partybeiträge • Anglerheim Jena</div>
         <div class="sync-status" id="syncStatus">
-            <div class="status-text" id="statusText">⏳ Verbindung wird aufgebaut...</div>
-            <div class="sync-details" id="syncDetails">JSONBin.io wird initialisiert</div>
+            <div class="status-text" id="statusText">Initialisierung...</div>
+            <div class="sync-details" id="syncDetails">System wird geladen</div>
         </div>
     </div>
 
     <div class="section-title">🎯 Benötigte Partybeiträge</div>
     <div class="items-grid" id="itemsGrid">
+        <div style="color: #ffaa00; padding: 20px; text-align: center;">
+            ⏳ Lade Partybeiträge...
         </div>
+    </div>
 
     <div class="additional-section">
         <div class="section-title highlighted-plus">➕ Weitere Partybeiträge</div>
@@ -1273,41 +827,25 @@
 
     <div class="thank-you-overlay" id="thankYouOverlay">
         <div class="thank-you-content">
-            <div class="retro-grid"></div>
-            <div class="laser-lines">
-                <div class="laser-line" style="width: 300px; animation-delay: 0s;"></div>
-                <div class="laser-line" style="width: 400px; animation-delay: 0.3s;"></div>
-                <div class="laser-line" style="width: 250px; animation-delay: 0.6s;"></div>
-            </div>
             <div class="thank-you-text">DANKE!</div>
-            <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
+            <div class="thank-you-subtext">Vielen Dank für deine Anmeldung!</div>
         </div>
     </div>
 
     <div class="admin-section">
-        <div class="admin-login-bg"></div>
         <div class="admin-login" id="adminLogin">
             <div class="admin-title">🔐 ADMIN ACCESS</div>
-            <div class="admin-input-container">
-                <input class="admin-input" id="adminPassword" placeholder="Enter Password" type="password"/>
-                <div class="admin-input-glow"></div>
-            </div>
+            <input class="admin-input" id="adminPassword" placeholder="Enter Password" type="password"/>
             <br/>
-            <button class="admin-btn" onclick="adminLogin()">
-                <span>Initialize</span>
-            </button>
+            <button class="admin-btn" onclick="adminLogin()">Initialize</button>
         </div>
 
         <div class="admin-controls" id="adminControls">
             <button class="logout-btn" onclick="adminLogout()">Logout</button>
             <div class="admin-panel">
                 <h3>⚙️ SYSTEM CONTROL</h3>
-                <div class="export-section" id="exportSection">
-                    <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
-                    <button class="export-btn" onclick="exportToExcel()">📈 Excel Export</button>
-                    <button class="export-btn" onclick="forceSync()">🔄 Force Sync</button>
-                    <button class="export-btn" onclick="showShareLink()">🔗 Share Link</button>
-                </div>
+                <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
+                <button class="export-btn" onclick="forceSync()">🔄 Force Sync</button>
             </div>
         </div>
     </div>
@@ -1320,29 +858,26 @@
 
 <script>
 // ===================================================================
-// GLOBALE VARIABLEN - KOMPLETT NEU MIT JSONBIN.IO
+// EINFACHE UND ROBUSTE VERSION - SCHRITT FÜR SCHRITT
 // ===================================================================
 
-console.log("🚀 === PARTY BEITRÄGE APP - JSONBIN VERSION ===");
+console.log("🚀 === APP START ===");
 
-// JSONBin.io Konfiguration - AKTUALISIERT mit neuem Access Key
+// JSONBin.io Konfiguration
 const JSONBIN_CONFIG = {
     BIN_ID: '687910f5db4fa954e67c66bd',
     ACCESS_KEY: '$2a$10$N5gYVuZHvchDU6632EJeAuls.fEy0y6DFy0l0OUVktQUnRz4.U7YC',
     BASE_URL: 'https://api.jsonbin.io/v3/b/'
 };
 
-// Synchronisation
-var isOnline = false;
-var syncInterval = null;
-var lastSyncTime = 0;
-var isSyncing = false;
-
-// Admin
+// Globale Variablen
+let isOnline = false;
+let syncInterval = null;
+let isSyncing = false;
 const ADMIN_PASSWORD = "admin";
 
-// Datenstruktur mit 11 Standard-Items
-var data = {
+// Datenstruktur
+let data = {
     items: [
         { id: "nudelsalat", name: "Nudelsalat", persons: [] },
         { id: "kartoffelsalat", name: "Kartoffelsalat", persons: [] },
@@ -1357,8 +892,7 @@ var data = {
         { id: "cole-slaw", name: "Cole Slaw", persons: [] }
     ],
     additionalItems: [],
-    lastUpdate: Date.now(),
-    version: "1.0.0"
+    lastUpdate: Date.now()
 };
 
 // Reaktionen
@@ -1368,8 +902,7 @@ const thankYouReactions = [
     "💣 Hammer-fett-bombe-krass! 💣",
     "🥰 Echt?! Thnx!!! 🥰",
     "🛟 Du bist die Rettung 🛟",
-    "❤️ Ich hasse alle: Außer DICH! ❤️",
-    "❤️‍🔥 Wir lieben Dich! ❤️‍🔥"
+    "❤️ Ich hasse alle: Außer DICH! ❤️"
 ];
 
 const goodbyeReactions = [
@@ -1377,54 +910,38 @@ const goodbyeReactions = [
     "💔 Wir werden dich vermissen!",
     "🫡 Verstanden, abgemeldet.",
     "😥 Komm bald wieder!",
-    "💨 Tschüssikowski!",
-    "👋 Bleib sauber!",
-    "🫡 Bis bald, Cowboy!"
+    "💨 Tschüssikowski!"
 ];
 
-console.log("✅ Globale Variablen initialisiert");
+console.log("✅ Variablen geladen");
 
 // ===================================================================
 // HILFSFUNKTIONEN
 // ===================================================================
 
-function getRandomReaction(reactionList) {
-    return reactionList[Math.floor(Math.random() * reactionList.length)];
-}
-
-function updateSyncStatus(status, message, details = '') {
-    console.log(`📡 Status Update: ${status} - ${message}`);
+function updateStatus(status, message, details = '') {
+    console.log(`📡 Status: ${status} - ${message}`);
     
     const statusDiv = document.getElementById('syncStatus');
     const statusText = document.getElementById('statusText');
     const syncDetails = document.getElementById('syncDetails');
     
-    if (statusDiv && statusText) {
-        statusDiv.className = 'sync-status ' + status;
-        statusText.textContent = message;
-        
-        if (syncDetails) {
-            syncDetails.textContent = details;
-        }
-    }
+    if (statusDiv) statusDiv.className = 'sync-status ' + status;
+    if (statusText) statusText.textContent = message;
+    if (syncDetails) syncDetails.textContent = details;
 }
 
-function debugData() {
-    console.log("🔍 === DEBUG INFO ===");
-    console.log("🌐 Online:", isOnline);
-    console.log("📊 Items:", data.items.length);
-    console.log("➕ Additional Items:", data.additionalItems.length);
-    console.log("🕐 Last Update:", new Date(data.lastUpdate).toLocaleString());
-    console.log("🔄 Is Syncing:", isSyncing);
-    console.log("📡 Sync Interval:", syncInterval ? 'Aktiv' : 'Inaktiv');
+function getRandomReaction(reactions) {
+    return reactions[Math.floor(Math.random() * reactions.length)];
 }
 
 // ===================================================================
-// JSONBIN.IO API FUNKTIONEN - KOMPLETT NEU
+// JSONBIN API
 // ===================================================================
 
-async function testJSONBinConnection() {
-    console.log("🔌 Teste JSONBin-Verbindung...");
+async function loadData() {
+    console.log("📥 Lade Daten...");
+    updateStatus('syncing', '🔄 Lade Daten...', 'Verbinde mit JSONBin.io');
     
     try {
         const response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
@@ -1434,104 +951,82 @@ async function testJSONBinConnection() {
             }
         });
         
-        console.log("📡 Test Response Status:", response.status);
+        console.log("📡 Response Status:", response.status);
         
         if (response.ok) {
             const result = await response.json();
-            console.log("✅ JSONBin-Verbindung erfolgreich!");
-            console.log("📊 Erhaltene Daten:", result);
-            return true;
-        } else {
-            console.error("❌ JSONBin-Verbindung fehlgeschlagen:", response.status, response.statusText);
-            return false;
-        }
-    } catch (error) {
-        console.error("❌ JSONBin-Verbindungsfehler:", error);
-        return false;
-    }
-}
-
-async function loadDataFromJSONBin() {
-    console.log("📥 === LADE DATEN VON JSONBIN ===");
-    
-    try {
-        updateSyncStatus('syncing', '🔄 Daten werden geladen...', 'Verbindung zu JSONBin.io');
-        
-        const response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
-            method: 'GET',
-            headers: {
-                'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
+            console.log("✅ Daten erhalten:", result);
+            
+            if (result.record) {
+                const loadedData = result.record;
+                
+                // Merge Items
+                if (loadedData.items) {
+                    data.items = data.items.map(defaultItem => {
+                        const loadedItem = loadedData.items.find(item => item.id === defaultItem.id);
+                        return loadedItem || defaultItem;
+                    });
+                }
+                
+                // Additional Items
+                if (loadedData.additionalItems) {
+                    data.additionalItems = loadedData.additionalItems;
+                    console.log("➕ Additional Items geladen:", loadedData.additionalItems.length);
+                }
+                
+                data.lastUpdate = loadedData.lastUpdate || Date.now();
+                
+                isOnline = true;
+                updateStatus('connected', '✅ Online - Sync aktiv', 'Verbunden mit JSONBin.io');
+                console.log("✅ Daten erfolgreich geladen (inkl. zusätzliche Items)");
+                return true;
             }
-        });
-        
-        console.log("📡 Load Response Status:", response.status);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
         
-        const result = await response.json();
-        console.log("📊 Rohdaten von JSONBin:", result);
-        
-        if (result.record && typeof result.record === 'object') {
-            const loadedData = result.record;
-            console.log("✅ Daten erfolgreich geladen:", loadedData);
-            
-            // Merge mit Standard-Items
-            if (loadedData.items && Array.isArray(loadedData.items)) {
-                console.log("🔄 Merge Items mit Standard-Items");
-                data.items = data.items.map(defaultItem => {
-                    const loadedItem = loadedData.items.find(item => item.id === defaultItem.id);
-                    return loadedItem ? { ...defaultItem, ...loadedItem } : defaultItem;
-                });
-            }
-            
-            // Additional Items übernehmen
-            if (loadedData.additionalItems && Array.isArray(loadedData.additionalItems)) {
-                data.additionalItems = loadedData.additionalItems;
-            }
-            
-            // Metadaten übernehmen
-            data.lastUpdate = loadedData.lastUpdate || Date.now();
-            data.version = loadedData.version || "1.0.0";
-            
-            isOnline = true;
-            updateSyncStatus('connected', '✅ Online - Synchronisation aktiv', 'Verbunden mit JSONBin.io');
-            
-            console.log("✅ Daten erfolgreich gemerged!");
-            return true;
-        } else {
-            console.warn("⚠️ Keine gültigen Daten in Response:", result);
-            throw new Error("Ungültige Datenstruktur");
-        }
+        throw new Error('Keine gültigen Daten');
         
     } catch (error) {
         console.error("❌ Fehler beim Laden:", error);
         isOnline = false;
-        updateSyncStatus('disconnected', '❌ Offline - Lokaler Modus', 'Verbindung zu JSONBin.io fehlgeschlagen');
+        updateStatus('disconnected', '❌ Offline - Lokaler Modus', 'Verwendung lokaler Daten');
         
-        // Fallback auf localStorage
-        return await loadFromLocalStorage();
+        // Lokale Daten laden
+        const saved = localStorage.getItem('partyData');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                if (parsed.items) {
+                    data.items = data.items.map(defaultItem => {
+                        const loadedItem = parsed.items.find(item => item.id === defaultItem.id);
+                        return loadedItem || defaultItem;
+                    });
+                }
+                if (parsed.additionalItems) {
+                    data.additionalItems = parsed.additionalItems;
+                    console.log("➕ Lokale Additional Items geladen:", parsed.additionalItems.length);
+                }
+                console.log("✅ Lokale Daten geladen");
+            } catch (e) {
+                console.error("❌ Lokale Daten beschädigt:", e);
+            }
+        }
+        
+        return false;
     }
 }
 
-async function saveDataToJSONBin() {
-    console.log("💾 === SPEICHERE DATEN ZU JSONBIN ===");
+async function saveData() {
+    console.log("💾 Speichere Daten...");
+    console.log("📊 Items:", data.items.length);
+    console.log("➕ Additional Items:", data.additionalItems.length);
     
-    if (isSyncing) {
-        console.log("⏳ Sync bereits aktiv - überspringe");
-        return false;
-    }
+    if (isSyncing) return false;
+    isSyncing = true;
     
     try {
-        isSyncing = true;
-        updateSyncStatus('syncing', '🔄 Daten werden gespeichert...', 'Übertragung zu JSONBin.io');
+        updateStatus('syncing', '🔄 Speichere...', 'Übertrage zu JSONBin.io');
         
-        // Aktualisiere Metadaten
         data.lastUpdate = Date.now();
-        data.version = "1.0.0";
-        
-        console.log("📤 Sende Daten:", data);
         
         const response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
             method: 'PUT',
@@ -1542,40 +1037,35 @@ async function saveDataToJSONBin() {
             body: JSON.stringify(data)
         });
         
-        console.log("📡 Save Response Status:", response.status);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        if (response.ok) {
+            console.log("✅ Erfolgreich gespeichert (inkl. zusätzliche Items)");
+            isOnline = true;
+            updateStatus('connected', '✅ Online - Sync aktiv', `Update: ${new Date().toLocaleTimeString()}`);
+            
+            // Lokalen Backup speichern
+            localStorage.setItem('partyData', JSON.stringify(data));
+            
+            return true;
         }
         
-        const result = await response.json();
-        console.log("✅ Speichern erfolgreich:", result);
-        
-        // Lokalen Backup speichern
-        await saveToLocalStorage();
-        
-        isOnline = true;
-        updateSyncStatus('connected', '✅ Online - Synchronisation aktiv', `Letztes Update: ${new Date().toLocaleTimeString()}`);
-        
-        return true;
+        throw new Error('Speichern fehlgeschlagen');
         
     } catch (error) {
         console.error("❌ Fehler beim Speichern:", error);
         isOnline = false;
-        updateSyncStatus('disconnected', '❌ Offline - Nur lokale Speicherung', 'Verbindung zu JSONBin.io fehlgeschlagen');
+        updateStatus('disconnected', '❌ Offline - Nur lokale Speicherung', 'JSONBin.io nicht erreichbar');
         
-        // Fallback auf localStorage
-        await saveToLocalStorage();
+        // Lokalen Fallback speichern
+        localStorage.setItem('partyData', JSON.stringify(data));
+        
         return false;
     } finally {
         isSyncing = false;
     }
 }
 
-async function checkForUpdates() {
+async function checkUpdates() {
     if (!isOnline || isSyncing) return;
-    
-    console.log("🔄 Prüfe auf Updates...");
     
     try {
         const response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
@@ -1588,13 +1078,10 @@ async function checkForUpdates() {
         if (response.ok) {
             const result = await response.json();
             if (result.record && result.record.lastUpdate > data.lastUpdate) {
-                console.log("🔄 Neue Daten verfügbar - lade Updates");
-                await loadDataFromJSONBin();
-                createItemCards();
-                createAdditionalItemCards();
-                console.log("✅ Updates geladen und UI aktualisiert");
-            } else {
-                console.log("ℹ️ Keine neuen Updates verfügbar");
+                console.log("🔄 Neue Daten verfügbar");
+                await loadData();
+                renderItems();
+                renderAdditionalItems();
             }
         }
     } catch (error) {
@@ -1602,422 +1089,248 @@ async function checkForUpdates() {
     }
 }
 
-// ===================================================================
-// LOKALER SPEICHER FALLBACK
-// ===================================================================
-
-async function saveToLocalStorage() {
-    try {
-        localStorage.setItem('partyDataBackup', JSON.stringify(data));
-        console.log("💾 Lokaler Backup gespeichert");
-    } catch (error) {
-        console.error("❌ Lokaler Backup fehlgeschlagen:", error);
-    }
-}
-
-async function loadFromLocalStorage() {
-    try {
-        const savedData = localStorage.getItem('partyDataBackup');
-        if (savedData) {
-            const parsedData = JSON.parse(savedData);
-            
-            // Merge mit Standard-Items
-            if (parsedData.items && Array.isArray(parsedData.items)) {
-                data.items = data.items.map(defaultItem => {
-                    const loadedItem = parsedData.items.find(item => item.id === defaultItem.id);
-                    return loadedItem ? { ...defaultItem, ...loadedItem } : defaultItem;
-                });
-            }
-            
-            data.additionalItems = parsedData.additionalItems || [];
-            data.lastUpdate = parsedData.lastUpdate || Date.now();
-            
-            console.log("📦 Lokale Daten geladen als Fallback");
-            return true;
-        }
-    } catch (error) {
-        console.error("❌ Lokale Daten beschädigt:", error);
-    }
-    return false;
-}
-
-// ===================================================================
-// AUTO-SYNC FUNKTIONEN
-// ===================================================================
-
 function startAutoSync() {
-    console.log("⏰ Starte Auto-Sync (alle 15 Sekunden)");
-    
-    if (syncInterval) {
-        clearInterval(syncInterval);
-    }
-    
-    syncInterval = setInterval(async () => {
-        if (isOnline && !isSyncing) {
-            await checkForUpdates();
-        }
-    }, 15000); // Alle 15 Sekunden
-}
-
-function stopAutoSync() {
-    if (syncInterval) {
-        clearInterval(syncInterval);
-        syncInterval = null;
-        console.log("⏹️ Auto-Sync gestoppt");
-    }
+    if (syncInterval) clearInterval(syncInterval);
+    syncInterval = setInterval(checkUpdates, 10000); // Alle 10 Sekunden
+    console.log("⏰ Auto-Sync gestartet");
 }
 
 // ===================================================================
 // UI FUNKTIONEN
 // ===================================================================
 
-function createItemCards() {
-    console.log("🎯 === ERSTELLE ITEM CARDS ===");
+function renderItems() {
+    console.log("🎨 Rendere Items");
     
-    const itemsGrid = document.getElementById('itemsGrid');
-    if (!itemsGrid) {
-        console.error("❌ itemsGrid nicht gefunden!");
-        return;
-    }
+    const grid = document.getElementById('itemsGrid');
+    if (!grid) return;
     
-    itemsGrid.innerHTML = '';
+    grid.innerHTML = '';
     
-    if (!data.items || data.items.length === 0) {
-        console.error("❌ Keine Items verfügbar!");
-        itemsGrid.innerHTML = '<div style="color: red; padding: 20px; border: 2px solid red;">❌ FEHLER: Keine Items verfügbar!</div>';
-        return;
-    }
-    
-    data.items.forEach((item, index) => {
-        console.log(`📦 Erstelle Item Card ${index + 1}: ${item.name}`);
+    data.items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        if (item.persons.length > 0) card.classList.add('taken');
         
-        const itemCard = document.createElement('div');
-        itemCard.classList.add('item-card');
+        const personsHtml = item.persons.map(person => `
+            <div class="person-entry">
+                <span class="person-name">${person}</span>
+                <button class="btn-small btn-unregister" onclick="removePerson('${item.id}', '${person}', false)">X</button>
+            </div>
+        `).join('');
         
-        if (item.persons && item.persons.length > 0) {
-            itemCard.classList.add('taken');
-        }
-
-        let personsListHtml = '';
-        if (item.persons && Array.isArray(item.persons)) {
-            personsListHtml = item.persons.map(person => `
-                <div class="person-entry">
-                    <span class="person-name">${person}</span>
-                    <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id}', '${person}', false)">X</button>
-                </div>
-            `).join('');
-        }
-
-        itemCard.innerHTML = `
+        card.innerHTML = `
             <div class="item-name">${item.name}</div>
-            ${item.persons && item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
-            <div class="persons-list">${personsListHtml}</div>
+            ${item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
+            <div class="persons-list">${personsHtml}</div>
             <div class="item-controls">
                 <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
-                <button class="btn btn-take" onclick="registerPerson('${item.id}', false)">Eintragen</button>
+                <button class="btn btn-take" onclick="addPerson('${item.id}', false)">Eintragen</button>
             </div>
         `;
         
-        itemsGrid.appendChild(itemCard);
-
-        const inputElement = itemCard.querySelector(`#input-${item.id}`);
-        if (inputElement) {
-            inputElement.addEventListener('keypress', function(event) {
-                if (event.key === 'Enter') {
-                    registerPerson(item.id, false);
-                }
+        grid.appendChild(card);
+        
+        // Enter-Taste
+        const input = card.querySelector(`#input-${item.id}`);
+        if (input) {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addPerson(item.id, false);
             });
         }
     });
     
-    console.log("✅ Item Cards erfolgreich erstellt");
+    console.log("✅ Items gerendert");
 }
 
-function createAdditionalItemCards() {
-    console.log("🎯 === ERSTELLE ADDITIONAL ITEM CARDS ===");
+function renderAdditionalItems() {
+    console.log("🎨 Rendere Additional Items");
     
-    const additionalItemsGrid = document.getElementById('additionalItemsGrid');
-    if (!additionalItemsGrid) {
-        console.error("❌ additionalItemsGrid nicht gefunden!");
-        return;
-    }
+    const grid = document.getElementById('additionalItemsGrid');
+    if (!grid) return;
     
-    additionalItemsGrid.innerHTML = '';
-
-    if (data.additionalItems && data.additionalItems.length > 0) {
-        data.additionalItems.forEach(item => {
-            const itemCard = document.createElement('div');
-            itemCard.classList.add('additional-item-card');
-
-            let personsListHtml = '';
-            if (item.persons && Array.isArray(item.persons)) {
-                personsListHtml = item.persons.map(person => `
-                    <div class="person-entry">
-                        <span class="person-name">${person}</span>
-                        <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id}', '${person}', true)">X</button>
-                    </div>
-                `).join('');
-            }
-
-            itemCard.innerHTML = `
-                <div class="additional-item-name">${item.name}</div>
-                ${item.persons && item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
-                <div class="persons-list">${personsListHtml}</div>
-                <div class="item-controls">
-                    <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
-                    <button class="btn btn-take" onclick="registerPerson('${item.id}', true)">Eintragen</button>
-                </div>
-            `;
-            additionalItemsGrid.appendChild(itemCard);
-
-            const inputElement = itemCard.querySelector(`#input-${item.id}`);
-            if (inputElement) {
-                inputElement.addEventListener('keypress', function(event) {
-                    if (event.key === 'Enter') {
-                        registerPerson(item.id, true);
-                    }
-                });
-            }
-        });
-    }
+    grid.innerHTML = '';
     
-    console.log("✅ Additional Item Cards erfolgreich erstellt");
-}
-
-// ===================================================================
-// ANIMATIONEN UND EFFEKTE
-// ===================================================================
-
-function showThankYouEffect(message) {
-    const overlay = document.getElementById('thankYouOverlay');
-    const thankYouText = overlay.querySelector('.thank-you-text');
-    const thankYouSubtext = overlay.querySelector('.thank-you-subtext');
-
-    thankYouText.textContent = getRandomReaction(thankYouReactions);
-    thankYouSubtext.textContent = message || "Vielen Dank für Ihre Anmeldung!";
-
-    overlay.classList.add('show');
-    createParticles(100, overlay);
-    createMatrixEffect(overlay);
-    createScanlineEffect(overlay);
-
-    setTimeout(() => {
-        overlay.classList.remove('show');
-        overlay.innerHTML = `<div class="thank-you-content">
-                                <div class="retro-grid"></div>
-                                <div class="laser-lines">
-                                    <div class="laser-line" style="width: 300px; animation-delay: 0s;"></div>
-                                    <div class="laser-line" style="width: 400px; animation-delay: 0.3s;"></div>
-                                    <div class="laser-line" style="width: 250px; animation-delay: 0.6s;"></div>
-                                </div>
-                                <div class="thank-you-text">DANKE!</div>
-                                <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
-                            </div>`;
-    }, 4000);
-}
-
-function showGoodbyeEffect(message) {
-    const overlay = document.getElementById('thankYouOverlay');
-    const thankYouText = overlay.querySelector('.thank-you-text');
-    const thankYouSubtext = overlay.querySelector('.thank-you-subtext');
-
-    thankYouText.textContent = getRandomReaction(goodbyeReactions);
-    thankYouSubtext.textContent = message || "Auf Wiedersehen!";
-
-    overlay.classList.add('show');
-    createParticles(100, overlay, 'orange');
-    createMatrixEffect(overlay, 'orange');
-    createScanlineEffect(overlay, 'orange');
-
-    setTimeout(() => {
-        overlay.classList.remove('show');
-        overlay.innerHTML = `<div class="thank-you-content">
-                                <div class="retro-grid"></div>
-                                <div class="laser-lines">
-                                    <div class="laser-line" style="width: 300px; animation-delay: 0s;"></div>
-                                    <div class="laser-line" style="width: 400px; animation-delay: 0.3s;"></div>
-                                    <div class="laser-line" style="width: 250px; animation-delay: 0.6s;"></div>
-                                </div>
-                                <div class="thank-you-text">DANKE!</div>
-                                <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
-                            </div>`;
-    }, 4000);
-}
-
-function createParticles(count, container, colorClass = '') {
-    for (let i = 0; i < count; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        if (colorClass) particle.classList.add(`particle-${colorClass}`);
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.top = `${Math.random() * 100}%`;
-        particle.style.animationDelay = `${Math.random() * 2}s`;
-        container.appendChild(particle);
-    }
-}
-
-function createMatrixEffect(container, colorClass = '') {
-    const matrixEffect = document.createElement('div');
-    matrixEffect.classList.add('matrix-effect');
-    container.appendChild(matrixEffect);
-
-    for (let i = 0; i < 30; i++) {
-        const line = document.createElement('div');
-        line.classList.add('matrix-line');
-        if (colorClass) line.classList.add(`matrix-line-${colorClass}`);
-        line.style.left = `${Math.random() * 100}%`;
-        line.style.animationDuration = `${2 + Math.random() * 3}s`;
-        line.style.animationDelay = `${Math.random() * 2}s`;
-        matrixEffect.appendChild(line);
-    }
-}
-
-function createScanlineEffect(container, colorClass = '') {
-    const scanline = document.createElement('div');
-    scanline.classList.add('scanline');
-    if (colorClass) scanline.classList.add(`scanline-${colorClass}`);
-    scanline.style.animationDuration = `${1 + Math.random() * 2}s`;
-    container.appendChild(scanline);
+    data.additionalItems.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'additional-item-card';
+        
+        const personsHtml = item.persons.map(person => `
+            <div class="person-entry">
+                <span class="person-name">${person}</span>
+                <button class="btn-small btn-unregister" onclick="removePerson('${item.id}', '${person}', true)">X</button>
+            </div>
+        `).join('');
+        
+        card.innerHTML = `
+            <div class="additional-item-name">${item.name}</div>
+            ${item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
+            <div class="persons-list">${personsHtml}</div>
+            <div class="item-controls">
+                <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
+                <button class="btn btn-take" onclick="addPerson('${item.id}', true)">Eintragen</button>
+            </div>
+        `;
+        
+        grid.appendChild(card);
+        
+        // Enter-Taste
+        const input = card.querySelector(`#input-${item.id}`);
+        if (input) {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addPerson(item.id, true);
+            });
+        }
+    });
+    
+    console.log("✅ Additional Items gerendert");
 }
 
 function createStars() {
-    const starsContainer = document.querySelector('.stars');
-    for (let i = 0; i < 100; i++) {
+    const container = document.querySelector('.stars');
+    for (let i = 0; i < 150; i++) {
         const star = document.createElement('div');
-        star.classList.add('star');
-        star.style.top = `${Math.random() * 100}%`;
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.animationDelay = `${Math.random() * 2}s`;
-        starsContainer.appendChild(star);
+        star.className = 'star';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        star.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+        container.appendChild(star);
     }
 }
 
 function createNeonLines() {
-    const neonLinesContainer = document.querySelector('.neon-lines');
-    for (let i = 0; i < 5; i++) {
+    const container = document.querySelector('.neon-lines');
+    for (let i = 0; i < 8; i++) {
         const line = document.createElement('div');
-        line.classList.add('neon-line');
-        line.style.top = `${Math.random() * 100}%`;
-        line.style.animationDelay = `${Math.random() * 2}s`;
-        line.style.animationDuration = `${3 + Math.random() * 2}s`;
-        neonLinesContainer.appendChild(line);
+        line.className = 'neon-line';
+        line.style.top = Math.random() * 100 + '%';
+        line.style.animationDelay = Math.random() * 4 + 's';
+        line.style.animationDuration = (4 + Math.random() * 3) + 's';
+        line.style.width = (200 + Math.random() * 400) + 'px';
+        container.appendChild(line);
     }
 }
 
-// ===================================================================
-// PERSON EINTRAGEN/AUSTRAGEN
-// ===================================================================
-
-async function registerPerson(itemId, isAdditional) {
-    console.log(`👤 === REGISTRIERE PERSON: ${itemId} (Additional: ${isAdditional}) ===`);
+function showThankYou(message) {
+    const overlay = document.getElementById('thankYouOverlay');
+    const text = overlay.querySelector('.thank-you-text');
+    const subtext = overlay.querySelector('.thank-you-subtext');
     
-    const inputElement = document.getElementById(`input-${itemId}`);
-    const personName = inputElement.value.trim();
-
-    if (!personName) {
-        alert('Bitte gib deinen Namen ein!');
-        return;
-    }
-
-    let itemArray = isAdditional ? data.additionalItems : data.items;
-    let item = itemArray.find(i => i.id === itemId);
-
-    if (!item) {
-        console.error(`❌ Item mit ID ${itemId} nicht gefunden!`);
-        return;
-    }
-
-    // Prüfe ob Name bereits existiert
-    const existingPerson = item.persons.find(p => p.toLowerCase() === personName.toLowerCase());
-    if (existingPerson) {
-        alert('Dieser Name ist bereits eingetragen!');
-        return;
-    }
+    text.textContent = getRandomReaction(thankYouReactions);
+    subtext.textContent = message;
     
-    // Füge Person hinzu
-    item.persons.push(personName);
-    inputElement.value = '';
+    overlay.classList.add('show');
     
-    console.log(`✅ Person "${personName}" zu "${item.name}" hinzugefügt`);
-    
-    // Speichere sofort
-    await saveDataToJSONBin();
-    
-    // Aktualisiere UI
-    createItemCards();
-    createAdditionalItemCards();
-    
-    showThankYouEffect(`"${personName}" erfolgreich eingetragen!`);
+    setTimeout(() => {
+        overlay.classList.remove('show');
+    }, 3000);
 }
 
-async function unregisterPerson(itemId, personName, isAdditional) {
-    console.log(`👤 === ENTFERNE PERSON: ${personName} von ${itemId} ===`);
+function showGoodbye(message) {
+    const overlay = document.getElementById('thankYouOverlay');
+    const text = overlay.querySelector('.thank-you-text');
+    const subtext = overlay.querySelector('.thank-you-subtext');
     
-    let itemArray = isAdditional ? data.additionalItems : data.items;
-    let item = itemArray.find(i => i.id === itemId);
+    text.textContent = getRandomReaction(goodbyeReactions);
+    subtext.textContent = message;
+    
+    overlay.classList.add('show');
+    
+    setTimeout(() => {
+        overlay.classList.remove('show');
+    }, 3000);
+}
 
-    if (!item) {
-        console.error(`❌ Item mit ID ${itemId} nicht gefunden!`);
+// ===================================================================
+// HAUPTFUNKTIONEN
+// ===================================================================
+
+async function addPerson(itemId, isAdditional) {
+    console.log(`👤 Füge Person hinzu: ${itemId}`);
+    
+    const input = document.getElementById(`input-${itemId}`);
+    const name = input.value.trim();
+    
+    if (!name) {
+        alert('Bitte Name eingeben!');
         return;
     }
+    
+    const items = isAdditional ? data.additionalItems : data.items;
+    const item = items.find(i => i.id === itemId);
+    
+    if (!item) {
+        console.error(`Item ${itemId} nicht gefunden`);
+        return;
+    }
+    
+    if (item.persons.includes(name)) {
+        alert('Name bereits vorhanden!');
+        return;
+    }
+    
+    item.persons.push(name);
+    input.value = '';
+    
+    await saveData();
+    renderItems();
+    renderAdditionalItems();
+    
+    showThankYou(`${name} erfolgreich eingetragen!`);
+}
 
-    if (confirm(`Möchtest du "${personName}" wirklich von "${item.name}" austragen?`)) {
-        // Entferne Person
-        item.persons = item.persons.filter(p => p !== personName);
+async function removePerson(itemId, name, isAdditional) {
+    console.log(`👤 Entferne Person: ${name} von ${itemId}`);
+    
+    const items = isAdditional ? data.additionalItems : data.items;
+    const item = items.find(i => i.id === itemId);
+    
+    if (!item) return;
+    
+    if (confirm(`${name} wirklich austragen?`)) {
+        item.persons = item.persons.filter(p => p !== name);
         
-        console.log(`✅ Person "${personName}" von "${item.name}" entfernt`);
+        await saveData();
+        renderItems();
+        renderAdditionalItems();
         
-        // Speichere sofort
-        await saveDataToJSONBin();
-        
-        // Aktualisiere UI
-        createItemCards();
-        createAdditionalItemCards();
-        
-        showGoodbyeEffect(`"${personName}" erfolgreich ausgetragen!`);
+        showGoodbye(`${name} erfolgreich ausgetragen!`);
     }
 }
 
 async function addNewItem() {
-    console.log("➕ === FÜGE NEUES ITEM HINZU ===");
+    console.log("➕ Füge neues Item hinzu");
     
-    const newItemInput = document.getElementById('newItemInput');
-    const newItemName = newItemInput.value.trim();
-
-    if (!newItemName) {
-        alert('Bitte gib einen Namen für den neuen Beitrag ein!');
+    const input = document.getElementById('newItemInput');
+    const name = input.value.trim();
+    
+    if (!name) {
+        alert('Bitte Name eingeben!');
         return;
     }
-
-    const newItemId = newItemName.toLowerCase().replace(/[^a-z0-9]/g, '-');
     
-    // Prüfe ob Item bereits existiert
-    const existingItem = data.items.find(item => item.id === newItemId) || 
-                        data.additionalItems.find(item => item.id === newItemId);
-
-    if (existingItem) {
-        alert('Dieser Beitrag existiert bereits!');
+    const id = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+    
+    // Prüfe ob existiert
+    const exists = data.items.some(i => i.id === id) || data.additionalItems.some(i => i.id === id);
+    if (exists) {
+        alert('Bereits vorhanden!');
         return;
     }
-
-    // Füge neues Item hinzu
+    
     data.additionalItems.push({
-        id: newItemId,
-        name: newItemName,
+        id: id,
+        name: name,
         persons: []
     });
     
-    newItemInput.value = '';
+    input.value = '';
     
-    console.log(`✅ Neues Item "${newItemName}" hinzugefügt`);
+    await saveData();
+    renderAdditionalItems();
     
-    // Speichere sofort
-    await saveDataToJSONBin();
-    
-    // Aktualisiere UI
-    createAdditionalItemCards();
-    
-    showThankYouEffect(`"${newItemName}" erfolgreich hinzugefügt!`);
+    showThankYou(`${name} hinzugefügt!`);
 }
 
 // ===================================================================
@@ -2025,166 +1338,91 @@ async function addNewItem() {
 // ===================================================================
 
 function adminLogin() {
-    const passwordInput = document.getElementById('adminPassword');
-    if (passwordInput.value === ADMIN_PASSWORD) {
+    const input = document.getElementById('adminPassword');
+    if (input.value === ADMIN_PASSWORD) {
         document.getElementById('adminLogin').style.display = 'none';
         document.getElementById('adminControls').style.display = 'block';
-        document.getElementById('exportSection').style.display = 'block';
-        console.log("✅ Admin Login erfolgreich");
+        console.log("✅ Admin Login");
     } else {
         alert('Falsches Passwort!');
     }
-    passwordInput.value = '';
+    input.value = '';
 }
 
 function adminLogout() {
     document.getElementById('adminLogin').style.display = 'block';
     document.getElementById('adminControls').style.display = 'none';
-    document.getElementById('exportSection').style.display = 'none';
-    console.log("✅ Admin Logout erfolgreich");
+    console.log("✅ Admin Logout");
 }
 
 function exportToCSV() {
-    console.log("📊 === CSV EXPORT ===");
+    let csv = "data:text/csv;charset=utf-8,Kategorie,Beitrag,Name,Anzahl\n";
     
-    let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Kategorie,Beitrag,Name,Anzahl_Eingetragen\n";
-
     data.items.forEach(item => {
         if (item.persons.length > 0) {
             item.persons.forEach(person => {
-                csvContent += `Benötigt,"${item.name}","${person}",${item.persons.length}\n`;
+                csv += `Standard,"${item.name}","${person}",${item.persons.length}\n`;
             });
         } else {
-            csvContent += `Benötigt,"${item.name}",,0\n`;
+            csv += `Standard,"${item.name}",,0\n`;
         }
     });
-
+    
     data.additionalItems.forEach(item => {
         if (item.persons.length > 0) {
             item.persons.forEach(person => {
-                csvContent += `Weitere Beiträge,"${item.name}","${person}",${item.persons.length}\n`;
+                csv += `Zusätzlich,"${item.name}","${person}",${item.persons.length}\n`;
             });
         } else {
-            csvContent += `Weitere Beiträge,"${item.name}",,0\n`;
+            csv += `Zusätzlich,"${item.name}",,0\n`;
         }
     });
-
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "party_beitraege.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
     
-    showThankYouEffect("CSV Export erfolgreich!");
-}
-
-function exportToExcel() {
-    exportToCSV(); // Vereinfacht
+    const link = document.createElement('a');
+    link.setAttribute('href', encodeURI(csv));
+    link.setAttribute('download', 'party_beitraege.csv');
+    link.click();
+    
+    showThankYou("CSV Export erfolgreich!");
 }
 
 async function forceSync() {
-    console.log("🔄 === FORCE SYNC ===");
+    console.log("🔄 Force Sync");
     
-    // Stoppe Auto-Sync temporär
-    stopAutoSync();
+    if (syncInterval) clearInterval(syncInterval);
     
-    try {
-        // Erst speichern, dann laden
-        await saveDataToJSONBin();
-        await loadDataFromJSONBin();
-        
-        // UI aktualisieren
-        createItemCards();
-        createAdditionalItemCards();
-        
-        showThankYouEffect("Synchronisation erfolgreich!");
-    } catch (error) {
-        console.error("❌ Force Sync Fehler:", error);
-        alert("Synchronisation fehlgeschlagen!");
-    }
+    await saveData();
+    await loadData();
     
-    // Auto-Sync wieder starten
+    renderItems();
+    renderAdditionalItems();
+    
     startAutoSync();
-}
-
-function showShareLink() {
-    const currentUrl = window.location.href;
-    const textArea = document.createElement('textarea');
-    textArea.value = currentUrl;
-    document.body.appendChild(textArea);
-    textArea.select();
     
-    try {
-        document.execCommand('copy');
-        showThankYouEffect("Link kopiert!");
-    } catch (err) {
-        alert(`Link: ${currentUrl}`);
-    }
-    
-    document.body.removeChild(textArea);
+    showThankYou("Sync erfolgreich!");
 }
-
-// ===================================================================
-// NOTFALL UND DEBUG FUNKTIONEN
-// ===================================================================
-
-window.forceCreateItems = function() {
-    console.log("🚨 NOTFALL: Force Create Items");
-    createItemCards();
-    createAdditionalItemCards();
-}
-
-window.forceDebug = function() {
-    debugData();
-}
-
-window.forceSync = forceSync;
-
-window.testConnection = testJSONBinConnection;
 
 // ===================================================================
 // INITIALISIERUNG
 // ===================================================================
 
 document.addEventListener('DOMContentLoaded', async function() {
-    console.log("🚀 ========================================");
-    console.log("🚀 DOM LOADED - PARTY BEITRÄGE APP START");
-    console.log("🚀 ========================================");
+    console.log("🚀 DOM geladen - starte App");
     
     try {
-        // Prüfe HTML-Elemente
-        const itemsGrid = document.getElementById('itemsGrid');
-        if (!itemsGrid) {
-            console.error("❌ KRITISCH: itemsGrid nicht gefunden!");
-            alert("KRITISCHER FEHLER: HTML-Struktur unvollständig!");
-            return;
-        }
-        
-        // UI-Grundlagen erstellen
+        // Grundfunktionen
         createStars();
         createNeonLines();
         
-        // Teste Verbindung
-        console.log("🔌 Teste JSONBin-Verbindung...");
-        const connectionOk = await testJSONBinConnection();
-        
-        if (connectionOk) {
-            console.log("✅ Verbindung erfolgreich!");
-        } else {
-            console.warn("⚠️ Verbindung fehlgeschlagen - verwende lokalen Modus");
-        }
+        // Status setzen
+        updateStatus('syncing', '🔄 Initialisiere...', 'Lade Daten');
         
         // Daten laden
-        console.log("📥 Lade Daten...");
-        await loadDataFromJSONBin();
+        await loadData();
         
-        // UI erstellen
-        console.log("🎨 Erstelle UI...");
-        createItemCards();
-        createAdditionalItemCards();
+        // UI rendern
+        renderItems();
+        renderAdditionalItems();
         
         // Auto-Sync starten
         startAutoSync();
@@ -2192,60 +1430,33 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Event Listeners
         const newItemInput = document.getElementById('newItemInput');
         if (newItemInput) {
-            newItemInput.addEventListener('keypress', function(event) {
-                if (event.key === 'Enter') {
-                    addNewItem();
-                }
+            newItemInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addNewItem();
             });
         }
         
         const adminPassword = document.getElementById('adminPassword');
         if (adminPassword) {
-            adminPassword.addEventListener('keypress', function(event) {
-                if (event.key === 'Enter') {
-                    adminLogin();
-                }
+            adminPassword.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') adminLogin();
             });
         }
         
-        // Admin Focus-Effekte
-        const adminInput = document.getElementById('adminPassword');
-        const adminGlow = document.querySelector('.admin-input-glow');
-        if (adminInput && adminGlow) {
-            adminInput.addEventListener('focus', function() {
-                adminGlow.style.opacity = '1';
-            });
-            adminInput.addEventListener('blur', function() {
-                adminGlow.style.opacity = '0';
-            });
-        }
-        
-        console.log("✅ ========================================");
-        console.log("✅ APP ERFOLGREICH INITIALISIERT!");
-        console.log("✅ ========================================");
-        
-        // Debug-Info nach 3 Sekunden
-        setTimeout(() => {
-            console.log("🔍 === 3-SEKUNDEN DEBUG ===");
-            debugData();
-            const grid = document.getElementById('itemsGrid');
-            console.log("📊 itemsGrid Kinder:", grid ? grid.children.length : "NICHT GEFUNDEN");
-            
-            if (grid && grid.children.length === 0) {
-                console.warn("⚠️ KEINE ITEMS ANGEZEIGT!");
-                alert("WARNUNG: Keine Items sichtbar! Öffne die Entwicklertools (F12) und schaue in die Konsole.");
-            }
-        }, 3000);
+        console.log("✅ App erfolgreich gestartet");
         
     } catch (error) {
-        console.error("💥 KRITISCHER INITIALISIERUNGSFEHLER:", error);
-        alert("KRITISCHER FEHLER: " + error.message);
+        console.error("❌ Initialisierungsfehler:", error);
+        updateStatus('disconnected', '❌ Fehler beim Laden', 'Versuche es später erneut');
     }
 });
 
-// Cleanup beim Verlassen der Seite
-window.addEventListener('beforeunload', function() {
-    stopAutoSync();
+// Cleanup
+window.addEventListener('beforeunload', () => {
+    if (syncInterval) clearInterval(syncInterval);
 });
 
-console.log("✅ === SCRIPT VOLLSTÄNDIG GELADEN ===");
+console.log("✅ Script geladen");
+</script>
+
+</body>
+</html>
