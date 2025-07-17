@@ -54,6 +54,7 @@
             animation: shoot-laser 2s linear forwards;
             opacity: 0.8;
             pointer-events: none;
+            animation-play-state: running;
         }
 
         @keyframes twinkle {
@@ -202,6 +203,15 @@
         @keyframes pulse-plus {
             0% { transform: scale(1); opacity: 1; }
             100% { transform: scale(1.05); opacity: 0.9; }
+        }
+        
+        .hint {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: #00ffff;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            margin-bottom: 20px;
+            opacity: 0.9;
         }
         
         .additional-section {
@@ -921,6 +931,7 @@
             .admin-title { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
             .laser-beam { height: clamp(0.5px, 1vw, 1px); }
             .shooting-star-laser { height: clamp(50px, 10vw, 100px); }
+            .hint { font-size: clamp(0.8rem, 1.8vw, 1rem); }
         }
         @media (max-width: 480px) {
             .title { font-size: clamp(1.8rem, 5.5vw, 2rem); letter-spacing: 0px; }
@@ -941,6 +952,7 @@
             .additional-item-card { padding: 15px; }
             .laser-beam { height: clamp(0.3px, 0.8vw, 0.5px); }
             .shooting-star-laser { height: clamp(30px, 8vw, 50px); }
+            .hint { font-size: clamp(0.7rem, 1.6vw, 0.9rem); }
         }
     </style>
 </head>
@@ -967,6 +979,7 @@
         </div>
 
         <div class="section-title">🎯 Benötigte Partybeiträge</div>
+        <div class="hint">📝 **Hinweis:** Du kannst ganz unten auch eigene Partybeiträge vorschlagen! 👇</div>
         <div class="items-grid" id="itemsGrid"></div>
 
         <div class="additional-section">
@@ -1205,7 +1218,7 @@
         // Admin-Logik
         function adminLogin() {
             const password = document.getElementById('adminPassword').value;
-            if (password === "tojomajo") {
+            if (password === "admin") {
                 isAdminLoggedIn = true;
                 document.getElementById('adminLogin').style.display = 'none';
                 document.getElementById('adminControls').style.display = 'block';
@@ -1360,13 +1373,13 @@
                 star.style.animationDelay = `${Math.random() * 2}s`;
                 stars.appendChild(star);
 
-                // Lasersternschnuppen hinzufügen
-                if (Math.random() < 0.2) { // 20% Chance für eine Schnuppe pro Stern
+                // Sofortige Lasersternschnuppen beim Laden
+                if (Math.random() < 0.1) { // 10% Chance für eine sofortige Schnuppe
                     const shootingStar = document.createElement('div');
                     shootingStar.className = 'shooting-star-laser';
                     shootingStar.style.top = `${Math.random() * 100}%`;
                     shootingStar.style.left = `${Math.random() * 100}%`;
-                    shootingStar.style.animationDelay = `${Math.random() * 5}s`;
+                    shootingStar.style.animationDelay = '0s';
                     stars.appendChild(shootingStar);
                     setTimeout(() => shootingStar.remove(), 2000);
                 }
@@ -1389,17 +1402,19 @@
             createStars();
             createNeonLines();
             initializeFirebase();
-            // Kontinuierliche Erzeugung von Lasersternschnuppen
-            setInterval(() => {
-                const stars = document.querySelector('.stars');
-                const shootingStar = document.createElement('div');
-                shootingStar.className = 'shooting-star-laser';
-                shootingStar.style.top = `${Math.random() * 100}%`;
-                shootingStar.style.left = `${Math.random() * 100}%`;
-                shootingStar.style.animationDelay = '0s';
-                stars.appendChild(shootingStar);
-                setTimeout(() => shootingStar.remove(), 2000);
-            }, 3000); // Alle 3 Sekunden eine neue Schnuppe
+            // Kontinuierliche Erzeugung von Lasersternschnuppen mit minimalem Delay
+            setTimeout(() => {
+                setInterval(() => {
+                    const stars = document.querySelector('.stars');
+                    const shootingStar = document.createElement('div');
+                    shootingStar.className = 'shooting-star-laser';
+                    shootingStar.style.top = `${Math.random() * 100}%`;
+                    shootingStar.style.left = `${Math.random() * 100}%`;
+                    shootingStar.style.animationDelay = '0s';
+                    stars.appendChild(shootingStar);
+                    setTimeout(() => shootingStar.remove(), 2000);
+                }, 2000); // Alle 2 Sekunden eine neue Schnuppe
+            }, 100); // Kleiner Initial-Delay von 100ms
             firebase.database().ref('.info/connected').on('value', (snap) => {
                 const status = document.querySelector('.drive-status');
                 status.className = 'drive-status' + (snap.val() ? ' connected' : ' disconnected');
