@@ -1,4 +1,11 @@
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
+Nudelsalat
+Kartoffelsalat
+Kräuterbutter
+Nutella, Erdnussbutter
+Kuchen
+Marmelade, Honig
+Aufschnitt (Wurst, Käse)
+Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <!DOCTYPE html>
 
 <html lang="de">
@@ -1387,10 +1394,7 @@
             width: 1px;
             height: 12px;
         }
-        .progress-bar,
-        .progress-text {
-            display: none !important;
-        }
+    }
 </style>
 </head>
 <body>
@@ -1511,7 +1515,7 @@
     const thankYouReactions = [
         "🙏 Daaaaaankööö! 🙏",
         "💕 Du bist die/der Geilste! 💕",
-        "💣 Hammer-fett-bombe-krass! 💣",
+        "💣 Hammerfettbombekrass! 💣",
         "🥰 Echt?! Thnx!!! 🥰",
         "🛟 Du bist die Rettung 🛟",
         "❤️ Ich hasse alle: Außer DICH! ❤️",
@@ -1709,7 +1713,7 @@
                     <div class="item-controls">
                         <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
                         <button class="btn btn-take" onclick="registerPerson('${item.id}', false)">Eintragen</button>
-                    </div>` : `<div class="complete-message">Vielen Dank!</div>`}
+                    </div>` : `<div class="complete-message">Vielen Dank! Genug Leute haben sich eingetragen.</div>`}
             `;
             itemsGrid.appendChild(itemCard);
 
