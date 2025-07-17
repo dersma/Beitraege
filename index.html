@@ -205,6 +205,15 @@
             100% { transform: scale(1.05); opacity: 0.9; }
         }
         
+        .hint {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: #00ffff;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
         .additional-section {
             margin-top: 50px;
         }
@@ -922,6 +931,7 @@
             .admin-title { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
             .laser-beam { height: clamp(0.5px, 1vw, 1px); }
             .shooting-star-laser { height: clamp(50px, 10vw, 100px); }
+            .hint { font-size: clamp(0.8rem, 1.8vw, 1rem); }
         }
         @media (max-width: 480px) {
             .title { font-size: clamp(1.8rem, 5.5vw, 2rem); letter-spacing: 0px; }
@@ -942,6 +952,7 @@
             .additional-item-card { padding: 15px; }
             .laser-beam { height: clamp(0.3px, 0.8vw, 0.5px); }
             .shooting-star-laser { height: clamp(30px, 8vw, 50px); }
+            .hint { font-size: clamp(0.7rem, 1.6vw, 0.9rem); }
         }
     </style>
 </head>
@@ -968,6 +979,7 @@
         </div>
 
         <div class="section-title">🎯 Benötigte Partybeiträge</div>
+        <div class="hint">📝 **Hinweis:** Du kannst ganz unten auch eigene Partybeiträge vorschlagen! 👇</div>
         <div class="items-grid" id="itemsGrid"></div>
 
         <div class="additional-section">
