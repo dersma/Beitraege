@@ -1022,19 +1022,42 @@
             additionalItems: []
         };
 
-        const dbRef = firebase.initializeApp(firebaseConfig).database().ref('partyData');
-        dbRef.on('value', (snapshot) => {
-            const firebaseData = snapshot.val();
-            if (firebaseData) data = firebaseData;
-            else saveData();
-            createItemCards();
-            createAdditionalItemCards();
-        });
-
-        function saveData() {
-            dbRef.set(data).catch(error => console.error('Fehler beim Speichern:', error));
+        // Firebase initialisieren und Daten laden
+        function initializeFirebase() {
+            app = firebase.initializeApp(firebaseConfig);
+            database = app.database();
+            const dbRef = database.ref('partyData');
+            dbRef.on('value', (snapshot) => {
+                const firebaseData = snapshot.val();
+                if (firebaseData) {
+                    data = firebaseData;
+                    console.log('Daten aus Firebase geladen:', data); // Debugging
+                } else {
+                    saveData();
+                }
+                updateDisplay();
+            }, (error) => {
+                console.error('Fehler beim Laden der Daten:', error);
+                updateDisplay(); // Fallback auf lokale Daten
+            });
         }
 
+        // Daten speichern
+        function saveData() {
+            if (database) {
+                database.ref('partyData').set(data)
+                    .then(() => console.log('Daten erfolgreich gespeichert'))
+                    .catch(error => console.error('Fehler beim Speichern:', error));
+            }
+        }
+
+        // Anzeige aktualisieren
+        function updateDisplay() {
+            createItemCards();
+            createAdditionalItemCards();
+        }
+
+        // Item-Karten erstellen
         function createItemCards() {
             const itemsGrid = document.getElementById('itemsGrid');
             itemsGrid.innerHTML = '';
@@ -1061,6 +1084,7 @@
             });
         }
 
+        // Zusätzliche Item-Karten erstellen
         function createAdditionalItemCards() {
             const additionalItemsGrid = document.getElementById('additionalItemsGrid');
             additionalItemsGrid.innerHTML = '';
@@ -1086,6 +1110,7 @@
             });
         }
 
+        // Person eintragen
         function registerPerson(itemId, isAdditional) {
             const input = document.getElementById(`input-${itemId}`);
             const name = input.value.trim();
@@ -1101,6 +1126,7 @@
             }
         }
 
+        // Person austragen
         function unregisterPerson(itemId, personName, isAdditional) {
             if (!isAdminLoggedIn) {
                 const items = isAdditional ? data.additionalItems : data.items;
@@ -1111,6 +1137,7 @@
             }
         }
 
+        // Neues Item hinzufügen
         function addNewItem() {
             const input = document.getElementById('newItemInput');
             const name = input.value.trim();
@@ -1127,6 +1154,7 @@
             if (event.key === 'Enter') addNewItem();
         });
 
+        // Admin-Logik
         function adminLogin() {
             const password = document.getElementById('adminPassword').value;
             if (password === "admin") {
@@ -1145,23 +1173,17 @@
             document.getElementById('adminLogin').style.display = 'block';
         }
 
+        // Firebase-Verbindung herstellen
         function connectToFirebase() {
             if (!app) {
-                app = firebase.initializeApp(firebaseConfig);
-                database = app.database();
+                initializeFirebase();
                 const status = document.querySelector('.drive-status');
                 status.className = 'drive-status connected';
                 status.innerHTML = '<span class="status-text">Verbunden mit Firebase</span>';
-                dbRef.on('value', (snapshot) => {
-                    const firebaseData = snapshot.val();
-                    if (firebaseData) data = firebaseData;
-                    else saveData();
-                    createItemCards();
-                    createAdditionalItemCards();
-                });
             }
         }
 
+        // Export-Funktionen
         function exportToCSV() {
             let csv = "Kategorie,Beitrag,Personen\n";
             data.items.forEach(item => {
@@ -1181,17 +1203,10 @@
             alert('Neuer BIN generiert: ' + newBin);
         }
 
-        const thankYouMessages = [
-            "DANKE!", "Vielen Dank!", "Super!", "Danke schön!", "Toll!",
-            "Vielen Dank für deine Anmeldung!", "Fantastisch!", "Danke dir!",
-            "Großartig!", "Vielen Dank für deinen Beitrag!"
-        ];
-        const thankYouSubtexts = [
-            "Dein Beitrag ist registriert!", "Du rockst die Party!", "Alles klar!",
-            "Dein Name ist jetzt dabei!", "Party wird besser mit dir!",
-            "Du bist im Team!", "Perfekt!", "Danke fürs Mitmachen!",
-            "Du machst den Unterschied!", "Top Job!"
-        ];
+        // Danke- und Abschiedseffekte
+        const thankYouMessages = ["DANKE!", "Vielen Dank!", "Super!", "Danke schön!", "Toll!", "Vielen Dank für deine Anmeldung!", "Fantastisch!", "Danke dir!", "Großartig!", "Vielen Dank für deinen Beitrag!"];
+        const thankYouSubtexts = ["Dein Beitrag ist registriert!", "Du rockst die Party!", "Alles klar!", "Dein Name ist jetzt dabei!", "Party wird besser mit dir!", "Du bist im Team!", "Perfekt!", "Danke fürs Mitmachen!", "Du machst den Unterschied!", "Top Job!"];
+        const goodbyeMessages = ["Tschüss!", "Bis bald!", "Schade!", "Auf Wiedersehen!", "Ciao!", "Du bist raus!", "Okay, bis später!", "Danke trotzdem!", "Wir sehen uns!", "Take care!"];
 
         function showThankYouEffect() {
             if (!isAdminLoggedIn) {
@@ -1204,7 +1219,6 @@
                 overlay.classList.add('show');
                 setTimeout(() => overlay.classList.remove('show'), 4000);
 
-                // Partikel-Effekt
                 for (let i = 0; i < 20; i++) {
                     const particle = document.createElement('div');
                     particle.className = 'particle';
@@ -1217,12 +1231,6 @@
             }
         }
 
-        const goodbyeMessages = [
-            "Tschüss!", "Bis bald!", "Schade!", "Auf Wiedersehen!", "Ciao!",
-            "Du bist raus!", "Okay, bis später!", "Danke trotzdem!",
-            "Wir sehen uns!", "Take care!"
-        ];
-
         function showGoodbyeEffect() {
             if (!isAdminLoggedIn) {
                 const overlay = document.getElementById('thankYouOverlay');
@@ -1234,7 +1242,6 @@
                 overlay.classList.add('show');
                 setTimeout(() => overlay.classList.remove('show'), 4000);
 
-                // Orange Partikel-Effekt
                 for (let i = 0; i < 15; i++) {
                     const particle = document.createElement('div');
                     particle.className = 'particle particle-orange';
@@ -1247,6 +1254,7 @@
             }
         }
 
+        // Sterne und Neon-Linien erzeugen
         function createStars() {
             const stars = document.querySelector('.stars');
             for (let i = 0; i < 100; i++) {
@@ -1270,9 +1278,11 @@
             }
         }
 
+        // Initialisierung
         document.addEventListener('DOMContentLoaded', () => {
             createStars();
             createNeonLines();
+            initializeFirebase(); // Sofortige Initialisierung bei Ladevorgang
             firebase.database().ref('.info/connected').on('value', (snap) => {
                 const status = document.querySelector('.drive-status');
                 status.className = 'drive-status' + (snap.val() ? ' connected' : ' disconnected');
@@ -1280,5 +1290,25 @@
             });
         });
     </script>
+    <style>
+        /* CSS für Partikel-Effekte */
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #00ffff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particle-float 4s ease-out forwards;
+        }
+        .particle:nth-child(odd) { background: #ff00ff; animation-delay: 0.1s; }
+        .particle:nth-child(3n) { background: #ffffff; animation-delay: 0.2s; }
+        .particle-orange { background: #ffaa00; }
+        .particle-orange:nth-child(odd) { background: #ff6600; }
+        @keyframes particle-float {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-50px) scale(0.5); }
+        }
+    </style>
 </body>
 </html>
