@@ -1031,6 +1031,19 @@
                 const firebaseData = snapshot.val();
                 if (firebaseData) {
                     data = firebaseData;
+                    // Sicherstellen, dass alle items eine persons-Eigenschaft haben
+                    data.items = data.items.map(item => {
+                        if (!item.hasOwnProperty('persons') || !Array.isArray(item.persons)) {
+                            item.persons = [];
+                        }
+                        return item;
+                    });
+                    data.additionalItems = data.additionalItems.map(item => {
+                        if (!item.hasOwnProperty('persons') || !Array.isArray(item.persons)) {
+                            item.persons = [];
+                        }
+                        return item;
+                    });
                     console.log('Daten aus Firebase geladen:', data); // Debugging
                 } else {
                     saveData();
@@ -1062,6 +1075,10 @@
             const itemsGrid = document.getElementById('itemsGrid');
             itemsGrid.innerHTML = '';
             data.items.forEach(item => {
+                // Sicherstellen, dass persons ein Array ist
+                if (!Array.isArray(item.persons)) {
+                    item.persons = [];
+                }
                 const card = document.createElement('div');
                 card.className = 'item-card' + (item.persons.length > 0 ? ' taken' : '');
                 card.innerHTML = `
@@ -1089,6 +1106,10 @@
             const additionalItemsGrid = document.getElementById('additionalItemsGrid');
             additionalItemsGrid.innerHTML = '';
             data.additionalItems.forEach(item => {
+                // Sicherstellen, dass persons ein Array ist
+                if (!Array.isArray(item.persons)) {
+                    item.persons = [];
+                }
                 const card = document.createElement('div');
                 card.className = 'additional-item-card';
                 card.innerHTML = `
@@ -1117,7 +1138,10 @@
             if (name && !isAdminLoggedIn) {
                 const items = isAdditional ? data.additionalItems : data.items;
                 const item = items.find(i => i.id === itemId);
-                if (!item.persons.includes(name)) {
+                if (item && !item.persons.includes(name)) {
+                    if (!Array.isArray(item.persons)) {
+                        item.persons = [];
+                    }
                     item.persons.push(name);
                     input.value = '';
                     saveData();
@@ -1131,9 +1155,11 @@
             if (!isAdminLoggedIn) {
                 const items = isAdditional ? data.additionalItems : data.items;
                 const item = items.find(i => i.id === itemId);
-                item.persons = item.persons.filter(p => p !== personName);
-                saveData();
-                showGoodbyeEffect();
+                if (item && Array.isArray(item.persons)) {
+                    item.persons = item.persons.filter(p => p !== personName);
+                    saveData();
+                    showGoodbyeEffect();
+                }
             }
         }
 
