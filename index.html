@@ -1941,7 +1941,10 @@
             { id: "kuchen", name: "Kuchen", persons: [] },
             { id: "marmelade-honig", name: "Marmelade, Honig", persons: [] },
             { id: "aufschnitt-wurst-kaese", name: "Aufschnitt (Wurst, Käse)", persons: [] },
-            { id: "aufstriche-herzhaft", name: "Aufstriche (herzhaft)", persons: [] }
+            { id: "aufstriche-herzhaft", name: "Aufstriche (herzhaft)", persons: [] },
+            { id: "stockbrot-teig", name: "Stockbrot-Teig", persons: [] },
+            { id: "dessert", name: "Dessert", persons: [] },
+            { id: "cole-slaw", name: "Cole Slaw", persons: [] }
         ],
         additionalItems: []
     };
@@ -2661,20 +2664,35 @@
 
     // Initialisierung
     document.addEventListener('DOMContentLoaded', async function() {
+        console.log("🚀 App wird initialisiert...");
+        
         // Firebase Status anzeigen
         updateFirebaseStatus();
         
-        // Daten laden
-        await loadData();
-        
-        // Echtzeit-Listener einrichten (nur wenn Firebase verfügbar)
-        setupRealtimeListener();
-        
-        // UI erstellen
+        // UI-Grundlagen erstellen
         createStars();
         createNeonLines();
+        
+        // Standard-Items immer zuerst anzeigen
+        console.log("📋 Erstelle Standard-Items...");
         createItemCards();
         createAdditionalItemCards();
+        
+        // Dann Daten laden
+        console.log("💾 Lade gespeicherte Daten...");
+        await loadData();
+        
+        // UI nach dem Laden aktualisieren
+        console.log("🔄 Aktualisiere UI nach Datenladung...");
+        createItemCards();
+        createAdditionalItemCards();
+        
+        // Echtzeit-Listener einrichten (nur wenn Firebase verfügbar)
+        if (isFirebaseConnected) {
+            console.log("🔗 Richte Echtzeit-Listener ein...");
+            setupRealtimeListener();
+        }
+        
         checkAdminStatus();
         
         // Enter-Taste für neues Item
@@ -2717,6 +2735,8 @@
             scriptGis.onload = gisLoaded;
             document.head.appendChild(scriptGis);
         }
+        
+        console.log("✅ App-Initialisierung abgeschlossen!");
     });
 </script>
 
