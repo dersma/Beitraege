@@ -1919,12 +1919,67 @@ function createNeonLines() {
 // DATEN FUNKTIONEN (VEREINFACHT)
 // ===================================================================
 
-function saveData() {
-    localStorage.setItem('partyData', JSON.stringify(data));
-    console.log("💾 Daten lokal gespeichert");
+// ===================================================================
+// DATEN FUNKTIONEN MIT FIREBASE REALTIME DATABASE
+// ===================================================================
+
+async function saveData() {
+    console.log("💾 saveData() START");
+    
+    // Firebase speichern
+    if (isFirebaseConnected && database) {
+        try {
+            await database.ref('partyData').set(data);
+            console.log("✅ Daten in Firebase gespeichert");
+        } catch (error) {
+            console.error("❌ Firebase Speicher-Fehler:", error);
+        }
+    }
+    
+    // Lokaler Fallback
+    try {
+        localStorage.setItem('partyData', JSON.stringify(data));
+        console.log("✅ Daten lokal gespeichert");
+    } catch (error) {
+        console.error("❌ Lokaler Speicher-Fehler:", error);
+    }
 }
 
-function loadData() {
+async function loadData() {
+    console.log("📥 loadData() START");
+    
+    // Versuche Firebase zuerst
+    if (isFirebaseConnected && database) {
+        try {
+            const snapshot = await database.ref('partyData').once('value');
+            if (snapshot.exists()) {
+                const firebaseData = snapshot.val();
+                console.log("📊 Firebase Daten erhalten:", firebaseData);
+                
+                // Merge mit Standard-Items
+                if (firebaseData.items && Array.isArray(firebaseData.items)) {
+                    data.items = data.items.map(defaultItem => {
+                        const loadedItem = firebaseData.items.find(item => item.id === defaultItem.id);
+                        return loadedItem ? { ...defaultItem, ...loadedItem } : defaultItem;
+                    });
+                    firebaseData.items.forEach(loadedItem => {
+                        if (!data.items.some(defaultItem => defaultItem.id === loadedItem.id)) {
+                            data.items.push(loadedItem);
+                        }
+                    });
+                }
+                data.additionalItems = firebaseData.additionalItems || [];
+                console.log("✅ Firebase Daten geladen und gemerged");
+                return;
+            } else {
+                console.log("ℹ️ Keine Firebase Daten gefunden");
+            }
+        } catch (error) {
+            console.error("❌ Firebase Lade-Fehler:", error);
+        }
+    }
+    
+    // Fallback auf localStorage
     const savedData = localStorage.getItem('partyData');
     if (savedData) {
         try {
@@ -1935,12 +1990,70 @@ function loadData() {
                     const loadedItem = parsedData.items.find(item => item.id === defaultItem.id);
                     return loadedItem ? { ...defaultItem, ...loadedItem } : defaultItem;
                 });
+                parsedData.items.forEach(loadedItem => {
+                    if (!data.items.some(defaultItem => defaultItem.id === loadedItem.id)) {
+                        data.items.push(loadedItem);
+                    }
+                });
             }
             data.additionalItems = parsedData.additionalItems || [];
-            console.log("✅ Daten aus localStorage geladen");
+            console.log("✅ Lokale Daten geladen");
         } catch (error) {
-            console.error("❌ Fehler beim Laden:", error);
+            console.error("❌ Fehler beim Laden lokaler Daten:", error);
         }
+    }
+}
+
+// Echtzeit-Listener für Firebase
+function setupRealtimeListener() {
+    console.log("🔗 setupRealtimeListener() START");
+    
+    if (isFirebaseConnected && database) {
+        console.log("🔗 Richte Firebase Realtime Listener ein...");
+        
+        database.ref('partyData').on('value', (snapshot) => {
+            console.log("🔄 Firebase Realtime Update erhalten!");
+            
+            if (snapshot.exists()) {
+                const firebaseData = snapshot.val();
+                console.log("📊 Neue Firebase Daten:", firebaseData);
+                
+                // Speichere alten Zustand für Vergleich
+                const oldDataString = JSON.stringify(data);
+                
+                // Update items
+                if (firebaseData.items && Array.isArray(firebaseData.items)) {
+                    data.items = data.items.map(defaultItem => {
+                        const loadedItem = firebaseData.items.find(item => item.id === defaultItem.id);
+                        return loadedItem ? { ...defaultItem, ...loadedItem } : defaultItem;
+                    });
+                    firebaseData.items.forEach(loadedItem => {
+                        if (!data.items.some(defaultItem => defaultItem.id === loadedItem.id)) {
+                            data.items.push(loadedItem);
+                        }
+                    });
+                }
+                
+                // Update additional items
+                data.additionalItems = firebaseData.additionalItems || [];
+                
+                // UI nur aktualisieren wenn sich Daten geändert haben
+                const newDataString = JSON.stringify(data);
+                if (oldDataString !== newDataString) {
+                    console.log("🔄 Daten haben sich geändert - aktualisiere UI");
+                    createItemCards();
+                    createAdditionalItemCards();
+                } else {
+                    console.log("ℹ️ Keine Änderungen in den Daten");
+                }
+            }
+        }, (error) => {
+            console.error("❌ Firebase Listener-Fehler:", error);
+        });
+        
+        console.log("✅ Firebase Realtime Listener eingerichtet");
+    } else {
+        console.log("⚠️ Kein Firebase - Realtime Listener nicht möglich");
     }
 }
 
