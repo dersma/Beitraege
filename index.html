@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="de">
 <head>
 <meta charset="utf-8"/>
@@ -6,6 +7,13 @@
 <title>4 x 40 B-Day-Bash - Partybeiträge</title>
 <meta content="Partybeiträge für die 4 x 40 B-Day-Bash Party am 01.-03.08.2025 im Anglerheim Jena" name="description"/>
 <meta content="Birthday Party, Partybeiträge, Geburtstag, Party, Jena" name="keywords"/>
+
+<!-- Firebase SDK für Realtime Database -->
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
 <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 
@@ -13,6 +21,383 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+    }
+
+    // Admin-Bereich Logik
+    function adminLogin() {
+        const passwordInput = document.getElementById('adminPassword');
+        if (passwordInput.value === ADMIN_PASSWORD) {
+            document.getElementById('adminLogin').style.display = 'none';
+            document.getElementById('adminControls').style.display = 'block';
+            checkAdminStatus();
+        } else {
+            alert('Falsches Passwort!');
+        }
+        passwordInput.value = '';
+    }
+
+    function adminLogout() {
+        document.getElementById('adminLogin').style.display = 'block';
+        document.getElementById('adminControls').style.display = 'none';
+        googleDriveConnected = false;
+        updateDriveStatus();
+    }
+
+    function checkAdminStatus() {
+        const adminPasswordElement = document.getElementById('adminPassword');
+        if (document.getElementById('adminControls').style.display === 'block' || adminPasswordElement.value === ADMIN_PASSWORD) {
+            document.getElementById('adminLogin').style.display = 'none';
+            document.getElementById('adminControls').style.display = 'block';
+            document.getElementById('exportSection').style.display = 'block';
+            if (CLIENT_ID !== 'YOUR_CLIENT_ID' && API_KEY !== 'YOUR_API_KEY') {
+                updateDriveStatus();
+                document.getElementById('driveStatus').style.display = 'block';
+            } else {
+                document.getElementById('driveStatus').style.display = 'none';
+            }
+        } else {
+            document.getElementById('adminLogin').style.display = 'block';
+            document.getElementById('adminControls').style.display = 'none';
+            document.getElementById('driveStatus').style.display = 'none';
+            document.getElementById('exportSection').style.display = 'none';
+        }
+    }
+
+    // Google Drive Integration
+    function gapiLoaded() {
+        gapi.load('client', initializeGapiClient);
+    }
+
+    function initializeGapiClient() {
+        gapi.client.init({
+            apiKey: API_KEY,
+            discoveryDocs: DISCOVERY_DOCS,
+        }).then(() => {
+            gapiInited = true;
+            maybeEnableButtons();
+        });
+    }
+
+    function gisLoaded() {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+            client_id: CLIENT_ID,
+            scope: SCOPES,
+            callback: (tokenResponse) => {
+                if (tokenResponse && tokenResponse.access_token) {
+                    googleDriveConnected = true;
+                    updateDriveStatus();
+                    loadFromGoogleDrive();
+                }
+            },
+        });
+        gisInited = true;
+        maybeEnableButtons();
+    }
+
+    function maybeEnableButtons() {
+        if (gapiInited && gisInited) {
+            // Buttons können hier aktiviert werden falls nötig
+        }
+    }
+
+    function connectToGoogleDrive() {
+        if (!googleDriveConnected) {
+            tokenClient.callback = (resp) => {
+                if (resp.error) {
+                    throw (resp);
+                }
+                googleDriveConnected = true;
+                updateDriveStatus();
+                loadFromGoogleDrive();
+            };
+
+            if (gapi.client.getToken() === null) {
+                tokenClient.requestAccessToken({prompt: 'consent'});
+            } else {
+                tokenClient.requestAccessToken({prompt: ''});
+            }
+        }
+    }
+
+    function updateDriveStatus() {
+        const driveStatusDiv = document.getElementById('driveStatus');
+        const statusTextSpan = document.getElementById('statusText');
+        const connectBtn = document.getElementById('connectBtn');
+
+        if (googleDriveConnected) {
+            driveStatusDiv.classList.remove('disconnected');
+            driveStatusDiv.classList.add('connected');
+            statusTextSpan.textContent = 'Verbunden';
+            connectBtn.style.display = 'none';
+        } else {
+            driveStatusDiv.classList.remove('connected');
+            driveStatusDiv.classList.add('disconnected');
+            statusTextSpan.textContent = 'Nicht verbunden';
+            connectBtn.style.display = 'block';
+        }
+    }
+
+    // Google Drive file handling
+    const FILE_NAME = 'party_data.json';
+    const EXCEL_FILE_NAME = 'party_beitraege.xlsx';
+    let fileId = null;
+
+    async function loadFromGoogleDrive() {
+        try {
+            const response = await gapi.client.drive.files.list({
+                spaces: 'appDataFolder',
+                q: `name = '${FILE_NAME}'`
+            });
+            const files = response.result.files;
+            if (files.length > 0) {
+                fileId = files[0].id;
+                const fileContentResponse = await gapi.client.drive.files.get({
+                    fileId: fileId,
+                    alt: 'media'
+                });
+                const loadedData = JSON.parse(fileContentResponse.body);
+                data.items = data.items.map(defaultItem => {
+                    const loadedItem = loadedData.items.find(item => item.id === defaultItem.id);
+                    return loadedItem ? { ...defaultItem, ...loadedItem } : defaultItem;
+                });
+                loadedData.items.forEach(loadedItem => {
+                    if (!data.items.some(defaultItem => defaultItem.id === loadedItem.id)) {
+                        data.items.push(loadedItem);
+                    }
+                });
+                data.additionalItems = loadedData.additionalItems || [];
+                console.log('Data loaded from Google Drive:', data);
+                createItemCards();
+                createAdditionalItemCards();
+            } else {
+                console.log('No data file found on Google Drive, creating a new one.');
+                saveToGoogleDrive();
+            }
+        } catch (error) {
+            console.error('Error loading from Google Drive:', error);
+            alert('Fehler beim Laden der Daten von Google Drive. Überprüfen Sie Ihre Verbindung und Berechtigungen.');
+        }
+    }
+
+    async function saveToGoogleDrive() {
+        const fileMetadata = {
+            'name': FILE_NAME,
+            'parents': ['appDataFolder']
+        };
+        const media = {
+            mimeType: 'application/json',
+            body: JSON.stringify(data)
+        };
+
+        try {
+            if (fileId) {
+                await gapi.client.drive.files.update({
+                    fileId: fileId,
+                    resource: fileMetadata,
+                    media: media,
+                    fields: 'id'
+                });
+                console.log('Data updated on Google Drive.');
+            } else {
+                const response = await gapi.client.drive.files.create({
+                    resource: fileMetadata,
+                    media: media,
+                    fields: 'id'
+                });
+                fileId = response.result.id;
+                console.log('Data saved to Google Drive, file ID:', fileId);
+            }
+        } catch (error) {
+            console.error('Error saving to Google Drive:', error);
+            alert('Fehler beim Speichern der Daten auf Google Drive. Überprüfen Sie Ihre Verbindung und Berechtigungen.');
+        }
+    }
+
+    // Export Functions
+    function exportToCSV() {
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += "Kategorie,Beitrag,Name,Anzahl_Eingetragen\n";
+
+        data.items.forEach(item => {
+            if (item.persons.length > 0) {
+                item.persons.forEach(person => {
+                    csvContent += `Benötigt,"${item.name}","${person}",${item.persons.length}\n`;
+                });
+            } else {
+                csvContent += `Benötigt,"${item.name}",,0\n`;
+            }
+        });
+
+        data.additionalItems.forEach(item => {
+            if (item.persons.length > 0) {
+                item.persons.forEach(person => {
+                    csvContent += `Weitere Beiträge,"${item.name}","${person}",${item.persons.length}\n`;
+                });
+            } else {
+                csvContent += `Weitere Beiträge,"${item.name}",,0\n`;
+            }
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "party_beitraege.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        showThankYouEffect("CSV Export erfolgreich!");
+    }
+
+    function exportToExcel() {
+        let csvContent = "data:application/vnd.ms-excel;charset=utf-8,";
+        csvContent += "Kategorie\tBeitrag\tName\tAnzahl_Eingetragen\n";
+
+        data.items.forEach(item => {
+            if (item.persons.length > 0) {
+                item.persons.forEach(person => {
+                    csvContent += `Benötigt\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
+                });
+            } else {
+                csvContent += `Benötigt\t"${item.name}"\t\t0\n`;
+            }
+        });
+
+        data.additionalItems.forEach(item => {
+            if (item.persons.length > 0) {
+                item.persons.forEach(person => {
+                    csvContent += `Weitere Beiträge\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
+                });
+            } else {
+                csvContent += `Weitere Beiträge\t"${item.name}"\t\t0\n`;
+            }
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "party_beitraege.xls");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        showThankYouEffect("Excel Export erfolgreich!");
+    }
+
+    // Neue Sync-Funktion für Google Drive
+    async function syncWithGoogleDrive() {
+        if (!googleDriveConnected) {
+            alert('Bitte zuerst mit Google Drive verbinden!');
+            return;
+        }
+
+        try {
+            let excelData = "Kategorie\tBeitrag\tName\tAnzahl_Eingetragen\n";
+
+            data.items.forEach(item => {
+                if (item.persons.length > 0) {
+                    item.persons.forEach(person => {
+                        excelData += `Benötigt\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
+                    });
+                } else {
+                    excelData += `Benötigt\t"${item.name}"\t\t0\n`;
+                }
+            });
+
+            data.additionalItems.forEach(item => {
+                if (item.persons.length > 0) {
+                    item.persons.forEach(person => {
+                        excelData += `Weitere Beiträge\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
+                    });
+                } else {
+                    excelData += `Weitere Beiträge\t"${item.name}"\t\t0\n`;
+                }
+            });
+
+            const excelListResponse = await gapi.client.drive.files.list({
+                q: `name = '${EXCEL_FILE_NAME}'`
+            });
+
+            const fileMetadata = {
+                'name': EXCEL_FILE_NAME
+            };
+            const media = {
+                mimeType: 'application/vnd.ms-excel',
+                body: excelData
+            };
+
+            if (excelListResponse.result.files.length > 0) {
+                await gapi.client.drive.files.update({
+                    fileId: excelListResponse.result.files[0].id,
+                    resource: fileMetadata,
+                    media: media,
+                    fields: 'id'
+                });
+                showThankYouEffect("Google Drive synchronisiert!");
+            } else {
+                await gapi.client.drive.files.create({
+                    resource: fileMetadata,
+                    media: media,
+                    fields: 'id'
+                });
+                showThankYouEffect("Excel auf Google Drive erstellt!");
+            }
+
+            await saveToGoogleDrive();
+
+        } catch (error) {
+            console.error('Error syncing with Google Drive:', error);
+            alert('Fehler bei der Synchronisation mit Google Drive!');
+        }
+    }
+
+    function showShareLink() {
+        if (!googleDriveConnected) {
+            alert('Bitte zuerst mit Google Drive verbinden!');
+            return;
+        }
+        
+        const currentUrl = window.location.href;
+        
+        const textArea = document.createElement('textarea');
+        textArea.value = currentUrl;
+        document.body.appendChild(textArea);
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+            showThankYouEffect("Link in Zwischenablage kopiert!");
+        } catch (err) {
+            alert(`Link zum Teilen: ${currentUrl}`);
+        }
+        
+        document.body.removeChild(textArea);
+    }
+
+    // Sterne erzeugen
+    function createStars() {
+        const starsContainer = document.querySelector('.stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 2}s`;
+            starsContainer.appendChild(star);
+        }
+    }
+
+    // Neon-Linien erzeugen
+    function createNeonLines() {
+        const neonLinesContainer = document.querySelector('.neon-lines');
+        for (let i = 0; i < 5; i++) {
+            const line = document.createElement('div');
+            line.classList.add('neon-line');
+            line.style.top = `${Math.random() * 100}%`;
+            line.style.animationDelay = `${Math.random() * 2}s`;
+            line.style.animationDuration = `${3 + Math.random() * 2}s`;
+            neonLinesContainer.appendChild(line);
+        }
     }
     
     body {
@@ -1439,6 +1824,7 @@
         }
     }
 </style>
+
 </head>
 <body>
 <div class="stars"></div>
@@ -1455,75 +1841,79 @@
         <h1 class="title">4 x 40 B-DAY-BASH</h1>
         <div class="date">01. - 03. 08. 2025</div>
         <div class="subtitle">Partybeiträge • Anglerheim Jena</div>
+        <div class="firebase-status" style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;"></div>
     </div>
 
-    <div class="section-title">🎯 Benötigte Partybeiträge</div>
-    <div class="items-grid" id="itemsGrid">
-        </div>
+```
+<div class="section-title">🎯 Benötigte Partybeiträge</div>
+<div class="items-grid" id="itemsGrid">
+    </div>
 
-    <div class="additional-section">
-        <div class="section-title highlighted-plus">➕ Weitere Partybeiträge</div>
-        <div class="additional-items-grid" id="additionalItemsGrid">
+<div class="additional-section">
+    <div class="section-title highlighted-plus">➕ Weitere Partybeiträge</div>
+    <div class="additional-items-grid" id="additionalItemsGrid">
+        </div>
+    <div class="add-item-card">
+        <div class="add-item-title">Neuen Partybeitrag vorschlagen</div>
+        <div class="additional-note">Hier kannst du weitere Dinge eintragen, die du zur Party beitragen möchtest</div>
+        <div class="add-item-controls">
+            <input class="add-item-input" id="newItemInput" placeholder="z.B. Chips, Getränke, Deko..." type="text"/>
+            <button class="btn btn-add" onclick="addNewItem()">Hinzufügen</button>
+        </div>
+    </div>
+</div>
+
+<div class="thank-you-overlay" id="thankYouOverlay">
+    <div class="thank-you-content">
+        <div class="retro-grid"></div>
+        <div class="laser-lines">
+            <div class="laser-line" style="width: 300px; animation-delay: 0s;"></div>
+            <div class="laser-line" style="width: 400px; animation-delay: 0.3s;"></div>
+            <div class="laser-line" style="width: 250px; animation-delay: 0.6s;"></div>
+        </div>
+        <div class="thank-you-text">DANKE!</div>
+        <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
+    </div>
+</div>
+
+<div class="admin-section">
+    <div class="admin-login-bg"></div>
+    <div class="admin-login" id="adminLogin">
+        <div class="admin-title">🔐 ADMIN ACCESS</div>
+        <div class="admin-input-container">
+            <input class="admin-input" id="adminPassword" placeholder="Enter Password" type="password"/>
+            <div class="admin-input-glow"></div>
+        </div>
+        <br/>
+        <button class="admin-btn" onclick="adminLogin()">
+            <span>Initialize</span>
+        </button>
+    </div>
+
+    <div class="admin-controls" id="adminControls">
+        <button class="logout-btn" onclick="adminLogout()">Logout</button>
+        <div class="admin-panel">
+            <h3>⚙️ SYSTEM CONTROL</h3>
+            <div class="drive-status" id="driveStatus">
+                <div class="status-text">Google Drive Status: <span id="statusText">Nicht verbunden</span></div>
+                <button class="connect-btn" id="connectBtn" onclick="connectToGoogleDrive()">Mit Google Drive verbinden</button>
             </div>
-        <div class="add-item-card">
-            <div class="add-item-title">Neuen Partybeitrag vorschlagen</div>
-            <div class="additional-note">Hier kannst du weitere Dinge eintragen, die du zur Party beitragen möchtest</div>
-            <div class="add-item-controls">
-                <input class="add-item-input" id="newItemInput" placeholder="z.B. Chips, Getränke, Deko..." type="text"/>
-                <button class="btn btn-add" onclick="addNewItem()">Hinzufügen</button>
+            <div class="export-section" id="exportSection">
+                <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
+                <button class="export-btn" onclick="exportToExcel()">📈 Excel Export</button>
+                <button class="export-btn" onclick="syncWithGoogleDrive()">🔄 Drive Sync</button>
+                <button class="export-btn" onclick="showShareLink()">🔗 Share Link</button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="thank-you-overlay" id="thankYouOverlay">
-        <div class="thank-you-content">
-            <div class="retro-grid"></div>
-            <div class="laser-lines">
-                <div class="laser-line" style="width: 300px; animation-delay: 0s;"></div>
-                <div class="laser-line" style="width: 400px; animation-delay: 0.3s;"></div>
-                <div class="laser-line" style="width: 250px; animation-delay: 0.6s;"></div>
-            </div>
-            <div class="thank-you-text">DANKE!</div>
-            <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
-        </div>
-    </div>
+<div class="footer">
+    <h3>4 x 40 B-Day-Bash</h3>
+    <p>© 2025 All rights reserved.</p>
+</div>
+```
 
-    <div class="admin-section">
-        <div class="admin-login-bg"></div>
-        <div class="admin-login" id="adminLogin">
-            <div class="admin-title">🔐 ADMIN ACCESS</div>
-            <div class="admin-input-container">
-                <input class="admin-input" id="adminPassword" placeholder="Enter Password" type="password"/>
-                <div class="admin-input-glow"></div>
-            </div>
-            <br/>
-            <button class="admin-btn" onclick="adminLogin()">
-                <span>Initialize</span>
-            </button>
-        </div>
-
-        <div class="admin-controls" id="adminControls">
-            <button class="logout-btn" onclick="adminLogout()">Logout</button>
-            <div class="admin-panel">
-                <h3>⚙️ SYSTEM CONTROL</h3>
-                <div class="drive-status" id="driveStatus">
-                    <div class="status-text">Google Drive Status: <span id="statusText">Nicht verbunden</span></div>
-                    <button class="connect-btn" id="connectBtn" onclick="connectToGoogleDrive()">Mit Google Drive verbinden</button>
-                </div>
-                <div class="export-section" id="exportSection">
-                    <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
-                    <button class="export-btn" onclick="exportToExcel()">📈 Excel Export</button>
-                    <button class="export-btn" onclick="syncWithGoogleDrive()">🔄 Drive Sync</button>
-                    <button class="export-btn" onclick="showShareLink()">🔗 Share Link</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <h3>4 x 40 B-Day-Bash</h3>
-        <p>© 2025 All rights reserved.</p>
-    </div>
 </div>
 
 <script>
@@ -2270,8 +2660,17 @@
     }
 
     // Initialisierung
-    document.addEventListener('DOMContentLoaded', function() {
-        loadData();
+    document.addEventListener('DOMContentLoaded', async function() {
+        // Firebase Status anzeigen
+        updateFirebaseStatus();
+        
+        // Daten laden
+        await loadData();
+        
+        // Echtzeit-Listener einrichten (nur wenn Firebase verfügbar)
+        setupRealtimeListener();
+        
+        // UI erstellen
         createStars();
         createNeonLines();
         createItemCards();
