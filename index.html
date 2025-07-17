@@ -1006,19 +1006,7 @@
         let database = null;
         let isAdminLoggedIn = false;
         let data = {
-            items: [
-                { id: "nudelsalat", name: "Nudelsalat", persons: [] },
-                { id: "kartoffelsalat", name: "Kartoffelsalat", persons: [] },
-                { id: "kraeuterbutter", name: "Kräuterbutter", persons: [] },
-                { id: "nutella-erdnussbutter", name: "Nutella, Erdnussbutter", persons: [] },
-                { id: "kuchen", name: "Kuchen", persons: [] },
-                { id: "marmelade-honig", name: "Marmelade, Honig", persons: [] },
-                { id: "aufschnitt-wurst-kaese", name: "Aufschnitt (Wurst, Käse)", persons: [] },
-                { id: "aufstriche-herzhaft", name: "Aufstriche (herzhaft)", persons: [] },
-                { id: "stockbrot-teig", name: "Stockbrot-Teig", persons: [] },
-                { id: "dessert", name: "Dessert", persons: [] },
-                { id: "cole-slaw", name: "Cole Slaw", persons: [] }
-            ],
+            items: [],
             additionalItems: []
         };
 
@@ -1030,15 +1018,14 @@
             dbRef.on('value', (snapshot) => {
                 const firebaseData = snapshot.val();
                 if (firebaseData) {
-                    data = firebaseData;
-                    // Sicherstellen, dass alle items eine persons-Eigenschaft haben
-                    data.items = data.items.map(item => {
+                    // Umwandlung der Objekt-Struktur in ein Array
+                    data.items = Object.values(firebaseData.items || {}).map(item => {
                         if (!item.hasOwnProperty('persons') || !Array.isArray(item.persons)) {
                             item.persons = [];
                         }
                         return item;
                     });
-                    data.additionalItems = data.additionalItems.map(item => {
+                    data.additionalItems = Object.values(firebaseData.additionalItems || {}).map(item => {
                         if (!item.hasOwnProperty('persons') || !Array.isArray(item.persons)) {
                             item.persons = [];
                         }
@@ -1082,19 +1069,19 @@
                 const card = document.createElement('div');
                 card.className = 'item-card' + (item.persons.length > 0 ? ' taken' : '');
                 card.innerHTML = `
-                    <div class="item-name">${item.name}</div>
+                    <div class="item-name">${item.name || ''}</div>
                     ${item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} Person(en)</div>` : ''}
                     <div class="persons-list">
                         ${item.persons.map(person => `
                             <div class="person-entry">
-                                <span class="person-name">${person}</span>
-                                <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id}', '${person}', false)">X</button>
+                                <span class="person-name">${person || ''}</span>
+                                <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id || ''}', '${person || ''}', false)">X</button>
                             </div>
                         `).join('')}
                     </div>
                     <div class="item-controls">
-                        <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name" onkeypress="if(event.key === 'Enter') registerPerson('${item.id}', false)"/>
-                        <button class="btn btn-take" onclick="registerPerson('${item.id}', false)">Eintragen</button>
+                        <input type="text" class="name-input" id="input-${item.id || ''}" placeholder="Dein Name" onkeypress="if(event.key === 'Enter') registerPerson('${item.id || ''}', false)"/>
+                        <button class="btn btn-take" onclick="registerPerson('${item.id || ''}', false)">Eintragen</button>
                     </div>
                 `;
                 itemsGrid.appendChild(card);
@@ -1113,18 +1100,18 @@
                 const card = document.createElement('div');
                 card.className = 'additional-item-card';
                 card.innerHTML = `
-                    <div class="additional-item-name">${item.name}</div>
+                    <div class="additional-item-name">${item.name || ''}</div>
                     <div class="persons-list">
                         ${item.persons.map(person => `
                             <div class="person-entry">
-                                <span class="person-name">${person}</span>
-                                <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id}', '${person}', true)">X</button>
+                                <span class="person-name">${person || ''}</span>
+                                <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id || ''}', '${person || ''}', true)">X</button>
                             </div>
                         `).join('')}
                     </div>
                     <div class="item-controls">
-                        <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name" onkeypress="if(event.key === 'Enter') registerPerson('${item.id}', true)"/>
-                        <button class="btn btn-take" onclick="registerPerson('${item.id}', true)">Eintragen</button>
+                        <input type="text" class="name-input" id="input-${item.id || ''}" placeholder="Dein Name" onkeypress="if(event.key === 'Enter') registerPerson('${item.id || ''}', true)"/>
+                        <button class="btn btn-take" onclick="registerPerson('${item.id || ''}', true)">Eintragen</button>
                     </div>
                 `;
                 additionalItemsGrid.appendChild(card);
@@ -1213,10 +1200,10 @@
         function exportToCSV() {
             let csv = "Kategorie,Beitrag,Personen\n";
             data.items.forEach(item => {
-                csv += `Benötigt,"${item.name}","${item.persons.join(';')}"\n`;
+                csv += `Benötigt,"${item.name || ''}","${(item.persons || []).join(';')}"\n`;
             });
             data.additionalItems.forEach(item => {
-                csv += `Zusätzlich,"${item.name}","${item.persons.join(';')}"\n`;
+                csv += `Zusätzlich,"${item.name || ''}","${(item.persons || []).join(';')}"\n`;
             });
             const link = document.createElement('a');
             link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
