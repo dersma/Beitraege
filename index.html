@@ -73,7 +73,6 @@
             100% { transform: translateX(100vw); }
         }
 
-        /* Neuer dezenter Lasereffekt */
         .laser-background {
             position: fixed;
             top: 0;
@@ -89,24 +88,14 @@
             position: absolute;
             width: 1px;
             height: 100vh;
-            background: linear-gradient(0deg, 
-                transparent 0%, 
-                rgba(0, 255, 255, 0.1) 20%, 
-                rgba(255, 0, 255, 0.15) 50%, 
-                rgba(0, 255, 255, 0.1) 80%, 
-                transparent 100%);
+            background: linear-gradient(0deg, transparent 0%, rgba(0, 255, 255, 0.1) 20%, rgba(255, 0, 255, 0.15) 50%, rgba(0, 255, 255, 0.1) 80%, transparent 100%);
             animation: laser-move 8s linear infinite;
             opacity: 0.6;
         }
 
         .laser-beam:nth-child(2) {
             animation-delay: -2s;
-            background: linear-gradient(0deg, 
-                transparent 0%, 
-                rgba(255, 0, 255, 0.1) 20%, 
-                rgba(0, 255, 255, 0.15) 50%, 
-                rgba(255, 0, 255, 0.1) 80%, 
-                transparent 100%);
+            background: linear-gradient(0deg, transparent 0%, rgba(255, 0, 255, 0.1) 20%, rgba(0, 255, 255, 0.15) 50%, rgba(255, 0, 255, 0.1) 80%, transparent 100%);
         }
 
         .laser-beam:nth-child(3) {
@@ -117,35 +106,15 @@
         .laser-beam:nth-child(4) {
             animation-delay: -6s;
             animation-duration: 12s;
-            background: linear-gradient(0deg, 
-                transparent 0%, 
-                rgba(255, 255, 0, 0.08) 20%, 
-                rgba(255, 0, 255, 0.12) 50%, 
-                rgba(255, 255, 0, 0.08) 80%, 
-                transparent 100%);
+            background: linear-gradient(0deg, transparent 0%, rgba(255, 255, 0, 0.08) 20%, rgba(255, 0, 255, 0.12) 50%, rgba(255, 255, 0, 0.08) 80%, transparent 100%);
         }
 
         @keyframes laser-move {
-            0% { 
-                left: -10px; 
-                transform: rotate(1deg);
-            }
-            25% { 
-                left: 25%; 
-                transform: rotate(-0.5deg);
-            }
-            50% { 
-                left: 50%; 
-                transform: rotate(0.8deg);
-            }
-            75% { 
-                left: 75%; 
-                transform: rotate(-0.3deg);
-            }
-            100% { 
-                left: calc(100% + 10px); 
-                transform: rotate(0.5deg);
-            }
+            0% { left: -10px; transform: rotate(1deg); }
+            25% { left: 25%; transform: rotate(-0.5deg); }
+            50% { left: 50%; transform: rotate(0.8deg); }
+            75% { left: 75%; transform: rotate(-0.3deg); }
+            100% { left: calc(100% + 10px); transform: rotate(0.5deg); }
         }
         
         .container {
@@ -216,14 +185,8 @@
         }
 
         @keyframes pulse-plus {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1.05);
-                opacity: 0.9;
-            }
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.05); opacity: 0.9; }
         }
         
         .additional-section {
@@ -518,285 +481,6 @@
             flex-wrap: wrap;
         }
         
-        /* Danke-Effekt */
-        .thank-you-effect {
-            white-space: normal;
-            max-width: 90vw;
-            word-break: break-word;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: clamp(1.2rem, 3vw, 2rem);
-            font-weight: 900;
-            color: #00ffff;
-            text-shadow: 0 0 20px #00ffff;
-            font-family: 'Orbitron', monospace;
-            letter-spacing: 3px;
-            opacity: 0;
-            z-index: 100;
-            pointer-events: none;
-            animation: thank-you-animation 4s ease-out forwards;
-            text-align: center;
-            white-space: nowrap;
-            padding: 0 20px;
-        }
-        
-        .thank-you-effect::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff);
-            background-size: 200% 200%;
-            animation: hologram-shimmer 0.5s ease-in-out infinite;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            z-index: -1;
-        }
-        
-        .thank-you-effect::after {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: pulse-glow 4s ease-out;
-            z-index: -2;
-        }
-        
-        .goodbye-effect {
-            white-space: normal;
-            max-width: 90vw;
-            word-break: break-word;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: clamp(1rem, 2.5vw, 1.8rem);
-            font-weight: 900;
-            color: #ffaa00;
-            text-shadow: 0 0 20px #ffaa00;
-            font-family: 'Orbitron', monospace;
-            letter-spacing: 2px;
-            opacity: 0;
-            z-index: 100;
-            pointer-events: none;
-            animation: goodbye-animation 4s ease-out forwards;
-            text-align: center;
-            white-space: nowrap;
-            padding: 0 20px;
-        }
-        
-        .goodbye-effect::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #ffaa00, #ff6600, #ffaa00);
-            background-size: 200% 200%;
-            animation: hologram-shimmer 0.5s ease-in-out infinite;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            z-index: -1;
-        }
-        
-        /* Particle-Effekt */
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: #00ffff;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: particle-float 4s ease-out forwards;
-        }
-        
-        .particle:nth-child(odd) {
-            background: #ff00ff;
-            animation-delay: 0.1s;
-        }
-        
-        .particle:nth-child(3n) {
-            background: #ffffff;
-            animation-delay: 0.2s;
-        }
-        
-        .particle-orange {
-            background: #ffaa00;
-        }
-        
-        .particle-orange:nth-child(odd) {
-            background: #ff6600;
-        }
-        
-        /* Matrix-Effekt */
-        .matrix-effect {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-            pointer-events: none;
-            z-index: 99;
-        }
-        
-        .matrix-line {
-            position: absolute;
-            width: 2px;
-            height: 20px;
-            background: linear-gradient(to bottom, transparent, #00ffff, transparent);
-            animation: matrix-fall 4s linear forwards;
-        }
-        
-        .matrix-line-orange {
-            background: linear-gradient(to bottom, transparent, #ffaa00, transparent);
-        }
-        
-        /* Scanline-Effekt */
-        .scanline {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #00ffff, transparent);
-            top: 50%;
-            left: 0;
-            animation: scanline-sweep 3s ease-out;
-            z-index: 98;
-        }
-        
-        .scanline-orange {
-            background: linear-gradient(90deg, transparent, #ffaa00, transparent);
-        }
-        
-        @keyframes thank-you-animation {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.1);
-                filter: blur(10px);
-            }
-            15% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.2);
-                filter: blur(2px);
-            }
-            30% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-                filter: blur(0px);
-            }
-            70% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-                filter: blur(0px);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.8);
-                filter: blur(5px);
-            }
-        }
-        
-        @keyframes goodbye-animation {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(1.2);
-                filter: blur(5px);
-            }
-            20% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-                filter: blur(0px);
-            }
-            60% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-                filter: blur(0px);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5);
-                filter: blur(8px);
-            }
-        }
-        
-        @keyframes hologram-shimmer {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-        
-        @keyframes pulse-glow {
-            0% {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-            50% {
-                opacity: 0.8;
-                transform: scale(1.2);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(2);
-            }
-        }
-        
-        @keyframes particle-float {
-            0% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-50px) scale(0.5);
-            }
-        }
-        
-        @keyframes matrix-fall {
-            0% {
-                top: -20px;
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                top: 100%;
-                opacity: 0;
-            }
-        }
-        
-        @keyframes scanline-sweep {
-            0% {
-                transform: translateY(-100px);
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100px);
-                opacity: 0;
-            }
-        }
-        
-        /* Thank You Animation Overlay */
         .thank-you-overlay {
             position: fixed;
             top: 0;
@@ -804,16 +488,15 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.9);
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
             transition: opacity 0.3s ease;
         }
         
         .thank-you-overlay.show {
+            display: flex;
             opacity: 1;
             pointer-events: all;
         }
@@ -824,28 +507,22 @@
         }
         
         .thank-you-text {
-            font-size: 4rem;
+            font-size: clamp(2rem, 8vw, 4rem);
             font-weight: 900;
             color: #ff00ff;
             text-shadow: 0 0 30px #ff00ff;
             margin-bottom: 20px;
             animation: glitch 0.5s ease-in-out infinite alternate;
-            
-            /* Responsive adjustments for thank you text */
-            font-size: clamp(2rem, 8vw, 4rem); /* Smaller on small screens, larger on big */
-            padding: 0 10px; /* Add some padding to prevent cutting off at edges */
-            white-space: normal; /* Allow text to wrap */
-            word-break: break-word; /* Break long words */
+            padding: 0 10px;
+            white-space: normal;
+            word-break: break-word;
         }
         
         .thank-you-subtext {
-            font-size: 1.5rem;
+            font-size: clamp(1rem, 4vw, 1.5rem);
             color: #00ffff;
             text-shadow: 0 0 20px #00ffff;
             animation: neon-pulse 1s ease-in-out infinite;
-
-            /* Responsive adjustments for subtext */
-            font-size: clamp(1rem, 4vw, 1.5rem);
             padding: 0 10px;
             white-space: normal;
             word-break: break-word;
@@ -858,20 +535,7 @@
             transform: translate(-50%, -50%);
             width: 800px;
             height: 600px;
-            background: linear-gradient(
-                90deg,
-                transparent 49%,
-                #ff00ff 50%,
-                #ff00ff 51%,
-                transparent 52%
-            ),
-            linear-gradient(
-                0deg,
-                transparent 49%,
-                #ff00ff 50%,
-                #ff00ff 51%,
-                transparent 52%
-            );
+            background: linear-gradient(90deg, transparent 49%, #ff00ff 50%, #ff00ff 51%, transparent 52%), linear-gradient(0deg, transparent 49%, #ff00ff 50%, #ff00ff 51%, transparent 52%);
             background-size: 40px 40px;
             opacity: 0.3;
             animation: grid-move 2s linear infinite;
@@ -897,58 +561,28 @@
         }
         
         @keyframes glitch {
-            0% {
-                transform: translateX(0);
-                text-shadow: 0 0 30px #ff00ff;
-            }
-            25% {
-                transform: translateX(-5px);
-                text-shadow: -5px 0 30px #ff00ff, 5px 0 30px #00ffff;
-            }
-            50% {
-                transform: translateX(5px);
-                text-shadow: 5px 0 30px #ff00ff, -5px 0 30px #00ffff;
-            }
-            75% {
-                transform: translateX(-2px);
-                text-shadow: -2px 0 30px #ff00ff, 2px 0 30px #00ffff;
-            }
-            100% {
-                transform: translateX(0);
-                text-shadow: 0 0 30px #ff00ff;
-            }
+            0% { transform: translateX(0); text-shadow: 0 0 30px #ff00ff; }
+            25% { transform: translateX(-5px); text-shadow: -5px 0 30px #ff00ff, 5px 0 30px #00ffff; }
+            50% { transform: translateX(5px); text-shadow: 5px 0 30px #ff00ff, -5px 0 30px #00ffff; }
+            75% { transform: translateX(-2px); text-shadow: -2px 0 30px #ff00ff, 2px 0 30px #00ffff; }
+            100% { transform: translateX(0); text-shadow: 0 0 30px #ff00ff; }
         }
         
         @keyframes neon-pulse {
-            0%, 100% {
-                text-shadow: 0 0 20px #00ffff;
-            }
-            50% {
-                text-shadow: 0 0 40px #00ffff, 0 0 60px #00ffff;
-            }
+            0%, 100% { text-shadow: 0 0 20px #00ffff; }
+            50% { text-shadow: 0 0 40px #00ffff, 0 0 60px #00ffff; }
         }
         
         @keyframes grid-move {
-            0% {
-                transform: translate(-50%, -50%);
-            }
-            100% {
-                transform: translate(-50%, -70%);
-            }
+            0% { transform: translate(-50%, -50%); }
+            100% { transform: translate(-50%, -70%); }
         }
         
         @keyframes laser-sweep {
-            0% {
-                left: -100%;
-                top: 20%;
-            }
-            100% {
-                left: 100%;
-                top: 80%;
-            }
+            0% { left: -100%; top: 20%; }
+            100% { left: 100%; top: 80%; }
         }
         
-        /* Drive Status */
         .drive-status {
             text-align: center;
             margin-bottom: 20px;
@@ -994,7 +628,6 @@
             box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
         }
         
-        /* Export Section */
         .export-section {
             text-align: center;
             margin-bottom: 30px;
@@ -1029,7 +662,6 @@
             cursor: not-allowed;
         }
         
-        /* Admin Login Section */
         .admin-section {
             text-align: center;
             margin-top: 40px;
@@ -1219,228 +851,63 @@
             margin-bottom: 10px;
             text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
         }
+
         @keyframes admin-bg-pulse {
-            0%, 100% {
-                opacity: 0.3;
-            }
-            50% {
-                opacity: 0.7;
-            }
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
         }
         @keyframes admin-title-glow {
-            0% {
-                text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
-            }
-            100% {
-                text-shadow: 0 0 30px rgba(255, 0, 255, 1), 0 0 40px rgba(0, 255, 255, 0.5);
-            }
+            0% { text-shadow: 0 0 20px rgba(255, 0, 255, 0.8); }
+            100% { text-shadow: 0 0 30px rgba(255, 0, 255, 1), 0 0 40px rgba(0, 255, 255, 0.5); }
         }
         @keyframes admin-input-border {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         @keyframes admin-panel-pulse {
-            0%, 100% {
-                opacity: 0.1;
-            }
-            50% {
-                opacity: 0.3;
-            }
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.3; }
         }
         @media (max-width: 768px) {
-            .title {
-                font-size: clamp(2rem, 6vw, 2.5rem); /* Vergrößert für Mobile */
-                letter-spacing: 1px;
-            }
-            .header {
-                padding: 35px; /* Etwas mehr Padding für Mobile */
-            }
-            .date {
-                font-size: clamp(1.1rem, 3.5vw, 1.6rem); /* Auch etwas größer */
-            }
-            .subtitle {
-                font-size: clamp(1rem, 2.8vw, 1.3rem); /* Auch etwas größer */
-            }
-            .section-title {
-                font-size: clamp(1.2rem, 3.5vw, 1.5rem);
-                margin: 30px 0 20px;
-            }
-            .items-grid {
-                grid-template-columns: 1fr;
-            }
-            .additional-items-grid {
-                grid-template-columns: 1fr;
-            }
-            .item-controls {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .add-item-controls {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .add-item-input {
-                min-width: unset;
-                width: 100%;
-            }
-            .taken-controls {
-                flex-direction: column;
-                gap: 10px;
-                align-items: stretch;
-            }
-            .name-input {
-                width: 100%;
-            }
-            .person-entry {
-                padding: 6px 10px;
-            }
-            .persons-list {
-                max-height: 120px;
-            }
-            .thank-you-text {
-                font-size: clamp(2rem, 8vw, 4rem);
-            }
-            .export-btn {
-                display: block;
-                margin: 10px auto;
-                width: 80%;
-            }
-            .admin-input {
-                width: 100%;
-                margin-bottom: 20px;
-                max-width: 300px;
-            }
-            .admin-input-container {
-                width: 100%;
-                max-width: 300px;
-                margin: 0 auto 20px;
-            }
-            .admin-btn {
-                width: 100%;
-                max-width: 300px;
-            }
-            .admin-title {
-                font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-            }
-            .thank-you-effect {
-                white-space: normal;
-                max-width: 90vw;
-                word-break: break-word;
-                font-size: clamp(1rem, 2.5vw, 1.5rem);
-                letter-spacing: 1px;
-            }
-            .goodbye-effect {
-                white-space: normal;
-                max-width: 90vw;
-                word-break: break-word;
-                font-size: clamp(0.9rem, 2vw, 1.3rem);
-                letter-spacing: 1px;
-            }
-            .particle {
-                width: 2px;
-                height: 2px;
-            }
-            .matrix-line {
-                width: 1px;
-                height: 15px;
-            }
+            .title { font-size: clamp(2rem, 6vw, 2.5rem); letter-spacing: 1px; }
+            .header { padding: 35px; }
+            .date { font-size: clamp(1.1rem, 3.5vw, 1.6rem); }
+            .subtitle { font-size: clamp(1rem, 2.8vw, 1.3rem); }
+            .section-title { font-size: clamp(1.2rem, 3.5vw, 1.5rem); margin: 30px 0 20px; }
+            .items-grid { grid-template-columns: 1fr; }
+            .additional-items-grid { grid-template-columns: 1fr; }
+            .item-controls { flex-direction: column; gap: 10px; }
+            .add-item-controls { flex-direction: column; gap: 10px; }
+            .add-item-input { min-width: unset; width: 100%; }
+            .taken-controls { flex-direction: column; gap: 10px; align-items: stretch; }
+            .name-input { width: 100%; }
+            .person-entry { padding: 6px 10px; }
+            .persons-list { max-height: 120px; }
+            .thank-you-text { font-size: clamp(2rem, 8vw, 4rem); }
+            .export-btn { display: block; margin: 10px auto; width: 80%; }
+            .admin-input { width: 100%; margin-bottom: 20px; max-width: 300px; }
+            .admin-input-container { width: 100%; max-width: 300px; margin: 0 auto 20px; }
+            .admin-btn { width: 100%; max-width: 300px; }
+            .admin-title { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
         }
         @media (max-width: 480px) {
-            .title {
-                font-size: clamp(1.8rem, 5.5vw, 2rem); /* Noch größer für sehr kleine Bildschirme */
-                letter-spacing: 0px;
-            }
-            .date {
-                font-size: clamp(1rem, 3vw, 1.3rem);
-            }
-            .subtitle {
-                font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-            }
-            .section-title {
-                font-size: clamp(1rem, 3vw, 1.2rem);
-                margin: 25px 0 15px;
-            }
-            .container {
-                padding: 15px;
-            }
-            .header {
-                padding: 25px; /* Mehr Padding für kleinste Geräte */
-            }
-            .admin-section {
-                padding: 15px;
-            }
-            .admin-panel {
-                padding: 15px;
-            }
-            .admin-title {
-                font-size: clamp(1rem, 2vw, 1.3rem);
-                margin-bottom: 25px;
-            }
-            .admin-input {
-                width: 100%;
-                max-width: 280px;
-                font-size: 1rem;
-                padding: 12px 15px;
-            }
-            .admin-btn {
-                width: 100%;
-                max-width: 280px;
-                padding: 12px 25px;
-                font-size: 1rem;
-            }
-            .logout-btn {
-                float: none;
-                display: block;
-                margin: 0 auto 15px;
-                width: 100%;
-                max-width: 200px;
-            }
-            .person-entry {
-                padding: 5px 8px;
-                font-size: 0.9rem;
-            }
-            .persons-list {
-                max-height: 100px;
-            }
-            .add-item-card {
-                padding: 15px;
-            }
-            .additional-item-card {
-                padding: 15px;
-            }
-            .thank-you-effect {
-                white-space: normal;
-                max-width: 90vw;
-                word-break: break-word;
-                font-size: clamp(0.8rem, 2vw, 1.2rem);
-                letter-spacing: 0px;
-            }
-            .goodbye-effect {
-                white-space: normal;
-                max-width: 90vw;
-                word-break: break-word;
-                font-size: clamp(0.7rem, 1.5vw, 1rem);
-                letter-spacing: 0px;
-            }
-            .particle {
-                width: 1.5px;
-                height: 1.5px;
-            }
-            .matrix-line {
-                width: 1px;
-                height: 12px;
-            }
-            .progress-bar,
-            .progress-text {
-                display: none !important;
-            }
+            .title { font-size: clamp(1.8rem, 5.5vw, 2rem); letter-spacing: 0px; }
+            .date { font-size: clamp(1rem, 3vw, 1.3rem); }
+            .subtitle { font-size: clamp(0.9rem, 2.5vw, 1.1rem); }
+            .section-title { font-size: clamp(1rem, 3vw, 1.2rem); margin: 25px 0 15px; }
+            .container { padding: 15px; }
+            .header { padding: 25px; }
+            .admin-section { padding: 15px; }
+            .admin-panel { padding: 15px; }
+            .admin-title { font-size: clamp(1rem, 2vw, 1.3rem); margin-bottom: 25px; }
+            .admin-input { width: 100%; max-width: 280px; font-size: 1rem; padding: 12px 15px; }
+            .admin-btn { width: 100%; max-width: 280px; padding: 12px 25px; font-size: 1rem; }
+            .logout-btn { float: none; display: block; margin: 0 auto 15px; width: 100%; max-width: 200px; }
+            .person-entry { padding: 5px 8px; font-size: 0.9rem; }
+            .persons-list { max-height: 100px; }
+            .add-item-card { padding: 15px; }
+            .additional-item-card { padding: 15px; }
         }
     </style>
 </head>
@@ -1459,7 +926,11 @@
             <h1 class="title">4 x 40 B-DAY-BASH</h1>
             <div class="date">01. - 03. 08. 2025</div>
             <div class="subtitle">Partybeiträge • Anglerheim Jena</div>
-            <div class="firebase-status" style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;"></div>
+            <div class="drive-status" style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">
+                <span class="status-text">Lokaler Modus - Funktioniert ohne Internet</span>
+                <br/>
+                <button class="connect-btn" onclick="connectToFirebase()">👆 Für Synchronisation: Admin → "🔗 Test API" klicken</button>
+            </div>
         </div>
 
         <div class="section-title">🎯 Benötigte Partybeiträge</div>
@@ -1475,6 +946,17 @@
                     <input class="add-item-input" id="newItemInput" placeholder="z.B. Chips, Getränke, Deko..." type="text"/>
                     <button class="btn btn-add" onclick="addNewItem()">Hinzufügen</button>
                 </div>
+            </div>
+        </div>
+
+        <div class="thank-you-overlay" id="thankYouOverlay">
+            <div class="thank-you-content">
+                <div class="retro-grid"></div>
+                <div class="laser-lines">
+                    <div class="laser-line"></div>
+                </div>
+                <div class="thank-you-text" id="thankYouText"></div>
+                <div class="thank-you-subtext" id="thankYouSubtext"></div>
             </div>
         </div>
 
@@ -1496,7 +978,8 @@
                     <h3>⚙️ SYSTEM CONTROL</h3>
                     <div class="export-section" id="exportSection">
                         <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
-                        <button class="export-btn" onclick="exportToExcel()">📈 Excel Export</button>
+                        <button class="export-btn" id="testApiBtn">🔗 Test API</button>
+                        <button class="export-btn" onclick="generateNewBin()">🆕 Neuer BIN</button>
                     </div>
                 </div>
             </div>
@@ -1509,7 +992,6 @@
     </div>
 
     <script>
-        // Firebase-Konfiguration
         const firebaseConfig = {
             apiKey: "AIzaSyCCGxVJWfXyMNfl3oQt2OMxjcBw0jkIGn8",
             authDomain: "x40-party.firebaseapp.com",
@@ -1520,11 +1002,9 @@
             appId: "1:649437136404:web:fbb5ed94e4edf0e939c901"
         };
 
-        // Firebase initialisieren
-        const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
-        // Globale Daten
+        let app = null;
+        let database = null;
+        let isAdminLoggedIn = false;
         let data = {
             items: [
                 { id: "nudelsalat", name: "Nudelsalat", persons: [] },
@@ -1542,27 +1022,19 @@
             additionalItems: []
         };
 
-        // Speichern und Laden der Daten
+        const dbRef = firebase.initializeApp(firebaseConfig).database().ref('partyData');
+        dbRef.on('value', (snapshot) => {
+            const firebaseData = snapshot.val();
+            if (firebaseData) data = firebaseData;
+            else saveData();
+            createItemCards();
+            createAdditionalItemCards();
+        });
+
         function saveData() {
-            database.ref('partyData').set(data)
-                .then(() => console.log('Daten erfolgreich gespeichert'))
-                .catch(error => console.error('Fehler beim Speichern:', error));
+            dbRef.set(data).catch(error => console.error('Fehler beim Speichern:', error));
         }
 
-        function loadData() {
-            database.ref('partyData').once('value')
-                .then(snapshot => {
-                    const firebaseData = snapshot.val();
-                    if (firebaseData) {
-                        data = firebaseData;
-                        createItemCards();
-                        createAdditionalItemCards();
-                    }
-                })
-                .catch(error => console.error('Fehler beim Laden:', error));
-        }
-
-        // Item-Karten erstellen
         function createItemCards() {
             const itemsGrid = document.getElementById('itemsGrid');
             itemsGrid.innerHTML = '';
@@ -1581,7 +1053,7 @@
                         `).join('')}
                     </div>
                     <div class="item-controls">
-                        <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
+                        <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name" onkeypress="if(event.key === 'Enter') registerPerson('${item.id}', false)"/>
                         <button class="btn btn-take" onclick="registerPerson('${item.id}', false)">Eintragen</button>
                     </div>
                 `;
@@ -1589,7 +1061,6 @@
             });
         }
 
-        // Zusätzliche Item-Karten erstellen
         function createAdditionalItemCards() {
             const additionalItemsGrid = document.getElementById('additionalItemsGrid');
             additionalItemsGrid.innerHTML = '';
@@ -1607,7 +1078,7 @@
                         `).join('')}
                     </div>
                     <div class="item-controls">
-                        <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
+                        <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name" onkeypress="if(event.key === 'Enter') registerPerson('${item.id}', true)"/>
                         <button class="btn btn-take" onclick="registerPerson('${item.id}', true)">Eintragen</button>
                     </div>
                 `;
@@ -1615,63 +1086,82 @@
             });
         }
 
-        // Person eintragen
         function registerPerson(itemId, isAdditional) {
             const input = document.getElementById(`input-${itemId}`);
             const name = input.value.trim();
-            if (name) {
+            if (name && !isAdminLoggedIn) {
                 const items = isAdditional ? data.additionalItems : data.items;
                 const item = items.find(i => i.id === itemId);
                 if (!item.persons.includes(name)) {
                     item.persons.push(name);
                     input.value = '';
                     saveData();
-                    createItemCards();
-                    createAdditionalItemCards();
+                    showThankYouEffect();
                 }
             }
         }
 
-        // Person austragen
         function unregisterPerson(itemId, personName, isAdditional) {
-            const items = isAdditional ? data.additionalItems : data.items;
-            const item = items.find(i => i.id === itemId);
-            item.persons = item.persons.filter(p => p !== personName);
-            saveData();
-            createItemCards();
-            createAdditionalItemCards();
+            if (!isAdminLoggedIn) {
+                const items = isAdditional ? data.additionalItems : data.items;
+                const item = items.find(i => i.id === itemId);
+                item.persons = item.persons.filter(p => p !== personName);
+                saveData();
+                showGoodbyeEffect();
+            }
         }
 
-        // Neues Item hinzufügen
         function addNewItem() {
             const input = document.getElementById('newItemInput');
             const name = input.value.trim();
-            if (name) {
+            if (name && !isAdminLoggedIn) {
                 const id = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
                 data.additionalItems.push({ id, name, persons: [] });
                 input.value = '';
                 saveData();
-                createAdditionalItemCards();
+                showThankYouEffect();
             }
         }
 
-        // Admin-Logik
+        document.getElementById('newItemInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') addNewItem();
+        });
+
         function adminLogin() {
             const password = document.getElementById('adminPassword').value;
-            if (password === "admin") { // Ersetze durch dein Passwort
+            if (password === "admin") {
+                isAdminLoggedIn = true;
                 document.getElementById('adminLogin').style.display = 'none';
                 document.getElementById('adminControls').style.display = 'block';
+                document.getElementById('testApiBtn').onclick = connectToFirebase;
             } else {
                 alert('Falsches Passwort!');
             }
         }
 
         function adminLogout() {
+            isAdminLoggedIn = false;
             document.getElementById('adminControls').style.display = 'none';
             document.getElementById('adminLogin').style.display = 'block';
         }
 
-        // Export-Funktionen
+        function connectToFirebase() {
+            if (!app) {
+                app = firebase.initializeApp(firebaseConfig);
+                database = app.database();
+                const status = document.querySelector('.drive-status');
+                status.className = 'drive-status connected';
+                status.innerHTML = '<span class="status-text">Verbunden mit Firebase</span>';
+                dbRef.on('value', (snapshot) => {
+                    const firebaseData = snapshot.val();
+                    if (firebaseData) data = firebaseData;
+                    else saveData();
+                    createItemCards();
+                    createAdditionalItemCards();
+                });
+            }
+        }
+
         function exportToCSV() {
             let csv = "Kategorie,Beitrag,Personen\n";
             data.items.forEach(item => {
@@ -1686,21 +1176,77 @@
             link.click();
         }
 
-        function exportToExcel() {
-            let excel = "Kategorie\tBeitrag\tPersonen\n";
-            data.items.forEach(item => {
-                excel += `Benötigt\t${item.name}\t${item.persons.join(';')}\n`;
-            });
-            data.additionalItems.forEach(item => {
-                excel += `Zusätzlich\t${item.name}\t${item.persons.join(';')}\n`;
-            });
-            const link = document.createElement('a');
-            link.href = 'data:application/vnd.ms-excel,' + encodeURIComponent(excel);
-            link.download = 'partybeiträge.xls';
-            link.click();
+        function generateNewBin() {
+            const newBin = 'BIN_' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            alert('Neuer BIN generiert: ' + newBin);
         }
 
-        // Sterne und Neon-Linien erzeugen
+        const thankYouMessages = [
+            "DANKE!", "Vielen Dank!", "Super!", "Danke schön!", "Toll!",
+            "Vielen Dank für deine Anmeldung!", "Fantastisch!", "Danke dir!",
+            "Großartig!", "Vielen Dank für deinen Beitrag!"
+        ];
+        const thankYouSubtexts = [
+            "Dein Beitrag ist registriert!", "Du rockst die Party!", "Alles klar!",
+            "Dein Name ist jetzt dabei!", "Party wird besser mit dir!",
+            "Du bist im Team!", "Perfekt!", "Danke fürs Mitmachen!",
+            "Du machst den Unterschied!", "Top Job!"
+        ];
+
+        function showThankYouEffect() {
+            if (!isAdminLoggedIn) {
+                const overlay = document.getElementById('thankYouOverlay');
+                const text = document.getElementById('thankYouText');
+                const subtext = document.getElementById('thankYouSubtext');
+                const randomIndex = Math.floor(Math.random() * thankYouMessages.length);
+                text.textContent = thankYouMessages[randomIndex];
+                subtext.textContent = thankYouSubtexts[randomIndex];
+                overlay.classList.add('show');
+                setTimeout(() => overlay.classList.remove('show'), 4000);
+
+                // Partikel-Effekt
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + 'vw';
+                    particle.style.top = Math.random() * 100 + 'vh';
+                    particle.style.animationDelay = Math.random() * 2 + 's';
+                    document.body.appendChild(particle);
+                    setTimeout(() => particle.remove(), 4000);
+                }
+            }
+        }
+
+        const goodbyeMessages = [
+            "Tschüss!", "Bis bald!", "Schade!", "Auf Wiedersehen!", "Ciao!",
+            "Du bist raus!", "Okay, bis später!", "Danke trotzdem!",
+            "Wir sehen uns!", "Take care!"
+        ];
+
+        function showGoodbyeEffect() {
+            if (!isAdminLoggedIn) {
+                const overlay = document.getElementById('thankYouOverlay');
+                const text = document.getElementById('thankYouText');
+                const subtext = document.getElementById('thankYouSubtext');
+                const randomIndex = Math.floor(Math.random() * goodbyeMessages.length);
+                text.textContent = goodbyeMessages[randomIndex];
+                subtext.textContent = "Dein Austrag wurde verarbeitet!";
+                overlay.classList.add('show');
+                setTimeout(() => overlay.classList.remove('show'), 4000);
+
+                // Orange Partikel-Effekt
+                for (let i = 0; i < 15; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle particle-orange';
+                    particle.style.left = Math.random() * 100 + 'vw';
+                    particle.style.top = Math.random() * 100 + 'vh';
+                    particle.style.animationDelay = Math.random() * 2 + 's';
+                    document.body.appendChild(particle);
+                    setTimeout(() => particle.remove(), 4000);
+                }
+            }
+        }
+
         function createStars() {
             const stars = document.querySelector('.stars');
             for (let i = 0; i < 100; i++) {
@@ -1724,16 +1270,13 @@
             }
         }
 
-        // Initialisierung
         document.addEventListener('DOMContentLoaded', () => {
             createStars();
             createNeonLines();
-            loadData();
-            // Firebase-Status anzeigen
             firebase.database().ref('.info/connected').on('value', (snap) => {
-                const statusElement = document.querySelector('.firebase-status');
-                statusElement.textContent = snap.val() ? 'Firebase: Verbunden' : 'Firebase: Nicht verbunden';
-                statusElement.style.color = snap.val() ? '#00ff00' : '#ff4444';
+                const status = document.querySelector('.drive-status');
+                status.className = 'drive-status' + (snap.val() ? ' connected' : ' disconnected');
+                status.innerHTML = `<span class="status-text">${snap.val() ? 'Verbunden mit Firebase' : 'Lokaler Modus - Funktioniert ohne Internet'}</span><br/><button class="connect-btn" onclick="connectToFirebase()">👆 Für Synchronisation: Admin → "🔗 Test API" klicken</button>`;
             });
         });
     </script>
