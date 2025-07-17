@@ -187,6 +187,22 @@
             0% { transform: scale(1); opacity: 1; }
             100% { transform: scale(1.05); opacity: 0.9; }
         }
+
+        .section-note {
+            text-align: center;
+            font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+            color: #ffff00; /* Gelbe Schriftfarbe */
+            text-shadow: 0 0 10px #ffff00; /* Leichter gelber Leuchteffekt */
+            margin-top: -20px; /* Um näher an den Titel zu rücken */
+            margin-bottom: 30px; /* Abstand zum Grid */
+            font-weight: 700;
+            animation: neon-flicker 1.5s infinite alternate; /* Blinkeffekt */
+        }
+
+        @keyframes neon-flicker {
+            0%, 100% { opacity: 1; text-shadow: 0 0 10px #ffff00; }
+            50% { opacity: 0.8; text-shadow: 0 0 15px #ffff00, 0 0 20px rgba(255, 255, 0, 0.5); }
+        }
         
         .additional-section {
             margin-top: 50px;
@@ -865,16 +881,6 @@
             text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
         }
 
-        /* Added style for the new hint text */
-        .hint-text {
-            font-size: 0.9rem;
-            color: #aaa;
-            text-align: center;
-            margin-top: -20px; /* Adjust as needed to position it correctly */
-            margin-bottom: 20px; /* Space between hint and grid */
-            opacity: 0.7;
-        }
-
         @keyframes admin-bg-pulse {
             0%, 100% { opacity: 0.3; }
             50% { opacity: 0.7; }
@@ -959,7 +965,7 @@
         </div>
 
         <div class="section-title">🎯 Benötigte Partybeiträge</div>
-        <div class="hint-text">📝 Hinweis: Du kannst ganz unten auch eigene Partybeiträge vorschlagen! 👇</div>
+        <div class="section-note">📝 Hinweis: Du kannst ganz unten auch eigene Partybeiträge vorschlagen! 👇</div>
         <div class="items-grid" id="itemsGrid"></div>
 
         <div class="additional-section">
@@ -1266,7 +1272,7 @@
         const thankYouMessages = [
             "🙏 Daaaaaankööö! 🙏",
             "💕 Du bist die/der Geilste! 💕",
-            "💣 Hammer-fett-bombe-krass! 💣",
+            "💣 Hammer-fett-bomben-krass! 💣",
             "🥰 Echt?! Thnx!!! 🥰",
             "🛟 Du bist die Rettung 🛟",
             "❤️ Ich hasse alle: Außer DICH! ❤️",
