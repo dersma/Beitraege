@@ -104,33 +104,30 @@ body {
 .status-text { font-weight: 700; font-size: 0.9rem; }
 .sync-details { font-size: 0.8rem; opacity: 0.7; margin-top: 5px; }
 
-.setup-panel {
-    background: rgba(0, 150, 50, 0.1);
-    border: 2px solid #00ff00;
+.firebase-setup {
+    background: rgba(255, 100, 0, 0.1);
+    border: 2px solid #ff6400;
     border-radius: 10px;
     padding: 20px;
     margin-top: 15px;
 }
 
-.setup-panel h4 {
-    color: #00ff00;
+.firebase-setup h4 {
+    color: #ff6400;
     margin-bottom: 15px;
     font-size: 1.2rem;
-    text-align: center;
 }
 
 .setup-step {
     margin-bottom: 15px;
-    padding: 15px;
+    padding: 10px;
     background: rgba(0,0,0,0.3);
-    border-radius: 8px;
-    border: 1px solid rgba(0,255,0,0.2);
+    border-radius: 5px;
 }
 
 .setup-step h5 {
     color: #00ffff;
     margin-bottom: 8px;
-    font-size: 1rem;
 }
 
 .setup-step p {
@@ -140,74 +137,32 @@ body {
     opacity: 0.9;
 }
 
-.setup-inputs {
-    display: grid;
-    gap: 10px;
-    margin: 15px 0;
-}
-
 .config-input {
-    padding: 12px;
-    border: 2px solid #666;
-    border-radius: 8px;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #666;
+    border-radius: 5px;
     background: rgba(0,0,0,0.7);
     color: white;
     font-family: 'Orbitron', monospace;
-    font-size: 0.9rem;
-}
-
-.config-input:focus {
-    outline: none;
-    border-color: #00ff00;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
 }
 
 .config-button {
-    background: linear-gradient(45deg, #00ff00, #00ffff);
-    color: black;
-    padding: 15px 25px;
+    background: linear-gradient(45deg, #ff6400, #ff8800);
+    color: white;
+    padding: 12px 25px;
     border: none;
     border-radius: 8px;
     font-family: 'Orbitron', monospace;
     font-weight: bold;
     cursor: pointer;
-    font-size: 1rem;
-    text-transform: uppercase;
+    margin-top: 10px;
 }
 
 .config-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
-}
-
-.simple-setup {
-    text-align: center;
-    background: rgba(0,255,255,0.1);
-    border: 2px solid #00ffff;
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 15px;
-}
-
-.simple-setup h4 {
-    color: #00ffff;
-    margin-bottom: 15px;
-}
-
-.simple-setup p {
-    margin-bottom: 15px;
-    opacity: 0.9;
-    line-height: 1.4;
-}
-
-.simple-setup a {
-    color: #ff00ff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.simple-setup a:hover {
-    color: #00ffff;
+    box-shadow: 0 5px 15px rgba(255, 100, 0, 0.3);
 }
 
 .section-title {
@@ -287,12 +242,12 @@ body {
     background: rgba(0, 255, 0, 0.1);
     border: 1px solid rgba(0, 255, 0, 0.3);
     border-radius: 5px;
-    animation: slideIn 0.3s ease;
+    animation: fadeIn 0.3s ease;
 }
 
-@keyframes slideIn {
-    from { opacity: 0; transform: translateX(-20px); }
-    to { opacity: 1; transform: translateX(0); }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .person-name {
@@ -671,48 +626,44 @@ body {
         <div class="date">01. - 03. 08. 2025</div>
         <div class="subtitle">Partybeiträge • Anglerheim Jena</div>
         <div class="sync-status" id="syncStatus">
-            <div class="status-text" id="statusText">🔄 Verbinde mit Supabase...</div>
-            <div class="sync-details" id="syncDetails">Synchronisation wird initialisiert</div>
+            <div class="status-text" id="statusText">🔄 Verbinde mit Firebase...</div>
+            <div class="sync-details" id="syncDetails">Echtzeit-Synchronisation wird initialisiert</div>
         </div>
         
-        <div class="simple-setup" id="simpleSetup" style="display: none;">
-            <h4>🚀 Ultra-Simple Setup</h4>
-            <p><strong>Nur 2 Werte benötigt!</strong><br>
-            Erstelle kostenlosen Account auf <a href="https://supabase.com" target="_blank">supabase.com</a><br>
-            Neues Projekt → Settings → API → Werte kopieren</p>
-            
-            <div class="setup-inputs">
-                <input type="text" class="config-input" id="urlInput" placeholder="Project URL (https://xyz.supabase.co)">
-                <input type="text" class="config-input" id="keyInput" placeholder="Anon Key (eyJhbGciOiJIUzI1NiIs...)">
-                <button class="config-button" onclick="connectSupabase()">🔗 Verbinden</button>
-            </div>
-        </div>
-        
-        <div class="setup-panel" id="setupPanel" style="display: none;">
-            <h4>🎯 Supabase Setup - 3 einfache Schritte</h4>
+        <div class="firebase-setup" id="firebaseSetup" style="display: none;">
+            <h4>🔥 Firebase Setup für Echtzeit-Synchronisation</h4>
             
             <div class="setup-step">
-                <h5>1. Supabase Projekt erstellen</h5>
-                <p>→ Gehe zu <a href="https://supabase.com" target="_blank" style="color: #00ffff;">supabase.com</a><br>
-                → "New Project" → Name: "party-app"<br>
-                → Database Passwort erstellen</p>
+                <h5>Schritt 1: Firebase Projekt erstellen</h5>
+                <p>1. Gehe zu <a href="https://console.firebase.google.com" target="_blank" style="color: #ff6400;">Firebase Console</a><br>
+                2. Klicke "Projekt hinzufügen"<br>
+                3. Name: "4x40-party" (oder beliebig)<br>
+                4. Analytics: optional</p>
             </div>
             
             <div class="setup-step">
-                <h5>2. Tabelle erstellen</h5>
-                <p>→ Table Editor → "Create new table"<br>
-                → Name: "party_data"<br>
-                → Columns: id (int8), data (json)<br>
-                → Save</p>
+                <h5>Schritt 2: Realtime Database aktivieren</h5>
+                <p>1. Links im Menü: "Realtime Database"<br>
+                2. "Datenbank erstellen"<br>
+                3. Testmodus wählen (später sicherer machen)<br>
+                4. Standort: "europe-west1"</p>
             </div>
             
             <div class="setup-step">
-                <h5>3. Verbindung einrichten</h5>
-                <div class="setup-inputs">
-                    <input type="text" class="config-input" id="urlInputDetailed" placeholder="Project URL (Settings → API)">
-                    <input type="text" class="config-input" id="keyInputDetailed" placeholder="Anon Key (Settings → API)">
-                    <button class="config-button" onclick="connectSupabaseDetailed()">🚀 Supabase verbinden</button>
-                </div>
+                <h5>Schritt 3: Web-App hinzufügen</h5>
+                <p>1. Projekt-Übersicht → Web-Symbol (&lt;/&gt;)<br>
+                2. App-Name: "party-app"<br>
+                3. Hosting: Nein<br>
+                4. Config-Daten kopieren</p>
+            </div>
+            
+            <div class="setup-step">
+                <h5>Schritt 4: Config hier eingeben</h5>
+                <input type="text" class="config-input" id="apiKeyInput" placeholder="API Key (aus Firebase Config)">
+                <input type="text" class="config-input" id="authDomainInput" placeholder="Auth Domain (z.B. project-id.firebaseapp.com)">
+                <input type="text" class="config-input" id="databaseUrlInput" placeholder="Database URL (z.B. https://project-id...firebasedatabase.app/)">
+                <input type="text" class="config-input" id="projectIdInput" placeholder="Project ID">
+                <button class="config-button" onclick="setupFirebase()">🚀 Firebase verbinden</button>
             </div>
         </div>
     </div>
@@ -753,9 +704,9 @@ body {
             <div class="admin-panel">
                 <h3>⚙️ SYSTEM CONTROL</h3>
                 <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
-                <button class="export-btn" onclick="showSimpleSetup()">⚡ Simple Setup</button>
-                <button class="export-btn" onclick="showDetailedSetup()">🔧 Detailed Setup</button>
-                <button class="export-btn" onclick="testSupabase()">🔗 Test Connection</button>
+                <button class="export-btn" onclick="showFirebaseSetup()">🔥 Firebase Setup</button>
+                <button class="export-btn" onclick="testFirebase()">🔗 Test Firebase</button>
+                <button class="export-btn" onclick="resetData()">🔄 Reset Data</button>
             </div>
         </div>
     </div>
@@ -766,15 +717,17 @@ body {
     </div>
 </div>
 
-<!-- Supabase Client -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
-console.log("🚀 === PARTY BEITRÄGE APP - SUPABASE VERSION ===");
+console.log("🚀 === PARTY BEITRÄGE APP - FIREBASE VERSION ===");
 
 // KONFIGURATION
-let supabase = null;
-let isConnected = false;
+let firebaseConfig = null;
+let database = null;
+let isFirebaseConnected = false;
 
 const ADMIN_PASSWORD = "admin";
 
@@ -853,12 +806,7 @@ function showMessage(message, isError = false) {
 function saveLocal() {
     try {
         localStorage.setItem('partyBeitraege', JSON.stringify(data));
-        if (supabase) {
-            localStorage.setItem('supabaseConfig', JSON.stringify({
-                url: supabase.supabaseUrl,
-                key: supabase.supabaseKey
-            }));
-        }
+        localStorage.setItem('firebaseConfig', JSON.stringify(firebaseConfig));
         console.log("💾 Lokale Daten gespeichert");
     } catch (error) {
         console.error("❌ Lokales Speichern fehlgeschlagen:", error);
@@ -886,166 +834,109 @@ function loadLocal() {
             console.log("✅ Lokale Daten geladen");
         }
         
-        // Supabase Config laden
-        const savedConfig = localStorage.getItem('supabaseConfig');
+        // Firebase Config laden
+        const savedConfig = localStorage.getItem('firebaseConfig');
         if (savedConfig) {
-            const config = JSON.parse(savedConfig);
-            initSupabase(config.url, config.key);
-            console.log("✅ Supabase-Konfiguration geladen");
+            firebaseConfig = JSON.parse(savedConfig);
+            console.log("✅ Firebase-Konfiguration geladen");
         }
     } catch (error) {
         console.error("❌ Lokales Laden fehlgeschlagen:", error);
     }
 }
 
-// SUPABASE FUNKTIONEN
-function connectSupabase() {
-    const url = document.getElementById('urlInput').value.trim();
-    const key = document.getElementById('keyInput').value.trim();
+// FIREBASE FUNKTIONEN
+function setupFirebase() {
+    const apiKey = document.getElementById('apiKeyInput').value.trim();
+    const authDomain = document.getElementById('authDomainInput').value.trim();
+    const databaseURL = document.getElementById('databaseUrlInput').value.trim();
+    const projectId = document.getElementById('projectIdInput').value.trim();
     
-    if (!url || !key) {
-        showMessage("Bitte URL und Key eingeben!", true);
+    if (!apiKey || !authDomain || !databaseURL || !projectId) {
+        showMessage("Bitte alle Firebase-Config-Felder ausfüllen!", true);
         return;
     }
     
-    initSupabase(url, key);
+    firebaseConfig = {
+        apiKey: apiKey,
+        authDomain: authDomain,
+        databaseURL: databaseURL,
+        projectId: projectId
+    };
+    
+    initializeFirebase();
 }
 
-function connectSupabaseDetailed() {
-    const url = document.getElementById('urlInputDetailed').value.trim();
-    const key = document.getElementById('keyInputDetailed').value.trim();
-    
-    if (!url || !key) {
-        showMessage("Bitte URL und Key eingeben!", true);
+function initializeFirebase() {
+    if (!firebaseConfig) {
+        console.log("❌ Keine Firebase-Konfiguration gefunden");
+        updateStatus('disconnected', '❌ Firebase nicht konfiguriert', 'Admin → Firebase Setup');
         return;
     }
     
-    initSupabase(url, key);
-}
-
-function initSupabase(url, key) {
     try {
-        console.log("🚀 Initialisiere Supabase...");
-        updateStatus('syncing', '🔄 Verbinde mit Supabase...', 'Initialisierung...');
+        console.log("🔥 Initialisiere Firebase...");
+        updateStatus('syncing', '🔄 Verbinde mit Firebase...', 'Initialisierung läuft...');
         
-        // Supabase Client erstellen
-        supabase = window.supabase.createClient(url, key);
+        // Firebase initialisieren
+        firebase.initializeApp(firebaseConfig);
+        database = firebase.database();
         
-        console.log("✅ Supabase Client erstellt");
+        console.log("✅ Firebase initialisiert");
         
-        // Verbindung testen
-        testConnection();
+        // Daten laden und Listener einrichten
+        setupFirebaseListeners();
+        loadFromFirebase();
         
     } catch (error) {
-        console.error("❌ Supabase-Initialisierung fehlgeschlagen:", error);
-        updateStatus('disconnected', '❌ Supabase-Fehler', 'Konfiguration prüfen');
-        showMessage("Supabase-Verbindung fehlgeschlagen!", true);
+        console.error("❌ Firebase-Initialisierung fehlgeschlagen:", error);
+        updateStatus('disconnected', '❌ Firebase-Fehler', 'Konfiguration prüfen');
+        showMessage("Firebase-Verbindung fehlgeschlagen! Config prüfen.", true);
     }
 }
 
-async function testConnection() {
-    if (!supabase) return;
+function setupFirebaseListeners() {
+    if (!database) return;
     
-    try {
-        // Versuche Daten zu laden
-        const { data: existingData, error } = await supabase
-            .from('party_data')
-            .select('*')
-            .eq('id', 1)
-            .limit(1);
-        
-        if (error && error.code === '42P01') {
-            // Tabelle existiert nicht - erstellen
-            await createTable();
-        } else if (error) {
-            throw error;
-        } else {
-            // Verbindung erfolgreich
-            isConnected = true;
-            updateStatus('connected', '✅ Supabase verbunden!', 'Echtzeit-Synchronisation aktiv');
-            
-            // Setup-Panels verstecken
-            document.getElementById('simpleSetup').style.display = 'none';
-            document.getElementById('setupPanel').style.display = 'none';
-            
-            // Daten laden und Realtime einrichten
-            await loadFromSupabase();
-            setupRealtimeListeners();
-            
-            saveLocal();
-            showMessage("Supabase erfolgreich verbunden!");
+    // Realtime Listener für alle Daten
+    database.ref('partyData').on('value', (snapshot) => {
+        const firebaseData = snapshot.val();
+        if (firebaseData) {
+            console.log("🔄 Daten von Firebase erhalten");
+            mergeFirebaseData(firebaseData);
         }
-        
-    } catch (error) {
-        console.error("❌ Verbindungstest fehlgeschlagen:", error);
-        updateStatus('disconnected', '❌ Verbindungstest fehlgeschlagen', 'Config oder Tabelle prüfen');
-        showMessage("Verbindung fehlgeschlagen! Tabelle 'party_data' erstellen?", true);
-    }
-}
-
-async function createTable() {
-    showMessage("Erstelle Tabelle 'party_data'...");
+    });
     
-    // Da wir keine direkten DDL-Befehle über die JS-Library senden können,
-    // informieren wir den User, dass er die Tabelle manuell erstellen muss
-    const instructions = `
-TABELLE ERSTELLEN:
-
-1. Gehe in dein Supabase Dashboard
-2. SQL Editor öffnen
-3. Folgenden Code ausführen:
-
-CREATE TABLE party_data (
-  id BIGSERIAL PRIMARY KEY,
-  data JSONB,
-  updated_at TIMESTAMP DEFAULT NOW()
-);
-
-Dann hier erneut testen!
-`;
-    
-    alert(instructions);
-    updateStatus('disconnected', '❌ Tabelle fehlt', 'Siehe Anleitung - Tabelle manuell erstellen');
-}
-
-async function loadFromSupabase() {
-    if (!supabase || !isConnected) return;
-    
-    try {
-        const { data: result, error } = await supabase
-            .from('party_data')
-            .select('data')
-            .eq('id', 1)
-            .limit(1);
-        
-        if (error) throw error;
-        
-        if (result && result.length > 0 && result[0].data) {
-            mergeSupabaseData(result[0].data);
-            console.log("✅ Daten von Supabase geladen");
+    // Connection Status
+    database.ref('.info/connected').on('value', (snapshot) => {
+        if (snapshot.val() === true) {
+            console.log("✅ Firebase verbunden");
+            updateStatus('connected', '🔥 Firebase verbunden!', 'Echtzeit-Synchronisation aktiv');
+            isFirebaseConnected = true;
+            
+            // Setup verstecken
+            document.getElementById('firebaseSetup').style.display = 'none';
+            
         } else {
-            // Erste Daten hochladen
-            await saveToSupabase();
-            console.log("✅ Initiale Daten zu Supabase gesendet");
+            console.log("❌ Firebase getrennt");
+            updateStatus('disconnected', '❌ Firebase getrennt', 'Verbindung wird wiederhergestellt...');
+            isFirebaseConnected = false;
         }
-        
-    } catch (error) {
-        console.error("❌ Laden von Supabase fehlgeschlagen:", error);
-    }
+    });
 }
 
-function mergeSupabaseData(supabaseData) {
-    if (!supabaseData) return;
+function mergeFirebaseData(firebaseData) {
+    if (!firebaseData) return;
     
     let hasChanges = false;
     
     // Standard-Items mergen
-    if (supabaseData.items) {
+    if (firebaseData.items) {
         const newItems = data.items.map(defaultItem => {
-            const supabaseItem = supabaseData.items.find(item => item.id === defaultItem.id);
-            if (supabaseItem && JSON.stringify(supabaseItem) !== JSON.stringify(defaultItem)) {
+            const firebaseItem = firebaseData.items.find(item => item.id === defaultItem.id);
+            if (firebaseItem && JSON.stringify(firebaseItem) !== JSON.stringify(defaultItem)) {
                 hasChanges = true;
-                return supabaseItem;
+                return firebaseItem;
             }
             return defaultItem;
         });
@@ -1053,9 +944,9 @@ function mergeSupabaseData(supabaseData) {
     }
     
     // Zusätzliche Items übernehmen
-    if (supabaseData.additionalItems) {
-        if (JSON.stringify(supabaseData.additionalItems) !== JSON.stringify(data.additionalItems)) {
-            data.additionalItems = supabaseData.additionalItems;
+    if (firebaseData.additionalItems) {
+        if (JSON.stringify(firebaseData.additionalItems) !== JSON.stringify(data.additionalItems)) {
+            data.additionalItems = firebaseData.additionalItems;
             hasChanges = true;
         }
     }
@@ -1064,52 +955,45 @@ function mergeSupabaseData(supabaseData) {
         renderItems();
         renderAdditionalItems();
         saveLocal();
-        console.log("✅ Daten von Supabase gemerged");
+        console.log("✅ Daten von Firebase gemerged");
     }
 }
 
-async function saveToSupabase() {
-    if (!supabase || !isConnected) return;
-    
-    try {
-        data.lastUpdate = Date.now();
-        
-        const { error } = await supabase
-            .from('party_data')
-            .upsert({
-                id: 1,
-                data: data,
-                updated_at: new Date()
-            });
-        
-        if (error) throw error;
-        
-        console.log("✅ Daten zu Supabase gesendet");
-        
-    } catch (error) {
-        console.error("❌ Speichern zu Supabase fehlgeschlagen:", error);
+function saveToFirebase() {
+    if (!database || !isFirebaseConnected) {
+        console.log("❌ Firebase nicht verbunden - lokales Speichern only");
+        return;
     }
+    
+    data.lastUpdate = Date.now();
+    
+    database.ref('partyData').set(data)
+        .then(() => {
+            console.log("✅ Daten zu Firebase gesendet");
+        })
+        .catch((error) => {
+            console.error("❌ Firebase-Speichern fehlgeschlagen:", error);
+        });
 }
 
-function setupRealtimeListeners() {
-    if (!supabase || !isConnected) return;
+function loadFromFirebase() {
+    if (!database) return;
     
-    // Realtime Subscription für party_data Tabelle
-    const subscription = supabase
-        .channel('party_data_changes')
-        .on('postgres_changes', 
-            { event: '*', schema: 'public', table: 'party_data' },
-            (payload) => {
-                console.log("🔄 Realtime Update erhalten:", payload);
-                
-                if (payload.new && payload.new.data) {
-                    mergeSupabaseData(payload.new.data);
-                }
+    database.ref('partyData').once('value')
+        .then((snapshot) => {
+            const firebaseData = snapshot.val();
+            if (firebaseData) {
+                mergeFirebaseData(firebaseData);
+                console.log("✅ Initiale Daten von Firebase geladen");
+            } else {
+                // Erste Daten zu Firebase senden
+                saveToFirebase();
+                console.log("✅ Initiale Daten zu Firebase gesendet");
             }
-        )
-        .subscribe();
-    
-    console.log("✅ Realtime Listeners eingerichtet");
+        })
+        .catch((error) => {
+            console.error("❌ Firebase-Laden fehlgeschlagen:", error);
+        });
 }
 
 // RENDERING
@@ -1177,7 +1061,7 @@ function renderAdditionalItems() {
 }
 
 // HAUPTFUNKTIONEN
-async function addPerson(itemId, isAdditional) {
+function addPerson(itemId, isAdditional) {
     const input = document.getElementById(`input-${itemId}`);
     const name = input.value.trim();
     
@@ -1203,7 +1087,7 @@ async function addPerson(itemId, isAdditional) {
     input.value = '';
     
     saveLocal();
-    await saveToSupabase();
+    saveToFirebase();
     renderItems();
     renderAdditionalItems();
     
@@ -1211,7 +1095,7 @@ async function addPerson(itemId, isAdditional) {
     console.log(`✅ Person "${name}" zu "${item.name}" hinzugefügt`);
 }
 
-async function removePerson(itemId, personName, isAdditional) {
+function removePerson(itemId, personName, isAdditional) {
     if (!confirm(`Möchtest du "${personName}" wirklich austragen?`)) {
         return;
     }
@@ -1224,7 +1108,7 @@ async function removePerson(itemId, personName, isAdditional) {
     item.persons = item.persons.filter(p => p !== personName);
     
     saveLocal();
-    await saveToSupabase();
+    saveToFirebase();
     renderItems();
     renderAdditionalItems();
     
@@ -1232,7 +1116,7 @@ async function removePerson(itemId, personName, isAdditional) {
     console.log(`✅ Person "${personName}" von "${item.name}" entfernt`);
 }
 
-async function addNewItem() {
+function addNewItem() {
     const input = document.getElementById('newItemInput');
     const name = input.value.trim();
     
@@ -1258,7 +1142,7 @@ async function addNewItem() {
     input.value = '';
     
     saveLocal();
-    await saveToSupabase();
+    saveToFirebase();
     renderAdditionalItems();
     
     showMessage(`"${name}" erfolgreich hinzugefügt!`);
@@ -1284,41 +1168,46 @@ function adminLogout() {
     showMessage("Admin-Zugang beendet!");
 }
 
-function showSimpleSetup() {
-    const setup = document.getElementById('simpleSetup');
+function showFirebaseSetup() {
+    const setup = document.getElementById('firebaseSetup');
     setup.style.display = setup.style.display === 'none' ? 'block' : 'none';
-    document.getElementById('setupPanel').style.display = 'none';
 }
 
-function showDetailedSetup() {
-    const setup = document.getElementById('setupPanel');
-    setup.style.display = setup.style.display === 'none' ? 'block' : 'none';
-    document.getElementById('simpleSetup').style.display = 'none';
-}
-
-async function testSupabase() {
-    if (!supabase) {
-        showMessage("Supabase nicht verbunden!", true);
+function testFirebase() {
+    if (!database) {
+        showMessage("Firebase nicht initialisiert!", true);
         return;
     }
     
-    updateStatus('syncing', '🔄 Teste Supabase...', 'Verbindungstest läuft...');
+    updateStatus('syncing', '🔄 Teste Firebase...', 'Verbindungstest läuft...');
     
-    try {
-        const { data, error } = await supabase
-            .from('party_data')
-            .select('*')
-            .limit(1);
-        
-        if (error) throw error;
-        
-        showMessage("Supabase funktioniert perfekt!");
-        updateStatus('connected', '✅ Supabase Test erfolgreich!', 'Synchronisation funktioniert');
-        
-    } catch (error) {
-        showMessage("Supabase Test fehlgeschlagen!", true);
-        updateStatus('disconnected', '❌ Supabase Test fehlgeschlagen', error.message);
+    database.ref('test').set({
+        timestamp: Date.now(),
+        message: "Firebase Test erfolgreich!"
+    }).then(() => {
+        showMessage("Firebase funktioniert perfekt!");
+        updateStatus('connected', '✅ Firebase Test erfolgreich!', 'Synchronisation funktioniert');
+    }).catch((error) => {
+        showMessage("Firebase Test fehlgeschlagen!", true);
+        updateStatus('disconnected', '❌ Firebase Test fehlgeschlagen', error.message);
+    });
+}
+
+function resetData() {
+    if (!confirm("Wirklich ALLE Daten zurücksetzen? Das kann nicht rückgängig gemacht werden!")) {
+        return;
     }
+    
+    data.items.forEach(item => item.persons = []);
+    data.additionalItems = [];
+    data.lastUpdate = Date.now();
+    
+    saveLocal();
+    saveToFirebase();
+    renderItems();
+    renderAdditionalItems();
+    
+    showMessage("Alle Daten zurückgesetzt!");
 }
 
 function exportToCSV() {
@@ -1364,9 +1253,11 @@ document.addEventListener('DOMContentLoaded', function() {
     renderItems();
     renderAdditionalItems();
     
-    // Status setzen falls nicht verbunden
-    if (!supabase) {
-        updateStatus('disconnected', '🚀 Supabase Setup erforderlich', 'Admin → Simple Setup für Synchronisation');
+    // Firebase versuchen zu initialisieren
+    if (firebaseConfig) {
+        initializeFirebase();
+    } else {
+        updateStatus('disconnected', '🔥 Firebase Setup erforderlich', 'Admin → Firebase Setup für Synchronisation');
     }
     
     // Event Listeners
@@ -1388,23 +1279,22 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // GLOBAL FUNCTIONS
-window.connectSupabase = connectSupabase;
-window.connectSupabaseDetailed = connectSupabaseDetailed;
-window.showSimpleSetup = showSimpleSetup;
-window.showDetailedSetup = showDetailedSetup;
-window.testSupabase = testSupabase;
+window.setupFirebase = setupFirebase;
+window.showFirebaseSetup = showFirebaseSetup;
+window.testFirebase = testFirebase;
+window.resetData = resetData;
 
 window.showData = function() {
     console.log("📊 === AKTUELLE DATEN ===");
     console.log("Standard Items:", data.items.length);
     console.log("Additional Items:", data.additionalItems.length);
-    console.log("Supabase verbunden:", isConnected);
+    console.log("Firebase verbunden:", isFirebaseConnected);
     console.log("Vollständige Daten:", data);
 };
 
-console.log("✅ Supabase App geladen!");
+console.log("✅ Firebase App geladen!");
 console.log("🔧 Debug-Befehle:");
-console.log("  - testSupabase() - Teste Supabase");
+console.log("  - testFirebase() - Teste Firebase");
 console.log("  - showData() - Zeige aktuelle Daten");
 </script>
 
