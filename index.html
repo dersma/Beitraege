@@ -1174,6 +1174,7 @@
                 isAdminLoggedIn = true;
                 document.getElementById('adminLogin').style.display = 'none';
                 document.getElementById('adminControls').style.display = 'block';
+                document.getElementById('exportSection').style.display = 'block'; // Anzeige der Export-Optionen
                 document.getElementById('testApiBtn').onclick = connectToFirebase;
             } else {
                 alert('Falsches Passwort!');
@@ -1184,6 +1185,7 @@
             isAdminLoggedIn = false;
             document.getElementById('adminControls').style.display = 'none';
             document.getElementById('adminLogin').style.display = 'block';
+            document.getElementById('exportSection').style.display = 'none'; // Verbergen der Export-Optionen
         }
 
         // Firebase-Verbindung herstellen
