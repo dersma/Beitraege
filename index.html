@@ -2119,28 +2119,51 @@
         document.getElementById('progressText').textContent = progressText;
     }
 
-    // Item-Karten erstellen (für "Benötigte Partybeiträge")
+    // Item-Karten erstellen (für "Benötigte Partybeiträge") - MIT DEBUG
     function createItemCards() {
+        console.log("🎯 createItemCards() gestartet");
+        console.log("📊 Anzahl Items:", data.items.length);
+        console.log("📋 Items:", data.items);
+        
         const itemsGrid = document.getElementById('itemsGrid');
+        if (!itemsGrid) {
+            console.error("❌ itemsGrid Element nicht gefunden!");
+            return;
+        }
+        
+        console.log("🧹 Leere itemsGrid...");
         itemsGrid.innerHTML = '';
 
-        data.items.forEach(item => {
+        if (!data.items || data.items.length === 0) {
+            console.error("❌ Keine Items vorhanden!");
+            itemsGrid.innerHTML = '<div style="color: red; text-align: center; padding: 20px;">❌ Keine Beiträge gefunden! Bitte Browser-Konsole prüfen.</div>';
+            return;
+        }
+
+        console.log("🔄 Erstelle Karten für", data.items.length, "Items...");
+        
+        data.items.forEach((item, index) => {
+            console.log(`📦 Erstelle Karte ${index + 1}:`, item.name);
+            
             const itemCard = document.createElement('div');
             itemCard.classList.add('item-card');
-            if (item.persons.length > 0) {
+            if (item.persons && item.persons.length > 0) {
                 itemCard.classList.add('taken');
             }
 
-            let personsListHtml = item.persons.map(person => `
-                <div class="person-entry">
-                    <span class="person-name">${person}</span>
-                    <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id}', '${person}', false)">X</button>
-                </div>
-            `).join('');
+            let personsListHtml = '';
+            if (item.persons && Array.isArray(item.persons)) {
+                personsListHtml = item.persons.map(person => `
+                    <div class="person-entry">
+                        <span class="person-name">${person}</span>
+                        <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id}', '${person}', false)">X</button>
+                    </div>
+                `).join('');
+            }
 
             itemCard.innerHTML = `
                 <div class="item-name">${item.name}</div>
-                ${item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
+                ${item.persons && item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
                 <div class="persons-list">${personsListHtml}</div>
                 <div class="item-controls">
                     <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
@@ -2158,6 +2181,8 @@
                 });
             }
         });
+        
+        console.log("✅ createItemCards() abgeschlossen! Karten erstellt:", data.items.length);
     }
 
     // Zusätzliche Item-Karten erstellen
@@ -2662,82 +2687,144 @@
         }
     }
 
-    // Initialisierung
+    // Initialisierung - ROBUSTE VERSION MIT DEBUGGING
     document.addEventListener('DOMContentLoaded', async function() {
-        console.log("🚀 App wird initialisiert...");
+        console.log("🚀 =================================");
+        console.log("🚀 APP INITIALISIERUNG GESTARTET");
+        console.log("🚀 =================================");
         
-        // Firebase Status anzeigen
-        updateFirebaseStatus();
-        
-        // UI-Grundlagen erstellen
-        createStars();
-        createNeonLines();
-        
-        // Standard-Items immer zuerst anzeigen
-        console.log("📋 Erstelle Standard-Items...");
-        createItemCards();
-        createAdditionalItemCards();
-        
-        // Dann Daten laden
-        console.log("💾 Lade gespeicherte Daten...");
-        await loadData();
-        
-        // UI nach dem Laden aktualisieren
-        console.log("🔄 Aktualisiere UI nach Datenladung...");
-        createItemCards();
-        createAdditionalItemCards();
-        
-        // Echtzeit-Listener einrichten (nur wenn Firebase verfügbar)
-        if (isFirebaseConnected) {
-            console.log("🔗 Richte Echtzeit-Listener ein...");
-            setupRealtimeListener();
-        }
-        
-        checkAdminStatus();
-        
-        // Enter-Taste für neues Item
-        document.getElementById('newItemInput').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                addNewItem();
+        try {
+            // Prüfe ob grundlegende Elemente vorhanden sind
+            const itemsGrid = document.getElementById('itemsGrid');
+            if (!itemsGrid) {
+                console.error("❌ KRITISCHER FEHLER: itemsGrid Element nicht gefunden!");
+                alert("FEHLER: HTML-Element 'itemsGrid' nicht gefunden! Bitte Seite neu laden.");
+                return;
             }
-        });
-        
-        // Enter-Taste für Admin-Login
-        document.getElementById('adminPassword').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                adminLogin();
-            }
-        });
-        
-        // Focus-Effekte für Admin-Input
-        const adminInput = document.getElementById('adminPassword');
-        const adminGlow = document.querySelector('.admin-input-glow');
-        
-        if (adminInput && adminGlow) {
-            adminInput.addEventListener('focus', function() {
-                adminGlow.style.opacity = '1';
-            });
+            console.log("✅ itemsGrid Element gefunden");
             
-            adminInput.addEventListener('blur', function() {
-                adminGlow.style.opacity = '0';
-            });
-        }
+            // Firebase Status anzeigen
+            console.log("📡 Setze Firebase-Status...");
+            updateFirebaseStatus();
+            
+            // UI-Grundlagen erstellen
+            console.log("⭐ Erstelle Sterne und Neon-Linien...");
+            createStars();
+            createNeonLines();
+            
+            // WICHTIG: Standard-Items IMMER zuerst anzeigen
+            console.log("📋 Zeige Standard-Items an...");
+            console.log("🔍 Data vor createItemCards:", data);
+            createItemCards();
+            createAdditionalItemCards();
+            
+            // Fallback: Falls immer noch nichts da ist, manuelle Erstellung
+            setTimeout(() => {
+                const grid = document.getElementById('itemsGrid');
+                if (grid && grid.children.length === 0) {
+                    console.warn("⚠️ FALLBACK: Erstelle manuelle Item-Liste");
+                    grid.innerHTML = `
+                        <div style="color: yellow; padding: 20px; border: 2px solid #ffff00; border-radius: 10px; text-align: center;">
+                            <h3>🔄 FALLBACK-MODUS</h3>
+                            <p>Items werden manuell geladen...</p>
+                            <button onclick="forceReload()" style="padding: 10px 20px; margin-top: 10px; border: none; border-radius: 5px; background: #ff00ff; color: white; cursor: pointer;">🔄 Neu laden</button>
+                        </div>
+                    `;
+                }
+            }, 2000);
+            
+            // Dann versuche Daten zu laden
+            console.log("💾 Versuche Daten zu laden...");
+            await loadData();
+            
+            // UI nach dem Laden aktualisieren
+            console.log("🔄 Aktualisiere UI nach Datenladung...");
+            createItemCards();
+            createAdditionalItemCards();
+            
+            // Echtzeit-Listener einrichten (nur wenn Firebase verfügbar)
+            if (isFirebaseConnected) {
+                console.log("🔗 Richte Echtzeit-Listener ein...");
+                setupRealtimeListener();
+            }
+            
+            checkAdminStatus();
+            
+            // Event Listeners
+            console.log("🎧 Richte Event-Listeners ein...");
+            
+            // Enter-Taste für neues Item
+            const newItemInput = document.getElementById('newItemInput');
+            if (newItemInput) {
+                newItemInput.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        addNewItem();
+                    }
+                });
+            }
+            
+            // Enter-Taste für Admin-Login
+            const adminPassword = document.getElementById('adminPassword');
+            if (adminPassword) {
+                adminPassword.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        adminLogin();
+                    }
+                });
+            }
+            
+            // Focus-Effekte für Admin-Input
+            const adminInput = document.getElementById('adminPassword');
+            const adminGlow = document.querySelector('.admin-input-glow');
+            
+            if (adminInput && adminGlow) {
+                adminInput.addEventListener('focus', function() {
+                    adminGlow.style.opacity = '1';
+                });
+                
+                adminInput.addEventListener('blur', function() {
+                    adminGlow.style.opacity = '0';
+                });
+            }
 
-        // Initialize Google Drive nur wenn API keys vorhanden
-        if (CLIENT_ID !== 'YOUR_CLIENT_ID' && API_KEY !== 'YOUR_API_KEY') {
-            const scriptGapi = document.createElement('script');
-            scriptGapi.src = 'https://apis.google.com/js/api.js';
-            scriptGapi.onload = gapiLoaded;
-            document.head.appendChild(scriptGapi);
+            // Initialize Google Drive nur wenn API keys vorhanden
+            if (CLIENT_ID !== 'YOUR_CLIENT_ID' && API_KEY !== 'YOUR_API_KEY') {
+                console.log("🌐 Initialisiere Google Drive...");
+                const scriptGapi = document.createElement('script');
+                scriptGapi.src = 'https://apis.google.com/js/api.js';
+                scriptGapi.onload = gapiLoaded;
+                document.head.appendChild(scriptGapi);
 
-            const scriptGis = document.createElement('script');
-            scriptGis.src = 'https://accounts.google.com/gsi/client';
-            scriptGis.onload = gisLoaded;
-            document.head.appendChild(scriptGis);
+                const scriptGis = document.createElement('script');
+                scriptGis.src = 'https://accounts.google.com/gsi/client';
+                scriptGis.onload = gisLoaded;
+                document.head.appendChild(scriptGis);
+            }
+            
+            console.log("✅ ================================");
+            console.log("✅ APP-INITIALISIERUNG ERFOLGREICH!");
+            console.log("✅ ================================");
+            
+            // Debug-Info nach 3 Sekunden
+            setTimeout(() => {
+                debugData();
+                console.log("🔍 Finale Überprüfung:");
+                const finalGrid = document.getElementById('itemsGrid');
+                console.log("📊 itemsGrid Kinder:", finalGrid ? finalGrid.children.length : "NICHT GEFUNDEN");
+            }, 3000);
+            
+        } catch (error) {
+            console.error("💥 KRITISCHER FEHLER bei Initialisierung:", error);
+            alert("KRITISCHER FEHLER: " + error.message + "\n\nBitte Seite neu laden!");
         }
-        
-        console.log("✅ App-Initialisierung abgeschlossen!");
     });
+    
+    // Notfall-Reload Funktion
+    window.forceReload = function() {
+        console.log("🔄 FORCE RELOAD ausgeführt");
+        createItemCards();
+        createAdditionalItemCards();
+    };
 </script>
 
 </body>
