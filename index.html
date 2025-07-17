@@ -2730,6 +2730,9 @@
             // WICHTIG: Standard-Items IMMER zuerst anzeigen
             console.log("📋 Zeige Standard-Items an...");
             console.log("🔍 Data vor createItemCards:", data);
+            console.log("🔍 Data.items Länge:", data.items ? data.items.length : "UNDEFINED");
+            
+            // Sofort Items anzeigen ohne auf Firebase zu warten
             createItemCards();
             createAdditionalItemCards();
             
