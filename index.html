@@ -43,18 +43,9 @@ body {
 }
 
 @keyframes twinkle {
-    0% { 
-        opacity: 0.2;
-        transform: scale(0.8);
-    }
-    50% { 
-        opacity: 0.8;
-        transform: scale(1.2);
-    }
-    100% { 
-        opacity: 1;
-        transform: scale(1);
-    }
+    0% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 0.8; transform: scale(1.2); }
+    100% { opacity: 1; transform: scale(1); }
 }
 
 .container {
@@ -106,31 +97,12 @@ body {
     border: 2px solid #333;
 }
 
-.sync-status.connected {
-    border-color: #00ff00;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
-}
+.sync-status.connected { border-color: #00ff00; box-shadow: 0 0 20px rgba(0, 255, 0, 0.2); }
+.sync-status.disconnected { border-color: #ff4444; box-shadow: 0 0 20px rgba(255, 68, 68, 0.2); }
+.sync-status.syncing { border-color: #ffaa00; box-shadow: 0 0 20px rgba(255, 170, 0, 0.2); }
 
-.sync-status.disconnected {
-    border-color: #ff4444;
-    box-shadow: 0 0 20px rgba(255, 68, 68, 0.2);
-}
-
-.sync-status.syncing {
-    border-color: #ffaa00;
-    box-shadow: 0 0 20px rgba(255, 170, 0, 0.2);
-}
-
-.status-text {
-    font-weight: 700;
-    font-size: 0.9rem;
-}
-
-.sync-details {
-    font-size: 0.8rem;
-    opacity: 0.7;
-    margin-top: 5px;
-}
+.status-text { font-weight: 700; font-size: 0.9rem; }
+.sync-details { font-size: 0.8rem; opacity: 0.7; margin-top: 5px; }
 
 .section-title {
     font-size: clamp(1.5rem, 4vw, 2rem);
@@ -566,40 +538,15 @@ body {
 }
 
 @media (max-width: 768px) {
-    .items-grid {
-        grid-template-columns: 1fr;
-    }
-    .additional-items-grid {
-        grid-template-columns: 1fr;
-    }
-    .item-controls {
-        flex-direction: column;
-        gap: 10px;
-    }
-    .add-item-controls {
-        flex-direction: column;
-        gap: 10px;
-    }
-    .add-item-input {
-        min-width: unset;
-        width: 100%;
-    }
-    .name-input {
-        width: 100%;
-    }
-    .admin-input {
-        width: 100%;
-        max-width: 300px;
-    }
-    .admin-btn {
-        width: 100%;
-        max-width: 300px;
-    }
-    .export-btn {
-        display: block;
-        margin: 10px auto;
-        width: 80%;
-    }
+    .items-grid { grid-template-columns: 1fr; }
+    .additional-items-grid { grid-template-columns: 1fr; }
+    .item-controls { flex-direction: column; gap: 10px; }
+    .add-item-controls { flex-direction: column; gap: 10px; }
+    .add-item-input { min-width: unset; width: 100%; }
+    .name-input { width: 100%; }
+    .admin-input { width: 100%; max-width: 300px; }
+    .admin-btn { width: 100%; max-width: 300px; }
+    .export-btn { display: block; margin: 10px auto; width: 80%; }
 }
 </style>
 </head>
@@ -612,8 +559,8 @@ body {
         <div class="date">01. - 03. 08. 2025</div>
         <div class="subtitle">Partybeiträge • Anglerheim Jena</div>
         <div class="sync-status" id="syncStatus">
-            <div class="status-text" id="statusText">System wird gestartet...</div>
-            <div class="sync-details" id="syncDetails">Bitte warten</div>
+            <div class="status-text" id="statusText">Lokaler Modus - Funktioniert ohne Internet</div>
+            <div class="sync-details" id="syncDetails">Gib in der Konsole 'testAPI()' ein um die Synchronisation zu testen</div>
         </div>
     </div>
 
@@ -653,7 +600,7 @@ body {
             <div class="admin-panel">
                 <h3>⚙️ SYSTEM CONTROL</h3>
                 <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
-                <button class="export-btn" onclick="forceSync()">🔄 Force Sync</button>
+                <button class="export-btn" onclick="testAPI()">🔗 Test API</button>
             </div>
         </div>
     </div>
@@ -665,18 +612,19 @@ body {
 </div>
 
 <script>
-console.log("🚀 === ULTRA EINFACHE VERSION START ===");
+console.log("🚀 === PARTY BEITRÄGE APP - LOKALER MODUS ===");
 
-// SCHRITT 1: ERST MAL GRUNDFUNKTIONEN OHNE API
-const JSONBIN_CONFIG = {
+// KONFIGURATION
+const API_CONFIG = {
     BIN_ID: '687910f5db4fa954e67c66bd',
+    MASTER_KEY: '$2a$10$bgRXNVHpFNOpDO70VX5sf..5y.UvqHzfKZSRODi4KSmwdikOkbrB6',
     ACCESS_KEY: '$2a$10$N5gYVuZHvchDU6632EJeAuls.fEy0y6DFy0l0OUVktQUnRz4.U7YC',
     BASE_URL: 'https://api.jsonbin.io/v3/b/'
 };
 
 const ADMIN_PASSWORD = "admin";
 
-// Globale Daten
+// LOKALE DATEN
 let data = {
     items: [
         { id: "nudelsalat", name: "Nudelsalat", persons: [] },
@@ -696,14 +644,11 @@ let data = {
 };
 
 let isOnline = false;
-let syncInterval = null;
 
-console.log("✅ Daten initialisiert");
+console.log("✅ App initialisiert - Lokaler Modus aktiv");
 
 // HILFSFUNKTIONEN
 function updateStatus(status, message, details = '') {
-    console.log(`📡 Status: ${status} - ${message}`);
-    
     const statusDiv = document.getElementById('syncStatus');
     const statusText = document.getElementById('statusText');
     const syncDetails = document.getElementById('syncDetails');
@@ -711,10 +656,11 @@ function updateStatus(status, message, details = '') {
     if (statusDiv) statusDiv.className = 'sync-status ' + status;
     if (statusText) statusText.textContent = message;
     if (syncDetails) syncDetails.textContent = details;
+    
+    console.log(`📡 Status: ${status} - ${message} - ${details}`);
 }
 
 function createStars() {
-    console.log("⭐ Erstelle Sterne");
     const container = document.querySelector('.stars');
     if (!container) return;
     
@@ -727,7 +673,6 @@ function createStars() {
         star.style.animationDuration = (1.5 + Math.random() * 2) + 's';
         container.appendChild(star);
     }
-    console.log("✅ Sterne erstellt");
 }
 
 function showMessage(message, isError = false) {
@@ -753,14 +698,44 @@ function showMessage(message, isError = false) {
     }, 3000);
 }
 
+function saveLocal() {
+    try {
+        localStorage.setItem('partyBeitraege', JSON.stringify(data));
+        console.log("💾 Lokale Daten gespeichert");
+    } catch (error) {
+        console.error("❌ Lokales Speichern fehlgeschlagen:", error);
+    }
+}
+
+function loadLocal() {
+    try {
+        const saved = localStorage.getItem('partyBeitraege');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            
+            // Merge mit Standard-Items
+            if (parsed.items) {
+                data.items = data.items.map(defaultItem => {
+                    const loadedItem = parsed.items.find(item => item.id === defaultItem.id);
+                    return loadedItem || defaultItem;
+                });
+            }
+            
+            if (parsed.additionalItems) {
+                data.additionalItems = parsed.additionalItems;
+            }
+            
+            console.log("✅ Lokale Daten geladen");
+        }
+    } catch (error) {
+        console.error("❌ Lokales Laden fehlgeschlagen:", error);
+    }
+}
+
 // RENDERING
 function renderItems() {
-    console.log("🎨 Rendere Items");
     const grid = document.getElementById('itemsGrid');
-    if (!grid) {
-        console.error("❌ Grid nicht gefunden!");
-        return;
-    }
+    if (!grid) return;
     
     grid.innerHTML = '';
     
@@ -788,12 +763,9 @@ function renderItems() {
         
         grid.appendChild(card);
     });
-    
-    console.log("✅ Items gerendert:", data.items.length);
 }
 
 function renderAdditionalItems() {
-    console.log("🎨 Rendere Additional Items");
     const grid = document.getElementById('additionalItemsGrid');
     if (!grid) return;
     
@@ -822,168 +794,13 @@ function renderAdditionalItems() {
         
         grid.appendChild(card);
     });
-    
-    console.log("✅ Additional Items gerendert:", data.additionalItems.length);
-}
-
-// API FUNKTIONEN
-async function saveToAPI() {
-    console.log("💾 Speichere zu JSONBin");
-    
-    try {
-        updateStatus('syncing', '🔄 Speichere...', 'Übertrage Daten');
-        
-        // Versuche zuerst mit Master Key
-        console.log("🔑 Versuche mit Master Key...");
-        let response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Master-Key': '$2a$10$bgRXNVHpFNOpDO70VX5sf..5y.UvqHzfKZSRODi4KSmwdikOkbrB6'
-            },
-            body: JSON.stringify(data)
-        });
-        
-        if (response.ok) {
-            console.log("✅ Erfolgreich gespeichert (Master Key)");
-            isOnline = true;
-            updateStatus('connected', '✅ Online - Sync aktiv', 'JSONBin.io verbunden');
-            return true;
-        }
-        
-        // Falls Master Key fehlschlägt, versuche Access Key
-        console.log("🔑 Versuche mit Access Key...");
-        response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
-            },
-            body: JSON.stringify(data)
-        });
-        
-        if (response.ok) {
-            console.log("✅ Erfolgreich gespeichert (Access Key)");
-            isOnline = true;
-            updateStatus('connected', '✅ Online - Sync aktiv', 'JSONBin.io verbunden');
-            return true;
-        } else {
-            console.error("❌ Speichern fehlgeschlagen:", response.status, response.statusText);
-            throw new Error(`Speichern fehlgeschlagen: ${response.status}`);
-        }
-    } catch (error) {
-        console.error("❌ API Fehler:", error);
-        isOnline = false;
-        updateStatus('disconnected', '❌ Offline - Nur lokale Speicherung', 'Keine Verbindung');
-        return false;
-    }
-}
-
-async function loadFromAPI() {
-    console.log("📥 Lade von JSONBin");
-    
-    try {
-        updateStatus('syncing', '🔄 Lade Daten...', 'Verbinde mit JSONBin.io');
-        
-        // Versuche zuerst mit Master Key
-        console.log("🔑 Versuche mit Master Key...");
-        let response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
-            method: 'GET',
-            headers: {
-                'X-Master-Key': '$2a$10$bgRXNVHpFNOpDO70VX5sf..5y.UvqHzfKZSRODi4KSmwdikOkbrB6'
-            }
-        });
-        
-        if (response.ok) {
-            console.log("✅ Erfolgreich geladen (Master Key)");
-            const result = await response.json();
-            console.log("📊 Daten erhalten:", result);
-            
-            if (result.record) {
-                const loadedData = result.record;
-                
-                // Merge Items
-                if (loadedData.items) {
-                    data.items = data.items.map(defaultItem => {
-                        const loadedItem = loadedData.items.find(item => item.id === defaultItem.id);
-                        return loadedItem || defaultItem;
-                    });
-                }
-                
-                // Additional Items
-                if (loadedData.additionalItems) {
-                    data.additionalItems = loadedData.additionalItems;
-                }
-                
-                data.lastUpdate = loadedData.lastUpdate || Date.now();
-                
-                isOnline = true;
-                updateStatus('connected', '✅ Online - Sync aktiv', 'JSONBin.io verbunden');
-                console.log("✅ Daten erfolgreich geladen");
-                return true;
-            }
-        } else {
-            // Falls Master Key fehlschlägt, versuche Access Key
-            console.log("🔑 Versuche mit Access Key...");
-            response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
-                method: 'GET',
-                headers: {
-                    'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
-                }
-            });
-            
-            if (response.ok) {
-                console.log("✅ Erfolgreich geladen (Access Key)");
-                const result = await response.json();
-                console.log("📊 Daten erhalten:", result);
-                
-                if (result.record) {
-                    const loadedData = result.record;
-                    
-                    // Merge Items
-                    if (loadedData.items) {
-                        data.items = data.items.map(defaultItem => {
-                            const loadedItem = loadedData.items.find(item => item.id === defaultItem.id);
-                            return loadedItem || defaultItem;
-                        });
-                    }
-                    
-                    // Additional Items
-                    if (loadedData.additionalItems) {
-                        data.additionalItems = loadedData.additionalItems;
-                    }
-                    
-                    data.lastUpdate = loadedData.lastUpdate || Date.now();
-                    
-                    isOnline = true;
-                    updateStatus('connected', '✅ Online - Sync aktiv', 'JSONBin.io verbunden');
-                    console.log("✅ Daten erfolgreich geladen");
-                    return true;
-                }
-            } else {
-                console.error("❌ Laden fehlgeschlagen:", response.status, response.statusText);
-                throw new Error(`Laden fehlgeschlagen: ${response.status}`);
-            }
-        }
-    } catch (error) {
-        console.error("❌ API Fehler:", error);
-        isOnline = false;
-        updateStatus('disconnected', '❌ Offline - Lokaler Modus', 'Keine Verbindung zu JSONBin.io');
-        return false;
-    }
 }
 
 // HAUPTFUNKTIONEN
 function addPerson(itemId, isAdditional) {
-    console.log(`👤 Füge Person zu ${itemId} hinzu`);
-    
     const input = document.getElementById(`input-${itemId}`);
-    if (!input) {
-        console.error("❌ Input nicht gefunden!");
-        return;
-    }
-    
     const name = input.value.trim();
+    
     if (!name) {
         showMessage("Bitte gib deinen Namen ein!", true);
         return;
@@ -993,7 +810,6 @@ function addPerson(itemId, isAdditional) {
     const item = items.find(i => i.id === itemId);
     
     if (!item) {
-        console.error("❌ Item nicht gefunden:", itemId);
         showMessage("Fehler: Item nicht gefunden!", true);
         return;
     }
@@ -1006,27 +822,15 @@ function addPerson(itemId, isAdditional) {
     item.persons.push(name);
     input.value = '';
     
-    console.log(`✅ Person "${name}" hinzugefügt`);
-    
-    // Sofort rendern
+    saveLocal();
     renderItems();
     renderAdditionalItems();
     
-    // Async speichern
-    saveToAPI().then(success => {
-        if (success) {
-            console.log("✅ Erfolgreich synchronisiert");
-        } else {
-            console.warn("⚠️ Nicht synchronisiert - nur lokal gespeichert");
-        }
-    });
-    
     showMessage(`"${name}" erfolgreich eingetragen!`);
+    console.log(`✅ Person "${name}" zu "${item.name}" hinzugefügt`);
 }
 
 function removePerson(itemId, personName, isAdditional) {
-    console.log(`👤 Entferne Person "${personName}" von ${itemId}`);
-    
     if (!confirm(`Möchtest du "${personName}" wirklich austragen?`)) {
         return;
     }
@@ -1034,41 +838,22 @@ function removePerson(itemId, personName, isAdditional) {
     const items = isAdditional ? data.additionalItems : data.items;
     const item = items.find(i => i.id === itemId);
     
-    if (!item) {
-        console.error("❌ Item nicht gefunden:", itemId);
-        return;
-    }
+    if (!item) return;
     
     item.persons = item.persons.filter(p => p !== personName);
     
-    console.log(`✅ Person "${personName}" entfernt`);
-    
-    // Sofort rendern
+    saveLocal();
     renderItems();
     renderAdditionalItems();
     
-    // Async speichern
-    saveToAPI().then(success => {
-        if (success) {
-            console.log("✅ Erfolgreich synchronisiert");
-        } else {
-            console.warn("⚠️ Nicht synchronisiert - nur lokal gespeichert");
-        }
-    });
-    
     showMessage(`"${personName}" erfolgreich ausgetragen!`);
+    console.log(`✅ Person "${personName}" von "${item.name}" entfernt`);
 }
 
 function addNewItem() {
-    console.log("➕ Füge neues Item hinzu");
-    
     const input = document.getElementById('newItemInput');
-    if (!input) {
-        console.error("❌ Input nicht gefunden!");
-        return;
-    }
-    
     const name = input.value.trim();
+    
     if (!name) {
         showMessage("Bitte gib einen Namen ein!", true);
         return;
@@ -1076,7 +861,6 @@ function addNewItem() {
     
     const id = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
     
-    // Prüfe ob bereits vorhanden
     const exists = data.items.some(i => i.id === id) || data.additionalItems.some(i => i.id === id);
     if (exists) {
         showMessage("Dieser Beitrag existiert bereits!", true);
@@ -1091,21 +875,99 @@ function addNewItem() {
     
     input.value = '';
     
-    console.log(`✅ Neues Item "${name}" hinzugefügt`);
-    
-    // Sofort rendern
+    saveLocal();
     renderAdditionalItems();
     
-    // Async speichern
-    saveToAPI().then(success => {
-        if (success) {
-            console.log("✅ Erfolgreich synchronisiert");
-        } else {
-            console.warn("⚠️ Nicht synchronisiert - nur lokal gespeichert");
-        }
-    });
-    
     showMessage(`"${name}" erfolgreich hinzugefügt!`);
+    console.log(`✅ Neues Item "${name}" hinzugefügt`);
+}
+
+// API TEST FUNKTION
+async function testAPI() {
+    console.log("🧪 === API TEST START ===");
+    
+    showMessage("Teste API-Verbindung...");
+    
+    try {
+        // Test 1: Master Key
+        console.log("🔑 Teste Master Key...");
+        let response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.BIN_ID}`, {
+            method: 'GET',
+            headers: {
+                'X-Master-Key': API_CONFIG.MASTER_KEY
+            }
+        });
+        
+        console.log("📡 Master Key Response:", response.status, response.statusText);
+        
+        if (response.ok) {
+            const result = await response.json();
+            console.log("✅ Master Key funktioniert!");
+            console.log("📊 Daten:", result);
+            updateStatus('connected', '✅ Master Key funktioniert!', 'API-Verbindung hergestellt');
+            showMessage("Master Key funktioniert! Synchronisation möglich.");
+            return true;
+        }
+        
+        // Test 2: Access Key
+        console.log("🔑 Teste Access Key...");
+        response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.BIN_ID}`, {
+            method: 'GET',
+            headers: {
+                'X-Access-Key': API_CONFIG.ACCESS_KEY
+            }
+        });
+        
+        console.log("📡 Access Key Response:", response.status, response.statusText);
+        
+        if (response.ok) {
+            const result = await response.json();
+            console.log("✅ Access Key funktioniert!");
+            console.log("📊 Daten:", result);
+            updateStatus('connected', '✅ Access Key funktioniert!', 'API-Verbindung hergestellt');
+            showMessage("Access Key funktioniert! Synchronisation möglich.");
+            return true;
+        }
+        
+        // Test 3: Andere Varianten
+        console.log("🔑 Teste Alternative Headers...");
+        
+        const alternatives = [
+            { 'X-Master-Key': API_CONFIG.MASTER_KEY, 'Content-Type': 'application/json' },
+            { 'Authorization': `Bearer ${API_CONFIG.ACCESS_KEY}` },
+            { 'X-API-Key': API_CONFIG.ACCESS_KEY }
+        ];
+        
+        for (let i = 0; i < alternatives.length; i++) {
+            console.log(`🔑 Teste Alternative ${i + 1}:`, alternatives[i]);
+            response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.BIN_ID}`, {
+                method: 'GET',
+                headers: alternatives[i]
+            });
+            
+            console.log(`📡 Alternative ${i + 1} Response:`, response.status, response.statusText);
+            
+            if (response.ok) {
+                const result = await response.json();
+                console.log(`✅ Alternative ${i + 1} funktioniert!`);
+                console.log("📊 Daten:", result);
+                updateStatus('connected', `✅ Alternative ${i + 1} funktioniert!`, 'API-Verbindung hergestellt');
+                showMessage(`Alternative ${i + 1} funktioniert! Synchronisation möglich.`);
+                return true;
+            }
+        }
+        
+        console.log("❌ Alle Tests fehlgeschlagen");
+        updateStatus('disconnected', '❌ Alle API-Tests fehlgeschlagen', 'Lokaler Modus aktiv');
+        showMessage("Alle API-Tests fehlgeschlagen. Lokaler Modus aktiv.", true);
+        return false;
+        
+    } catch (error) {
+        console.error("❌ API-Test Fehler:", error);
+        updateStatus('disconnected', '❌ API-Test Fehler', 'Lokaler Modus aktiv');
+        showMessage("API-Test Fehler. Lokaler Modus aktiv.", true);
+        return false;
+    }
 }
 
 // ADMIN FUNKTIONEN
@@ -1114,7 +976,6 @@ function adminLogin() {
     if (input.value === ADMIN_PASSWORD) {
         document.getElementById('adminLogin').style.display = 'none';
         document.getElementById('adminControls').style.display = 'block';
-        console.log("✅ Admin Login erfolgreich");
         showMessage("Admin-Zugang gewährt!");
     } else {
         showMessage("Falsches Passwort!", true);
@@ -1125,13 +986,10 @@ function adminLogin() {
 function adminLogout() {
     document.getElementById('adminLogin').style.display = 'block';
     document.getElementById('adminControls').style.display = 'none';
-    console.log("✅ Admin Logout");
     showMessage("Admin-Zugang beendet!");
 }
 
 function exportToCSV() {
-    console.log("📊 Exportiere CSV");
-    
     let csv = "data:text/csv;charset=utf-8,Kategorie,Beitrag,Name,Anzahl\n";
     
     data.items.forEach(item => {
@@ -1162,207 +1020,48 @@ function exportToCSV() {
     showMessage("CSV Export erfolgreich!");
 }
 
-function forceSync() {
-    console.log("🔄 Force Sync");
-    
-    // Zuerst speichern
-    saveToAPI().then(saveSuccess => {
-        if (saveSuccess) {
-            console.log("✅ Speichern erfolgreich");
-            
-            // Dann laden
-            loadFromAPI().then(loadSuccess => {
-                if (loadSuccess) {
-                    console.log("✅ Laden erfolgreich");
-                    renderItems();
-                    renderAdditionalItems();
-                    showMessage("Synchronisation erfolgreich!");
-                } else {
-                    console.warn("⚠️ Laden fehlgeschlagen");
-                    showMessage("Synchronisation teilweise erfolgreich!", true);
-                }
-            });
-        } else {
-            console.warn("⚠️ Speichern fehlgeschlagen");
-            showMessage("Synchronisation fehlgeschlagen!", true);
-        }
-    });
-}
-
-// TEST FUNKTION
-async function testConnection() {
-    console.log("🧪 === TESTE VERBINDUNG ===");
-    
-    try {
-        // Test mit Master Key
-        console.log("🔑 Teste Master Key...");
-        let response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
-            method: 'GET',
-            headers: {
-                'X-Master-Key': '$2a$10$bgRXNVHpFNOpDO70VX5sf..5y.UvqHzfKZSRODi4KSmwdikOkbrB6'
-            }
-        });
-        
-        if (response.ok) {
-            console.log("✅ Master Key funktioniert!");
-            const result = await response.json();
-            console.log("📊 Daten:", result);
-            showMessage("Master Key Verbindung erfolgreich!");
-            return true;
-        } else {
-            console.log("❌ Master Key fehlgeschlagen:", response.status);
-        }
-        
-        // Test mit Access Key
-        console.log("🔑 Teste Access Key...");
-        response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
-            method: 'GET',
-            headers: {
-                'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
-            }
-        });
-        
-        if (response.ok) {
-            console.log("✅ Access Key funktioniert!");
-            const result = await response.json();
-            console.log("📊 Daten:", result);
-            showMessage("Access Key Verbindung erfolgreich!");
-            return true;
-        } else {
-            console.log("❌ Access Key fehlgeschlagen:", response.status);
-        }
-        
-        console.log("❌ Beide Keys fehlgeschlagen");
-        showMessage("Beide Keys fehlgeschlagen!", true);
-        return false;
-        
-    } catch (error) {
-        console.error("❌ Verbindungstest fehlgeschlagen:", error);
-        showMessage("Verbindungstest fehlgeschlagen!", true);
-        return false;
-    }
-}
-
-// Füge Test-Funktion zum Window hinzu
-window.testConnection = testConnection;
-function startAutoSync() {
-    console.log("⏰ Starte Auto-Sync");
-    
-    if (syncInterval) clearInterval(syncInterval);
-    
-    syncInterval = setInterval(async () => {
-        if (isOnline) {
-            console.log("🔄 Auto-Sync Check");
-            
-            try {
-                // Versuche zuerst mit Master Key
-                let response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
-                    method: 'GET',
-                    headers: {
-                        'X-Master-Key': '$2a$10$bgRXNVHpFNOpDO70VX5sf..5y.UvqHzfKZSRODi4KSmwdikOkbrB6'
-                    }
-                });
-                
-                if (!response.ok) {
-                    // Falls Master Key fehlschlägt, versuche Access Key
-                    response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
-                        method: 'GET',
-                        headers: {
-                            'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
-                        }
-                    });
-                }
-                
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.record && result.record.lastUpdate > data.lastUpdate) {
-                        console.log("🔄 Neue Daten gefunden - aktualisiere");
-                        await loadFromAPI();
-                        renderItems();
-                        renderAdditionalItems();
-                        console.log("✅ Auto-Sync erfolgreich");
-                    }
-                }
-            } catch (error) {
-                console.warn("⚠️ Auto-Sync Fehler:", error);
-            }
-        }
-    }, 10000); // Alle 10 Sekunden
-}
-
 // INITIALISIERUNG
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("🚀 DOM geladen - starte Initialisierung");
+    console.log("🚀 DOM geladen - starte App");
     
-    try {
-        // Schritt 1: Grundfunktionen
-        createStars();
-        updateStatus('syncing', '🔄 Initialisiere...', 'Starte System');
-        
-        // Schritt 2: Items sofort anzeigen
-        console.log("📋 Zeige Items sofort an");
-        renderItems();
-        renderAdditionalItems();
-        
-        // Schritt 3: Versuche Daten zu laden
-        console.log("📥 Versuche Daten zu laden");
-        loadFromAPI().then(success => {
-            if (success) {
-                console.log("✅ Daten erfolgreich geladen");
-                renderItems();
-                renderAdditionalItems();
-                startAutoSync();
-            } else {
-                console.warn("⚠️ Laden fehlgeschlagen - arbeite offline");
-                updateStatus('disconnected', '❌ Offline - Nur lokale Speicherung', 'Keine Verbindung');
-            }
+    // Grundfunktionen
+    createStars();
+    loadLocal();
+    
+    // UI rendern
+    renderItems();
+    renderAdditionalItems();
+    
+    // Event Listeners
+    const newItemInput = document.getElementById('newItemInput');
+    if (newItemInput) {
+        newItemInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addNewItem();
         });
-        
-        // Schritt 4: Event Listeners
-        const newItemInput = document.getElementById('newItemInput');
-        if (newItemInput) {
-            newItemInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') addNewItem();
-            });
-        }
-        
-        const adminPassword = document.getElementById('adminPassword');
-        if (adminPassword) {
-            adminPassword.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') adminLogin();
-            });
-        }
-        
-        console.log("✅ Initialisierung erfolgreich");
-        
-    } catch (error) {
-        console.error("❌ Initialisierungsfehler:", error);
-        updateStatus('disconnected', '❌ Fehler beim Starten', 'Bitte Seite neu laden');
-        showMessage("Fehler beim Starten der App!", true);
     }
+    
+    const adminPassword = document.getElementById('adminPassword');
+    if (adminPassword) {
+        adminPassword.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') adminLogin();
+        });
+    }
+    
+    console.log("✅ App gestartet - Lokaler Modus aktiv");
+    console.log("🔧 Befehle: testAPI() - Teste API-Verbindung");
 });
 
-// Cleanup
-window.addEventListener('beforeunload', () => {
-    if (syncInterval) clearInterval(syncInterval);
-});
-
-// DEBUG FUNKTIONEN
-window.testConnection = testConnection;
-window.forceSync = forceSync;
+// GLOBAL FUNCTIONS
+window.testAPI = testAPI;
 window.showData = function() {
     console.log("📊 === AKTUELLE DATEN ===");
     console.log("Standard Items:", data.items.length);
     console.log("Additional Items:", data.additionalItems.length);
-    console.log("Online:", isOnline);
     console.log("Vollständige Daten:", data);
 };
 
-console.log("✅ Script vollständig geladen");
-console.log("🔧 Debug-Befehle verfügbar:");
-console.log("  - testConnection() - Teste JSONBin Verbindung");
-console.log("  - forceSync() - Erzwinge Synchronisation");
-console.log("  - showData() - Zeige aktuelle Daten");
+console.log("✅ Script geladen - Lokaler Modus funktioniert");
+console.log("🔧 Debug-Befehle: testAPI(), showData()");
 </script>
 
 </body>
