@@ -4,794 +4,607 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>4 x 40 B-Day-Bash - Partybeiträge</title>
-<meta content="Partybeiträge für die 4 x 40 B-Day-Bash Party am 01.-03.08.2025 im Anglerheim Jena" name="description"/>
-<meta content="Birthday Party, Partybeiträge, Geburtstag, Party, Jena" name="keywords"/>
 
 <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    
-    body {
-        font-family: 'Orbitron', monospace;
-        background: linear-gradient(135deg, #1a0033 0%, #2d1b4e 50%, #4a0e4e 100%);
-        min-height: 100vh;
-        color: #ffffff;
-        overflow-x: hidden;
-    }
-    
-    .stars {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: -1;
-    }
-    
-    .star {
-        position: absolute;
-        width: 2px;
-        height: 2px;
-        background: #ffffff;
-        border-radius: 50%;
-        animation: twinkle 2s infinite alternate;
-        box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
-    }
-    
-    @keyframes twinkle {
-        0% { 
-            opacity: 0.2;
-            transform: scale(0.8);
-        }
-        50% { 
-            opacity: 0.8;
-            transform: scale(1.2);
-        }
-        100% { 
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-    
-    .neon-lines {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: -1;
-    }
-    
-    .neon-line {
-        position: absolute;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, #ff00ff, transparent);
-        animation: neon-sweep 4s linear infinite;
-        opacity: 0.7;
-        box-shadow: 0 0 4px rgba(255, 0, 255, 0.5);
-    }
-    
-    @keyframes neon-sweep {
-        0% { 
-            transform: translateX(-100%);
-            opacity: 0;
-        }
-        10% { 
-            opacity: 0.7;
-        }
-        90% { 
-            opacity: 0.7;
-        }
-        100% { 
-            transform: translateX(100vw);
-            opacity: 0;
-        }
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    .laser-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: -2;
-        overflow: hidden;
-    }
+body {
+    font-family: 'Orbitron', monospace;
+    background: linear-gradient(135deg, #1a0033 0%, #2d1b4e 50%, #4a0e4e 100%);
+    min-height: 100vh;
+    color: #ffffff;
+    overflow-x: hidden;
+}
 
-    .laser-beam {
-        position: absolute;
-        width: 1px;
-        height: 100vh;
-        background: linear-gradient(0deg, 
-            transparent 0%, 
-            rgba(0, 255, 255, 0.1) 20%, 
-            rgba(255, 0, 255, 0.15) 50%, 
-            rgba(0, 255, 255, 0.1) 80%, 
-            transparent 100%);
-        animation: laser-move 8s linear infinite;
-        opacity: 0.6;
-    }
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
 
-    .laser-beam:nth-child(2) {
-        animation-delay: -2s;
-    }
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 50%;
+    animation: twinkle 2s infinite alternate;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+}
 
-    .laser-beam:nth-child(3) {
-        animation-delay: -4s;
-        animation-duration: 10s;
+@keyframes twinkle {
+    0% { 
+        opacity: 0.2;
+        transform: scale(0.8);
     }
-
-    .laser-beam:nth-child(4) {
-        animation-delay: -6s;
-        animation-duration: 12s;
-    }
-
-    @keyframes laser-move {
-        0% { 
-            left: -10px; 
-            transform: rotate(1deg);
-        }
-        25% { 
-            left: 25%; 
-            transform: rotate(-0.5deg);
-        }
-        50% { 
-            left: 50%; 
-            transform: rotate(0.8deg);
-        }
-        75% { 
-            left: 75%; 
-            transform: rotate(-0.3deg);
-        }
-        100% { 
-            left: calc(100% + 10px); 
-            transform: rotate(0.5deg);
-        }
-    }
-    
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        position: relative;
-    }
-    
-    .header {
-        text-align: center;
-        margin-bottom: 40px;
-        padding: 30px;
-        background: rgba(0, 0, 0, 0.3);
-        border: 2px solid #ff00ff;
-        border-radius: 15px;
-        box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
-    }
-    
-    .title {
-        font-size: clamp(1.8rem, 6vw, 3rem);
-        font-weight: 900;
-        color: #ff00ff;
-        text-shadow: 0 0 20px #ff00ff;
-        margin-bottom: 10px;
-        letter-spacing: 3px;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        line-height: 1.2;
-    }
-    
-    .date {
-        font-size: clamp(1rem, 3vw, 1.5rem);
-        color: #00ffff;
-        text-shadow: 0 0 10px #00ffff;
-        margin-bottom: 20px;
-        letter-spacing: 2px;
-    }
-    
-    .subtitle {
-        font-size: clamp(0.9rem, 2.5vw, 1.2rem);
-        color: #ffffff;
+    50% { 
         opacity: 0.8;
+        transform: scale(1.2);
     }
-    
-    .items-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 20px;
-        margin-bottom: 40px;
-    }
-    
-    .section-title {
-        font-size: clamp(1.5rem, 4vw, 2rem);
-        font-weight: 900;
-        color: #ff00ff;
-        text-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
-        text-align: center;
-        margin: 40px 0 30px;
-        letter-spacing: 2px;
-    }
-
-    .section-title.highlighted-plus {
-        font-size: clamp(1.8rem, 4.5vw, 2.5rem);
-        color: #ffff00;
-        text-shadow: 0 0 20px #ffff00, 0 0 30px rgba(255, 255, 0, 0.8);
-        animation: pulse-plus 1.5s infinite alternate;
-    }
-
-    @keyframes pulse-plus {
-        0% {
-            transform: scale(1);
-            opacity: 1;
-        }
-        100% {
-            transform: scale(1.05);
-            opacity: 0.9;
-        }
-    }
-    
-    .additional-section {
-        margin-top: 50px;
-    }
-    
-    .add-item-card {
-        background: rgba(0, 0, 0, 0.2);
-        border: 2px dashed #666;
-        border-radius: 10px;
-        padding: 20px;
-        text-align: center;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: visible;
-    }
-    
-    .add-item-card:hover {
-        border-color: #ff00ff;
-        box-shadow: 0 0 20px rgba(255, 0, 255, 0.1);
-    }
-    
-    .add-item-title {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #ff00ff;
-        margin-bottom: 15px;
-        text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
-    }
-    
-    .add-item-controls {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-    
-    .add-item-input {
-        flex: 1;
-        min-width: 200px;
-        padding: 10px;
-        border: 2px solid #333;
-        border-radius: 5px;
-        background: rgba(0, 0, 0, 0.7);
-        color: #ffffff;
-        font-family: 'Orbitron', monospace;
-        font-size: 1rem;
-    }
-    
-    .add-item-input:focus {
-        outline: none;
-        border-color: #ff00ff;
-        box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
-    }
-    
-    .btn-add {
-        background: linear-gradient(45deg, #ff00ff, #00ffff);
-        color: #000;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        font-family: 'Orbitron', monospace;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        font-size: 0.9rem;
-    }
-    
-    .btn-add:hover {
-        box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
-        transform: translateY(-2px);
-    }
-    
-    .additional-items-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 20px;
-        margin-bottom: 20px;
-    }
-    
-    .additional-item-card {
-        background: rgba(0, 0, 0, 0.3);
-        border: 2px solid #666;
-        border-radius: 10px;
-        padding: 20px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: visible;
-    }
-    
-    .additional-item-card:hover {
-        border-color: #00ffff;
-        box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
-    }
-    
-    .additional-item-name {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #00ffff;
-        margin-bottom: 10px;
-        text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-    }
-    
-    .additional-note {
-        font-size: 0.8rem;
-        color: #888;
-        font-style: italic;
-        margin-bottom: 15px;
-    }
-    
-    .item-card {
-        background: rgba(0, 0, 0, 0.4);
-        border: 2px solid #333;
-        border-radius: 10px;
-        padding: 20px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: visible;
-    }
-    
-    .item-card:hover {
-        border-color: #ff00ff;
-        box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
-    }
-    
-    .item-card.taken {
-        border-color: #00ff00;
-        box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
-    }
-    
-    .item-name {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: #ffffff;
-        margin-bottom: 10px;
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-    }
-
-    .item-counter {
-        font-size: 0.9rem;
-        color: #00ffff;
-        margin-bottom: 15px;
-        text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-    }
-    
-    .persons-list {
-        margin-bottom: 15px;
-        max-height: 150px;
-        overflow-y: auto;
-    }
-    
-    .person-entry {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px 12px;
-        margin-bottom: 5px;
-        background: rgba(0, 255, 0, 0.1);
-        border: 1px solid rgba(0, 255, 0, 0.3);
-        border-radius: 5px;
-        transition: all 0.3s ease;
-    }
-    
-    .person-entry:hover {
-        background: rgba(0, 255, 0, 0.2);
-        border-color: rgba(0, 255, 0, 0.5);
-    }
-    
-    .person-name {
-        color: #00ff00;
-        font-weight: 600;
-        text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-    }
-    
-    .btn-small {
-        padding: 4px 8px;
-        border: none;
-        border-radius: 3px;
-        font-family: 'Orbitron', monospace;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 0.8rem;
-    }
-    
-    .btn-small.btn-unregister {
-        background: linear-gradient(45deg, #ff4444, #ff6666);
-        color: #fff;
-    }
-    
-    .btn-small.btn-unregister:hover {
-        background: linear-gradient(45deg, #ff6666, #ff8888);
-        transform: scale(1.1);
-    }
-    
-    .item-controls {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-    
-    .name-input {
-        flex: 1;
-        padding: 10px;
-        border: 2px solid #333;
-        border-radius: 5px;
-        background: rgba(0, 0, 0, 0.7);
-        color: #ffffff;
-        font-family: 'Orbitron', monospace;
-        font-size: 1rem;
-        min-width: 150px;
-    }
-    
-    .name-input:focus {
-        outline: none;
-        border-color: #ff00ff;
-        box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
-    }
-    
-    .btn {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        font-family: 'Orbitron', monospace;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        font-size: 0.9rem;
-    }
-    
-    .btn-take {
-        background: linear-gradient(45deg, #ff00ff, #00ffff);
-        color: #000;
-    }
-    
-    .btn-take:hover {
-        box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
-        transform: translateY(-2px);
-    }
-    
-    /* Sync Status */
-    .sync-status {
-        text-align: center;
-        margin-top: 15px;
-        padding: 15px;
-        background: rgba(0, 0, 0, 0.5);
-        border-radius: 10px;
-        border: 2px solid #333;
-        position: relative;
-        z-index: 2;
-    }
-    
-    .sync-status.connected {
-        border-color: #00ff00;
-        box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
-    }
-    
-    .sync-status.disconnected {
-        border-color: #ff4444;
-        box-shadow: 0 0 20px rgba(255, 68, 68, 0.2);
-    }
-    
-    .sync-status.syncing {
-        border-color: #ffaa00;
-        box-shadow: 0 0 20px rgba(255, 170, 0, 0.2);
-    }
-    
-    .status-text {
-        font-weight: 700;
-        font-size: 0.9rem;
-    }
-    
-    .sync-details {
-        font-size: 0.8rem;
-        opacity: 0.7;
-        margin-top: 5px;
-    }
-    
-    /* Thank You Animation Overlay */
-    .thank-you-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.9);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-    }
-    
-    .thank-you-overlay.show {
+    100% { 
         opacity: 1;
-        pointer-events: all;
+        transform: scale(1);
     }
-    
-    .thank-you-content {
-        text-align: center;
-        position: relative;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #ff00ff;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+}
+
+.title {
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    font-weight: 900;
+    color: #ff00ff;
+    text-shadow: 0 0 20px #ff00ff;
+    margin-bottom: 10px;
+    letter-spacing: 3px;
+}
+
+.date {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    color: #ffffff;
+    opacity: 0.8;
+}
+
+.sync-status {
+    text-align: center;
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    border: 2px solid #333;
+}
+
+.sync-status.connected {
+    border-color: #00ff00;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+}
+
+.sync-status.disconnected {
+    border-color: #ff4444;
+    box-shadow: 0 0 20px rgba(255, 68, 68, 0.2);
+}
+
+.sync-status.syncing {
+    border-color: #ffaa00;
+    box-shadow: 0 0 20px rgba(255, 170, 0, 0.2);
+}
+
+.status-text {
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.sync-details {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 5px;
+}
+
+.section-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 900;
+    color: #ff00ff;
+    text-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
+    text-align: center;
+    margin: 40px 0 30px;
+    letter-spacing: 2px;
+}
+
+.section-title.highlighted-plus {
+    font-size: clamp(1.8rem, 4.5vw, 2.5rem);
+    color: #ffff00;
+    text-shadow: 0 0 20px #ffff00;
+    animation: pulse-plus 1.5s infinite alternate;
+}
+
+@keyframes pulse-plus {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.05); opacity: 0.9; }
+}
+
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.item-card {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.item-card:hover {
+    border-color: #ff00ff;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
+}
+
+.item-card.taken {
+    border-color: #00ff00;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+}
+
+.item-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.item-counter {
+    font-size: 0.9rem;
+    color: #00ffff;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+.persons-list {
+    margin-bottom: 15px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.person-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid rgba(0, 255, 0, 0.3);
+    border-radius: 5px;
+}
+
+.person-name {
+    color: #00ff00;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.btn-small {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 3px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.8rem;
+    background: linear-gradient(45deg, #ff4444, #ff6666);
+    color: #fff;
+}
+
+.btn-small:hover {
+    background: linear-gradient(45deg, #ff6666, #ff8888);
+    transform: scale(1.1);
+}
+
+.item-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.name-input {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem;
+    min-width: 150px;
+}
+
+.name-input:focus {
+    outline: none;
+    border-color: #ff00ff;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.btn-take {
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    color: #000;
+}
+
+.btn-take:hover {
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.additional-section {
+    margin-top: 50px;
+}
+
+.additional-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.additional-item-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #666;
+    border-radius: 10px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.additional-item-card:hover {
+    border-color: #00ffff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+}
+
+.additional-item-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #00ffff;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.add-item-card {
+    background: rgba(0, 0, 0, 0.2);
+    border: 2px dashed #666;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.add-item-card:hover {
+    border-color: #ff00ff;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.1);
+}
+
+.add-item-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ff00ff;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+}
+
+.additional-note {
+    font-size: 0.8rem;
+    color: #888;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.add-item-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.add-item-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem;
+}
+
+.add-item-input:focus {
+    outline: none;
+    border-color: #ff00ff;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+}
+
+.btn-add {
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    color: #000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.btn-add:hover {
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.thank-you-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.thank-you-overlay.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.thank-you-text {
+    font-size: clamp(2rem, 8vw, 4rem);
+    font-weight: 900;
+    color: #ff00ff;
+    text-shadow: 0 0 30px #ff00ff;
+    text-align: center;
+    animation: glitch 0.5s ease-in-out infinite alternate;
+}
+
+.thank-you-subtext {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    color: #00ffff;
+    text-shadow: 0 0 20px #00ffff;
+    text-align: center;
+    margin-top: 20px;
+}
+
+@keyframes glitch {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-2px); }
+    100% { transform: translateX(0); }
+}
+
+.admin-section {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    border: 2px solid #333;
+}
+
+.admin-title {
+    color: #ff00ff;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 900;
+    margin-bottom: 30px;
+    text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+    letter-spacing: 2px;
+}
+
+.admin-input {
+    padding: 15px 20px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem;
+    width: 300px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.admin-input:focus {
+    outline: none;
+    border-color: #ff00ff;
+    box-shadow: 0 0 25px rgba(255, 0, 255, 0.5);
+}
+
+.admin-btn {
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    color: #000;
+    padding: 15px 35px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+}
+
+.admin-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 35px rgba(255, 0, 255, 0.7);
+}
+
+.admin-controls {
+    display: none;
+}
+
+.admin-panel {
+    margin-top: 20px;
+    padding: 25px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 15px;
+    border: 2px solid #00ff00;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+}
+
+.admin-panel h3 {
+    color: #00ff00;
+    margin-bottom: 20px;
+    text-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+.export-btn {
+    background: linear-gradient(45deg, #00ffff, #ff00ff);
+    color: #000;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin: 0 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.export-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+}
+
+.logout-btn {
+    background: linear-gradient(45deg, #ff4444, #ff6666);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    float: right;
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
+}
+
+.logout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(255, 68, 68, 0.6);
+}
+
+.footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border: 2px solid #333;
+}
+
+.footer h3 {
+    color: #ff00ff;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+    .items-grid {
+        grid-template-columns: 1fr;
     }
-    
-    .thank-you-text {
-        font-size: clamp(2rem, 8vw, 4rem);
-        font-weight: 900;
-        color: #ff00ff;
-        text-shadow: 0 0 30px #ff00ff;
-        margin-bottom: 20px;
-        animation: glitch 0.5s ease-in-out infinite alternate;
-        padding: 0 10px;
-        white-space: normal;
-        word-break: break-word;
+    .additional-items-grid {
+        grid-template-columns: 1fr;
     }
-    
-    .thank-you-subtext {
-        font-size: clamp(1rem, 4vw, 1.5rem);
-        color: #00ffff;
-        text-shadow: 0 0 20px #00ffff;
-        animation: neon-pulse 1s ease-in-out infinite;
-        padding: 0 10px;
-        white-space: normal;
-        word-break: break-word;
+    .item-controls {
+        flex-direction: column;
+        gap: 10px;
     }
-    
-    @keyframes glitch {
-        0% {
-            transform: translateX(0);
-            text-shadow: 0 0 30px #ff00ff;
-        }
-        25% {
-            transform: translateX(-5px);
-            text-shadow: -5px 0 30px #ff00ff, 5px 0 30px #00ffff;
-        }
-        50% {
-            transform: translateX(5px);
-            text-shadow: 5px 0 30px #ff00ff, -5px 0 30px #00ffff;
-        }
-        75% {
-            transform: translateX(-2px);
-            text-shadow: -2px 0 30px #ff00ff, 2px 0 30px #00ffff;
-        }
-        100% {
-            transform: translateX(0);
-            text-shadow: 0 0 30px #ff00ff;
-        }
+    .add-item-controls {
+        flex-direction: column;
+        gap: 10px;
     }
-    
-    @keyframes neon-pulse {
-        0%, 100% {
-            text-shadow: 0 0 20px #00ffff;
-        }
-        50% {
-            text-shadow: 0 0 40px #00ffff, 0 0 60px #00ffff;
-        }
+    .add-item-input {
+        min-width: unset;
+        width: 100%;
     }
-    
-    /* Admin Login Section */
-    .admin-section {
-        text-align: center;
-        margin-top: 40px;
-        padding: 20px;
-        background: rgba(0, 0, 0, 0.3);
-        border-radius: 15px;
-        border: 2px solid #333;
-        position: relative;
-        overflow: visible;
+    .name-input {
+        width: 100%;
     }
-    
-    .admin-login {
-        display: block;
-        position: relative;
-        z-index: 2;
-    }
-    
-    .admin-controls {
-        display: none;
-        position: relative;
-        z-index: 2;
-    }
-    
-    .admin-title {
-        color: #ff00ff;
-        font-size: clamp(1.3rem, 3vw, 1.8rem);
-        font-weight: 900;
-        margin-bottom: 30px;
-        text-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
-        letter-spacing: 2px;
-    }
-    
     .admin-input {
-        padding: 15px 20px;
-        border: 2px solid #333;
-        border-radius: 10px;
-        background: rgba(0, 0, 0, 0.8);
-        color: #ffffff;
-        font-family: 'Orbitron', monospace;
-        font-size: 1.1rem;
-        width: 300px;
-        text-align: center;
-        transition: all 0.3s ease;
-        margin-bottom: 20px;
+        width: 100%;
+        max-width: 300px;
     }
-    
-    .admin-input:focus {
-        outline: none;
-        border-color: #ff00ff;
-        box-shadow: 0 0 25px rgba(255, 0, 255, 0.5);
-        background: rgba(0, 0, 0, 0.9);
-    }
-    
     .admin-btn {
-        background: linear-gradient(45deg, #ff00ff, #00ffff);
-        color: #000;
-        padding: 15px 35px;
-        border: none;
-        border-radius: 10px;
-        font-family: 'Orbitron', monospace;
-        font-weight: 900;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        font-size: 1.1rem;
-        letter-spacing: 1px;
-        box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+        width: 100%;
+        max-width: 300px;
     }
-    
-    .admin-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 0 35px rgba(255, 0, 255, 0.7);
-    }
-    
-    .admin-panel {
-        margin-top: 20px;
-        padding: 25px;
-        background: rgba(0, 0, 0, 0.4);
-        border-radius: 15px;
-        border: 2px solid #00ff00;
-        box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
-    }
-    
-    .admin-panel h3 {
-        color: #00ff00;
-        margin-bottom: 20px;
-        text-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
-        font-size: 1.5rem;
-        font-weight: 900;
-        letter-spacing: 1px;
-    }
-    
     .export-btn {
-        background: linear-gradient(45deg, #00ffff, #ff00ff);
-        color: #000;
-        padding: 15px 30px;
-        border: none;
-        border-radius: 10px;
-        font-family: 'Orbitron', monospace;
-        font-weight: 700;
-        font-size: 1.1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        margin: 0 10px;
-        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        display: block;
+        margin: 10px auto;
+        width: 80%;
     }
-    
-    .export-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
-    }
-    
-    .logout-btn {
-        background: linear-gradient(45deg, #ff4444, #ff6666);
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 8px;
-        font-family: 'Orbitron', monospace;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        float: right;
-        box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
-    }
-    
-    .logout-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 0 25px rgba(255, 68, 68, 0.6);
-    }
-    
-    .footer {
-        text-align: center;
-        margin-top: 40px;
-        padding: 20px;
-        background: rgba(0, 0, 0, 0.3);
-        border-radius: 10px;
-        border: 2px solid #333;
-    }
-    
-    .footer h3 {
-        color: #ff00ff;
-        margin-bottom: 10px;
-        text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
-    }
-    
-    @media (max-width: 768px) {
-        .items-grid {
-            grid-template-columns: 1fr;
-        }
-        .additional-items-grid {
-            grid-template-columns: 1fr;
-        }
-        .item-controls {
-            flex-direction: column;
-            gap: 10px;
-        }
-        .add-item-controls {
-            flex-direction: column;
-            gap: 10px;
-        }
-        .add-item-input {
-            min-width: unset;
-            width: 100%;
-        }
-        .name-input {
-            width: 100%;
-        }
-        .admin-input {
-            width: 100%;
-            max-width: 300px;
-        }
-        .admin-btn {
-            width: 100%;
-            max-width: 300px;
-        }
-        .export-btn {
-            display: block;
-            margin: 10px auto;
-            width: 80%;
-        }
-    }
+}
 </style>
 </head>
 <body>
 <div class="stars"></div>
-<div class="neon-lines"></div>
-<div class="laser-background">
-    <div class="laser-beam"></div>
-    <div class="laser-beam"></div>
-    <div class="laser-beam"></div>
-    <div class="laser-beam"></div>
-</div>
 
 <div class="container">
     <div class="header">
@@ -799,22 +612,17 @@
         <div class="date">01. - 03. 08. 2025</div>
         <div class="subtitle">Partybeiträge • Anglerheim Jena</div>
         <div class="sync-status" id="syncStatus">
-            <div class="status-text" id="statusText">Initialisierung...</div>
-            <div class="sync-details" id="syncDetails">System wird geladen</div>
+            <div class="status-text" id="statusText">System wird gestartet...</div>
+            <div class="sync-details" id="syncDetails">Bitte warten</div>
         </div>
     </div>
 
     <div class="section-title">🎯 Benötigte Partybeiträge</div>
-    <div class="items-grid" id="itemsGrid">
-        <div style="color: #ffaa00; padding: 20px; text-align: center;">
-            ⏳ Lade Partybeiträge...
-        </div>
-    </div>
+    <div class="items-grid" id="itemsGrid"></div>
 
     <div class="additional-section">
         <div class="section-title highlighted-plus">➕ Weitere Partybeiträge</div>
-        <div class="additional-items-grid" id="additionalItemsGrid">
-            </div>
+        <div class="additional-items-grid" id="additionalItemsGrid"></div>
         <div class="add-item-card">
             <div class="add-item-title">Neuen Partybeitrag vorschlagen</div>
             <div class="additional-note">Hier kannst du weitere Dinge eintragen, die du zur Party beitragen möchtest</div>
@@ -826,7 +634,7 @@
     </div>
 
     <div class="thank-you-overlay" id="thankYouOverlay">
-        <div class="thank-you-content">
+        <div>
             <div class="thank-you-text">DANKE!</div>
             <div class="thank-you-subtext">Vielen Dank für deine Anmeldung!</div>
         </div>
@@ -857,26 +665,18 @@
 </div>
 
 <script>
-// ===================================================================
-// EINFACHE UND ROBUSTE VERSION - SCHRITT FÜR SCHRITT
-// ===================================================================
+console.log("🚀 === ULTRA EINFACHE VERSION START ===");
 
-console.log("🚀 === APP START ===");
-
-// JSONBin.io Konfiguration
+// SCHRITT 1: ERST MAL GRUNDFUNKTIONEN OHNE API
 const JSONBIN_CONFIG = {
     BIN_ID: '687910f5db4fa954e67c66bd',
     ACCESS_KEY: '$2a$10$N5gYVuZHvchDU6632EJeAuls.fEy0y6DFy0l0OUVktQUnRz4.U7YC',
     BASE_URL: 'https://api.jsonbin.io/v3/b/'
 };
 
-// Globale Variablen
-let isOnline = false;
-let syncInterval = null;
-let isSyncing = false;
 const ADMIN_PASSWORD = "admin";
 
-// Datenstruktur
+// Globale Daten
 let data = {
     items: [
         { id: "nudelsalat", name: "Nudelsalat", persons: [] },
@@ -895,30 +695,12 @@ let data = {
     lastUpdate: Date.now()
 };
 
-// Reaktionen
-const thankYouReactions = [
-    "🙏 Daaaaaankööö! 🙏",
-    "💕 Du bist die/der Geilste! 💕",
-    "💣 Hammer-fett-bombe-krass! 💣",
-    "🥰 Echt?! Thnx!!! 🥰",
-    "🛟 Du bist die Rettung 🛟",
-    "❤️ Ich hasse alle: Außer DICH! ❤️"
-];
+let isOnline = false;
+let syncInterval = null;
 
-const goodbyeReactions = [
-    "👋 Schade, bis zum nächsten Mal!",
-    "💔 Wir werden dich vermissen!",
-    "🫡 Verstanden, abgemeldet.",
-    "😥 Komm bald wieder!",
-    "💨 Tschüssikowski!"
-];
+console.log("✅ Daten initialisiert");
 
-console.log("✅ Variablen geladen");
-
-// ===================================================================
 // HILFSFUNKTIONEN
-// ===================================================================
-
 function updateStatus(status, message, details = '') {
     console.log(`📡 Status: ${status} - ${message}`);
     
@@ -931,27 +713,164 @@ function updateStatus(status, message, details = '') {
     if (syncDetails) syncDetails.textContent = details;
 }
 
-function getRandomReaction(reactions) {
-    return reactions[Math.floor(Math.random() * reactions.length)];
+function createStars() {
+    console.log("⭐ Erstelle Sterne");
+    const container = document.querySelector('.stars');
+    if (!container) return;
+    
+    for (let i = 0; i < 150; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        star.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+        container.appendChild(star);
+    }
+    console.log("✅ Sterne erstellt");
 }
 
-// ===================================================================
-// JSONBIN API
-// ===================================================================
+function showMessage(message, isError = false) {
+    const overlay = document.getElementById('thankYouOverlay');
+    const text = overlay.querySelector('.thank-you-text');
+    const subtext = overlay.querySelector('.thank-you-subtext');
+    
+    if (isError) {
+        text.textContent = "FEHLER!";
+        text.style.color = "#ff4444";
+        subtext.textContent = message;
+        subtext.style.color = "#ff4444";
+    } else {
+        text.textContent = "DANKE!";
+        text.style.color = "#ff00ff";
+        subtext.textContent = message;
+        subtext.style.color = "#00ffff";
+    }
+    
+    overlay.classList.add('show');
+    setTimeout(() => {
+        overlay.classList.remove('show');
+    }, 3000);
+}
 
-async function loadData() {
-    console.log("📥 Lade Daten...");
-    updateStatus('syncing', '🔄 Lade Daten...', 'Verbinde mit JSONBin.io');
+// RENDERING
+function renderItems() {
+    console.log("🎨 Rendere Items");
+    const grid = document.getElementById('itemsGrid');
+    if (!grid) {
+        console.error("❌ Grid nicht gefunden!");
+        return;
+    }
+    
+    grid.innerHTML = '';
+    
+    data.items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        if (item.persons.length > 0) card.classList.add('taken');
+        
+        const personsHtml = item.persons.map(person => `
+            <div class="person-entry">
+                <span class="person-name">${person}</span>
+                <button class="btn-small" onclick="removePerson('${item.id}', '${person}', false)">X</button>
+            </div>
+        `).join('');
+        
+        card.innerHTML = `
+            <div class="item-name">${item.name}</div>
+            ${item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
+            <div class="persons-list">${personsHtml}</div>
+            <div class="item-controls">
+                <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
+                <button class="btn btn-take" onclick="addPerson('${item.id}', false)">Eintragen</button>
+            </div>
+        `;
+        
+        grid.appendChild(card);
+    });
+    
+    console.log("✅ Items gerendert:", data.items.length);
+}
+
+function renderAdditionalItems() {
+    console.log("🎨 Rendere Additional Items");
+    const grid = document.getElementById('additionalItemsGrid');
+    if (!grid) return;
+    
+    grid.innerHTML = '';
+    
+    data.additionalItems.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'additional-item-card';
+        
+        const personsHtml = item.persons.map(person => `
+            <div class="person-entry">
+                <span class="person-name">${person}</span>
+                <button class="btn-small" onclick="removePerson('${item.id}', '${person}', true)">X</button>
+            </div>
+        `).join('');
+        
+        card.innerHTML = `
+            <div class="additional-item-name">${item.name}</div>
+            ${item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
+            <div class="persons-list">${personsHtml}</div>
+            <div class="item-controls">
+                <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
+                <button class="btn btn-take" onclick="addPerson('${item.id}', true)">Eintragen</button>
+            </div>
+        `;
+        
+        grid.appendChild(card);
+    });
+    
+    console.log("✅ Additional Items gerendert:", data.additionalItems.length);
+}
+
+// API FUNKTIONEN
+async function saveToAPI() {
+    console.log("💾 Speichere zu JSONBin");
     
     try {
+        updateStatus('syncing', '🔄 Speichere...', 'Übertrage Daten');
+        
+        const response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
+            },
+            body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+            console.log("✅ Erfolgreich gespeichert");
+            isOnline = true;
+            updateStatus('connected', '✅ Online - Sync aktiv', 'JSONBin.io verbunden');
+            return true;
+        } else {
+            console.error("❌ Speichern fehlgeschlagen:", response.status);
+            throw new Error('Speichern fehlgeschlagen');
+        }
+    } catch (error) {
+        console.error("❌ API Fehler:", error);
+        isOnline = false;
+        updateStatus('disconnected', '❌ Offline - Nur lokale Speicherung', 'Keine Verbindung');
+        return false;
+    }
+}
+
+async function loadFromAPI() {
+    console.log("📥 Lade von JSONBin");
+    
+    try {
+        updateStatus('syncing', '🔄 Lade Daten...', 'Verbinde mit JSONBin.io');
+        
         const response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
             method: 'GET',
             headers: {
                 'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
             }
         });
-        
-        console.log("📡 Response Status:", response.status);
         
         if (response.ok) {
             const result = await response.json();
@@ -971,289 +890,40 @@ async function loadData() {
                 // Additional Items
                 if (loadedData.additionalItems) {
                     data.additionalItems = loadedData.additionalItems;
-                    console.log("➕ Additional Items geladen:", loadedData.additionalItems.length);
                 }
                 
                 data.lastUpdate = loadedData.lastUpdate || Date.now();
                 
                 isOnline = true;
-                updateStatus('connected', '✅ Online - Sync aktiv', 'Verbunden mit JSONBin.io');
-                console.log("✅ Daten erfolgreich geladen (inkl. zusätzliche Items)");
+                updateStatus('connected', '✅ Online - Sync aktiv', 'JSONBin.io verbunden');
+                console.log("✅ Daten erfolgreich geladen");
                 return true;
             }
+        } else {
+            console.error("❌ Laden fehlgeschlagen:", response.status);
+            throw new Error('Laden fehlgeschlagen');
         }
-        
-        throw new Error('Keine gültigen Daten');
-        
     } catch (error) {
-        console.error("❌ Fehler beim Laden:", error);
+        console.error("❌ API Fehler:", error);
         isOnline = false;
-        updateStatus('disconnected', '❌ Offline - Lokaler Modus', 'Verwendung lokaler Daten');
-        
-        // Lokale Daten laden
-        const saved = localStorage.getItem('partyData');
-        if (saved) {
-            try {
-                const parsed = JSON.parse(saved);
-                if (parsed.items) {
-                    data.items = data.items.map(defaultItem => {
-                        const loadedItem = parsed.items.find(item => item.id === defaultItem.id);
-                        return loadedItem || defaultItem;
-                    });
-                }
-                if (parsed.additionalItems) {
-                    data.additionalItems = parsed.additionalItems;
-                    console.log("➕ Lokale Additional Items geladen:", parsed.additionalItems.length);
-                }
-                console.log("✅ Lokale Daten geladen");
-            } catch (e) {
-                console.error("❌ Lokale Daten beschädigt:", e);
-            }
-        }
-        
+        updateStatus('disconnected', '❌ Offline - Lokaler Modus', 'Keine Verbindung zu JSONBin.io');
         return false;
     }
 }
 
-async function saveData() {
-    console.log("💾 Speichere Daten...");
-    console.log("📊 Items:", data.items.length);
-    console.log("➕ Additional Items:", data.additionalItems.length);
-    
-    if (isSyncing) return false;
-    isSyncing = true;
-    
-    try {
-        updateStatus('syncing', '🔄 Speichere...', 'Übertrage zu JSONBin.io');
-        
-        data.lastUpdate = Date.now();
-        
-        const response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
-            },
-            body: JSON.stringify(data)
-        });
-        
-        if (response.ok) {
-            console.log("✅ Erfolgreich gespeichert (inkl. zusätzliche Items)");
-            isOnline = true;
-            updateStatus('connected', '✅ Online - Sync aktiv', `Update: ${new Date().toLocaleTimeString()}`);
-            
-            // Lokalen Backup speichern
-            localStorage.setItem('partyData', JSON.stringify(data));
-            
-            return true;
-        }
-        
-        throw new Error('Speichern fehlgeschlagen');
-        
-    } catch (error) {
-        console.error("❌ Fehler beim Speichern:", error);
-        isOnline = false;
-        updateStatus('disconnected', '❌ Offline - Nur lokale Speicherung', 'JSONBin.io nicht erreichbar');
-        
-        // Lokalen Fallback speichern
-        localStorage.setItem('partyData', JSON.stringify(data));
-        
-        return false;
-    } finally {
-        isSyncing = false;
-    }
-}
-
-async function checkUpdates() {
-    if (!isOnline || isSyncing) return;
-    
-    try {
-        const response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
-            method: 'GET',
-            headers: {
-                'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
-            }
-        });
-        
-        if (response.ok) {
-            const result = await response.json();
-            if (result.record && result.record.lastUpdate > data.lastUpdate) {
-                console.log("🔄 Neue Daten verfügbar");
-                await loadData();
-                renderItems();
-                renderAdditionalItems();
-            }
-        }
-    } catch (error) {
-        console.warn("⚠️ Update-Check fehlgeschlagen:", error);
-    }
-}
-
-function startAutoSync() {
-    if (syncInterval) clearInterval(syncInterval);
-    syncInterval = setInterval(checkUpdates, 10000); // Alle 10 Sekunden
-    console.log("⏰ Auto-Sync gestartet");
-}
-
-// ===================================================================
-// UI FUNKTIONEN
-// ===================================================================
-
-function renderItems() {
-    console.log("🎨 Rendere Items");
-    
-    const grid = document.getElementById('itemsGrid');
-    if (!grid) return;
-    
-    grid.innerHTML = '';
-    
-    data.items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'item-card';
-        if (item.persons.length > 0) card.classList.add('taken');
-        
-        const personsHtml = item.persons.map(person => `
-            <div class="person-entry">
-                <span class="person-name">${person}</span>
-                <button class="btn-small btn-unregister" onclick="removePerson('${item.id}', '${person}', false)">X</button>
-            </div>
-        `).join('');
-        
-        card.innerHTML = `
-            <div class="item-name">${item.name}</div>
-            ${item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
-            <div class="persons-list">${personsHtml}</div>
-            <div class="item-controls">
-                <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
-                <button class="btn btn-take" onclick="addPerson('${item.id}', false)">Eintragen</button>
-            </div>
-        `;
-        
-        grid.appendChild(card);
-        
-        // Enter-Taste
-        const input = card.querySelector(`#input-${item.id}`);
-        if (input) {
-            input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') addPerson(item.id, false);
-            });
-        }
-    });
-    
-    console.log("✅ Items gerendert");
-}
-
-function renderAdditionalItems() {
-    console.log("🎨 Rendere Additional Items");
-    
-    const grid = document.getElementById('additionalItemsGrid');
-    if (!grid) return;
-    
-    grid.innerHTML = '';
-    
-    data.additionalItems.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'additional-item-card';
-        
-        const personsHtml = item.persons.map(person => `
-            <div class="person-entry">
-                <span class="person-name">${person}</span>
-                <button class="btn-small btn-unregister" onclick="removePerson('${item.id}', '${person}', true)">X</button>
-            </div>
-        `).join('');
-        
-        card.innerHTML = `
-            <div class="additional-item-name">${item.name}</div>
-            ${item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
-            <div class="persons-list">${personsHtml}</div>
-            <div class="item-controls">
-                <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
-                <button class="btn btn-take" onclick="addPerson('${item.id}', true)">Eintragen</button>
-            </div>
-        `;
-        
-        grid.appendChild(card);
-        
-        // Enter-Taste
-        const input = card.querySelector(`#input-${item.id}`);
-        if (input) {
-            input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') addPerson(item.id, true);
-            });
-        }
-    });
-    
-    console.log("✅ Additional Items gerendert");
-}
-
-function createStars() {
-    const container = document.querySelector('.stars');
-    for (let i = 0; i < 150; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.animationDelay = Math.random() * 3 + 's';
-        star.style.animationDuration = (1.5 + Math.random() * 2) + 's';
-        container.appendChild(star);
-    }
-}
-
-function createNeonLines() {
-    const container = document.querySelector('.neon-lines');
-    for (let i = 0; i < 8; i++) {
-        const line = document.createElement('div');
-        line.className = 'neon-line';
-        line.style.top = Math.random() * 100 + '%';
-        line.style.animationDelay = Math.random() * 4 + 's';
-        line.style.animationDuration = (4 + Math.random() * 3) + 's';
-        line.style.width = (200 + Math.random() * 400) + 'px';
-        container.appendChild(line);
-    }
-}
-
-function showThankYou(message) {
-    const overlay = document.getElementById('thankYouOverlay');
-    const text = overlay.querySelector('.thank-you-text');
-    const subtext = overlay.querySelector('.thank-you-subtext');
-    
-    text.textContent = getRandomReaction(thankYouReactions);
-    subtext.textContent = message;
-    
-    overlay.classList.add('show');
-    
-    setTimeout(() => {
-        overlay.classList.remove('show');
-    }, 3000);
-}
-
-function showGoodbye(message) {
-    const overlay = document.getElementById('thankYouOverlay');
-    const text = overlay.querySelector('.thank-you-text');
-    const subtext = overlay.querySelector('.thank-you-subtext');
-    
-    text.textContent = getRandomReaction(goodbyeReactions);
-    subtext.textContent = message;
-    
-    overlay.classList.add('show');
-    
-    setTimeout(() => {
-        overlay.classList.remove('show');
-    }, 3000);
-}
-
-// ===================================================================
 // HAUPTFUNKTIONEN
-// ===================================================================
-
-async function addPerson(itemId, isAdditional) {
-    console.log(`👤 Füge Person hinzu: ${itemId}`);
+function addPerson(itemId, isAdditional) {
+    console.log(`👤 Füge Person zu ${itemId} hinzu`);
     
     const input = document.getElementById(`input-${itemId}`);
-    const name = input.value.trim();
+    if (!input) {
+        console.error("❌ Input nicht gefunden!");
+        return;
+    }
     
+    const name = input.value.trim();
     if (!name) {
-        alert('Bitte Name eingeben!');
+        showMessage("Bitte gib deinen Namen ein!", true);
         return;
     }
     
@@ -1261,61 +931,93 @@ async function addPerson(itemId, isAdditional) {
     const item = items.find(i => i.id === itemId);
     
     if (!item) {
-        console.error(`Item ${itemId} nicht gefunden`);
+        console.error("❌ Item nicht gefunden:", itemId);
+        showMessage("Fehler: Item nicht gefunden!", true);
         return;
     }
     
     if (item.persons.includes(name)) {
-        alert('Name bereits vorhanden!');
+        showMessage("Dieser Name ist bereits eingetragen!", true);
         return;
     }
     
     item.persons.push(name);
     input.value = '';
     
-    await saveData();
+    console.log(`✅ Person "${name}" hinzugefügt`);
+    
+    // Sofort rendern
     renderItems();
     renderAdditionalItems();
     
-    showThankYou(`${name} erfolgreich eingetragen!`);
+    // Async speichern
+    saveToAPI().then(success => {
+        if (success) {
+            console.log("✅ Erfolgreich synchronisiert");
+        } else {
+            console.warn("⚠️ Nicht synchronisiert - nur lokal gespeichert");
+        }
+    });
+    
+    showMessage(`"${name}" erfolgreich eingetragen!`);
 }
 
-async function removePerson(itemId, name, isAdditional) {
-    console.log(`👤 Entferne Person: ${name} von ${itemId}`);
+function removePerson(itemId, personName, isAdditional) {
+    console.log(`👤 Entferne Person "${personName}" von ${itemId}`);
+    
+    if (!confirm(`Möchtest du "${personName}" wirklich austragen?`)) {
+        return;
+    }
     
     const items = isAdditional ? data.additionalItems : data.items;
     const item = items.find(i => i.id === itemId);
     
-    if (!item) return;
-    
-    if (confirm(`${name} wirklich austragen?`)) {
-        item.persons = item.persons.filter(p => p !== name);
-        
-        await saveData();
-        renderItems();
-        renderAdditionalItems();
-        
-        showGoodbye(`${name} erfolgreich ausgetragen!`);
+    if (!item) {
+        console.error("❌ Item nicht gefunden:", itemId);
+        return;
     }
+    
+    item.persons = item.persons.filter(p => p !== personName);
+    
+    console.log(`✅ Person "${personName}" entfernt`);
+    
+    // Sofort rendern
+    renderItems();
+    renderAdditionalItems();
+    
+    // Async speichern
+    saveToAPI().then(success => {
+        if (success) {
+            console.log("✅ Erfolgreich synchronisiert");
+        } else {
+            console.warn("⚠️ Nicht synchronisiert - nur lokal gespeichert");
+        }
+    });
+    
+    showMessage(`"${personName}" erfolgreich ausgetragen!`);
 }
 
-async function addNewItem() {
+function addNewItem() {
     console.log("➕ Füge neues Item hinzu");
     
     const input = document.getElementById('newItemInput');
-    const name = input.value.trim();
+    if (!input) {
+        console.error("❌ Input nicht gefunden!");
+        return;
+    }
     
+    const name = input.value.trim();
     if (!name) {
-        alert('Bitte Name eingeben!');
+        showMessage("Bitte gib einen Namen ein!", true);
         return;
     }
     
     const id = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
     
-    // Prüfe ob existiert
+    // Prüfe ob bereits vorhanden
     const exists = data.items.some(i => i.id === id) || data.additionalItems.some(i => i.id === id);
     if (exists) {
-        alert('Bereits vorhanden!');
+        showMessage("Dieser Beitrag existiert bereits!", true);
         return;
     }
     
@@ -1327,24 +1029,33 @@ async function addNewItem() {
     
     input.value = '';
     
-    await saveData();
+    console.log(`✅ Neues Item "${name}" hinzugefügt`);
+    
+    // Sofort rendern
     renderAdditionalItems();
     
-    showThankYou(`${name} hinzugefügt!`);
+    // Async speichern
+    saveToAPI().then(success => {
+        if (success) {
+            console.log("✅ Erfolgreich synchronisiert");
+        } else {
+            console.warn("⚠️ Nicht synchronisiert - nur lokal gespeichert");
+        }
+    });
+    
+    showMessage(`"${name}" erfolgreich hinzugefügt!`);
 }
 
-// ===================================================================
 // ADMIN FUNKTIONEN
-// ===================================================================
-
 function adminLogin() {
     const input = document.getElementById('adminPassword');
     if (input.value === ADMIN_PASSWORD) {
         document.getElementById('adminLogin').style.display = 'none';
         document.getElementById('adminControls').style.display = 'block';
-        console.log("✅ Admin Login");
+        console.log("✅ Admin Login erfolgreich");
+        showMessage("Admin-Zugang gewährt!");
     } else {
-        alert('Falsches Passwort!');
+        showMessage("Falsches Passwort!", true);
     }
     input.value = '';
 }
@@ -1353,9 +1064,12 @@ function adminLogout() {
     document.getElementById('adminLogin').style.display = 'block';
     document.getElementById('adminControls').style.display = 'none';
     console.log("✅ Admin Logout");
+    showMessage("Admin-Zugang beendet!");
 }
 
 function exportToCSV() {
+    console.log("📊 Exportiere CSV");
+    
     let csv = "data:text/csv;charset=utf-8,Kategorie,Beitrag,Name,Anzahl\n";
     
     data.items.forEach(item => {
@@ -1383,51 +1097,99 @@ function exportToCSV() {
     link.setAttribute('download', 'party_beitraege.csv');
     link.click();
     
-    showThankYou("CSV Export erfolgreich!");
+    showMessage("CSV Export erfolgreich!");
 }
 
-async function forceSync() {
+function forceSync() {
     console.log("🔄 Force Sync");
+    
+    // Zuerst speichern
+    saveToAPI().then(saveSuccess => {
+        if (saveSuccess) {
+            console.log("✅ Speichern erfolgreich");
+            
+            // Dann laden
+            loadFromAPI().then(loadSuccess => {
+                if (loadSuccess) {
+                    console.log("✅ Laden erfolgreich");
+                    renderItems();
+                    renderAdditionalItems();
+                    showMessage("Synchronisation erfolgreich!");
+                } else {
+                    console.warn("⚠️ Laden fehlgeschlagen");
+                    showMessage("Synchronisation teilweise erfolgreich!", true);
+                }
+            });
+        } else {
+            console.warn("⚠️ Speichern fehlgeschlagen");
+            showMessage("Synchronisation fehlgeschlagen!", true);
+        }
+    });
+}
+
+// AUTO SYNC
+function startAutoSync() {
+    console.log("⏰ Starte Auto-Sync");
     
     if (syncInterval) clearInterval(syncInterval);
     
-    await saveData();
-    await loadData();
-    
-    renderItems();
-    renderAdditionalItems();
-    
-    startAutoSync();
-    
-    showThankYou("Sync erfolgreich!");
+    syncInterval = setInterval(async () => {
+        if (isOnline) {
+            console.log("🔄 Auto-Sync Check");
+            
+            try {
+                const response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.record && result.record.lastUpdate > data.lastUpdate) {
+                        console.log("🔄 Neue Daten gefunden - aktualisiere");
+                        await loadFromAPI();
+                        renderItems();
+                        renderAdditionalItems();
+                    }
+                }
+            } catch (error) {
+                console.warn("⚠️ Auto-Sync Fehler:", error);
+            }
+        }
+    }, 15000); // Alle 15 Sekunden
 }
 
-// ===================================================================
 // INITIALISIERUNG
-// ===================================================================
-
-document.addEventListener('DOMContentLoaded', async function() {
-    console.log("🚀 DOM geladen - starte App");
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("🚀 DOM geladen - starte Initialisierung");
     
     try {
-        // Grundfunktionen
+        // Schritt 1: Grundfunktionen
         createStars();
-        createNeonLines();
+        updateStatus('syncing', '🔄 Initialisiere...', 'Starte System');
         
-        // Status setzen
-        updateStatus('syncing', '🔄 Initialisiere...', 'Lade Daten');
-        
-        // Daten laden
-        await loadData();
-        
-        // UI rendern
+        // Schritt 2: Items sofort anzeigen
+        console.log("📋 Zeige Items sofort an");
         renderItems();
         renderAdditionalItems();
         
-        // Auto-Sync starten
-        startAutoSync();
+        // Schritt 3: Versuche Daten zu laden
+        console.log("📥 Versuche Daten zu laden");
+        loadFromAPI().then(success => {
+            if (success) {
+                console.log("✅ Daten erfolgreich geladen");
+                renderItems();
+                renderAdditionalItems();
+                startAutoSync();
+            } else {
+                console.warn("⚠️ Laden fehlgeschlagen - arbeite offline");
+                updateStatus('disconnected', '❌ Offline - Nur lokale Speicherung', 'Keine Verbindung');
+            }
+        });
         
-        // Event Listeners
+        // Schritt 4: Event Listeners
         const newItemInput = document.getElementById('newItemInput');
         if (newItemInput) {
             newItemInput.addEventListener('keypress', (e) => {
@@ -1442,11 +1204,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
         }
         
-        console.log("✅ App erfolgreich gestartet");
+        console.log("✅ Initialisierung erfolgreich");
         
     } catch (error) {
         console.error("❌ Initialisierungsfehler:", error);
-        updateStatus('disconnected', '❌ Fehler beim Laden', 'Versuche es später erneut');
+        updateStatus('disconnected', '❌ Fehler beim Starten', 'Bitte Seite neu laden');
+        showMessage("Fehler beim Starten der App!", true);
     }
 });
 
@@ -1455,7 +1218,7 @@ window.addEventListener('beforeunload', () => {
     if (syncInterval) clearInterval(syncInterval);
 });
 
-console.log("✅ Script geladen");
+console.log("✅ Script vollständig geladen");
 </script>
 
 </body>
