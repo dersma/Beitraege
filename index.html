@@ -86,16 +86,16 @@
 
         .laser-beam {
             position: absolute;
-            width: 1px;
-            height: 100vh;
-            background: linear-gradient(0deg, transparent 0%, rgba(0, 255, 255, 0.1) 20%, rgba(255, 0, 255, 0.15) 50%, rgba(0, 255, 255, 0.1) 80%, transparent 100%);
-            animation: laser-move 8s linear infinite;
-            opacity: 0.6;
+            height: 1px;
+            width: 100vw;
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 255, 0.1) 20%, rgba(255, 0, 255, 0.15) 50%, rgba(0, 255, 255, 0.1) 80%, transparent 100%);
+            animation: laser-move-horizontal 8s linear infinite;
+            opacity: 0.4;
         }
 
         .laser-beam:nth-child(2) {
             animation-delay: -2s;
-            background: linear-gradient(0deg, transparent 0%, rgba(255, 0, 255, 0.1) 20%, rgba(0, 255, 255, 0.15) 50%, rgba(255, 0, 255, 0.1) 80%, transparent 100%);
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 0, 255, 0.1) 20%, rgba(0, 255, 255, 0.15) 50%, rgba(255, 0, 255, 0.1) 80%, transparent 100%);
         }
 
         .laser-beam:nth-child(3) {
@@ -106,15 +106,15 @@
         .laser-beam:nth-child(4) {
             animation-delay: -6s;
             animation-duration: 12s;
-            background: linear-gradient(0deg, transparent 0%, rgba(255, 255, 0, 0.08) 20%, rgba(255, 0, 255, 0.12) 50%, rgba(255, 255, 0, 0.08) 80%, transparent 100%);
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 0, 0.08) 20%, rgba(255, 0, 255, 0.12) 50%, rgba(255, 255, 0, 0.08) 80%, transparent 100%);
         }
 
-        @keyframes laser-move {
-            0% { left: -10px; transform: rotate(1deg); }
-            25% { left: 25%; transform: rotate(-0.5deg); }
-            50% { left: 50%; transform: rotate(0.8deg); }
-            75% { left: 75%; transform: rotate(-0.3deg); }
-            100% { left: calc(100% + 10px); transform: rotate(0.5deg); }
+        @keyframes laser-move-horizontal {
+            0% { top: -10px; transform: translateY(0); }
+            25% { top: 25%; transform: translateY(5px); }
+            50% { top: 50%; transform: translateY(-5px); }
+            75% { top: 75%; transform: translateY(3px); }
+            100% { top: calc(100% + 10px); transform: translateY(0); }
         }
         
         .container {
@@ -510,7 +510,7 @@
             font-size: clamp(2rem, 8vw, 4rem);
             font-weight: 900;
             color: #ff00ff;
-            text-shadow: 0 0 30px #ff00ff;
+            text-shadow: 0 0 30px #ff00ff, 0 0 50px #00ffff;
             margin-bottom: 20px;
             animation: glitch 0.5s ease-in-out infinite alternate;
             padding: 0 10px;
@@ -521,11 +521,25 @@
         .thank-you-subtext {
             font-size: clamp(1rem, 4vw, 1.5rem);
             color: #00ffff;
-            text-shadow: 0 0 20px #00ffff;
+            text-shadow: 0 0 20px #00ffff, 0 0 40px #ff00ff;
             animation: neon-pulse 1s ease-in-out infinite;
             padding: 0 10px;
             white-space: normal;
             word-break: break-word;
+        }
+        
+        .radial-laser {
+            position: absolute;
+            width: 2px;
+            height: 200px;
+            background: linear-gradient(to bottom, transparent, #ff00ff, #00ffff, transparent);
+            animation: radial-laser-spin 2s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes radial-laser-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .retro-grid {
@@ -890,6 +904,7 @@
             .admin-input-container { width: 100%; max-width: 300px; margin: 0 auto 20px; }
             .admin-btn { width: 100%; max-width: 300px; }
             .admin-title { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
+            .laser-beam { height: clamp(0.5px, 1vw, 1px); }
         }
         @media (max-width: 480px) {
             .title { font-size: clamp(1.8rem, 5.5vw, 2rem); letter-spacing: 0px; }
@@ -908,6 +923,7 @@
             .persons-list { max-height: 100px; }
             .add-item-card { padding: 15px; }
             .additional-item-card { padding: 15px; }
+            .laser-beam { height: clamp(0.3px, 0.8vw, 0.5px); }
         }
     </style>
 </head>
@@ -965,7 +981,7 @@
             <div class="admin-login" id="adminLogin">
                 <div class="admin-title">🔐 ADMIN ACCESS</div>
                 <div class="admin-input-container">
-                    <input class="admin-input" id="adminPassword" placeholder="Enter Password" type="password"/>
+                    <input class="admin-input" id="adminPassword" placeholder="Enter Password" type="password" onkeypress="if(event.key === 'Enter') adminLogin()"/>
                     <div class="admin-input-glow"></div>
                 </div>
                 <br/>
@@ -980,6 +996,7 @@
                         <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
                         <button class="export-btn" id="testApiBtn">🔗 Test API</button>
                         <button class="export-btn" onclick="generateNewBin()">🆕 Neuer BIN</button>
+                        <button class="export-btn" onclick="exportToExcel()">📑 Excel Export</button>
                     </div>
                 </div>
             </div>
@@ -1018,7 +1035,6 @@
             dbRef.on('value', (snapshot) => {
                 const firebaseData = snapshot.val();
                 if (firebaseData) {
-                    // Umwandlung der Objekt-Struktur in ein Array
                     data.items = Object.values(firebaseData.items || {}).map(item => {
                         if (!item.hasOwnProperty('persons') || !Array.isArray(item.persons)) {
                             item.persons = [];
@@ -1031,14 +1047,14 @@
                         }
                         return item;
                     });
-                    console.log('Daten aus Firebase geladen:', data); // Debugging
+                    console.log('Daten aus Firebase geladen:', data);
                 } else {
                     saveData();
                 }
                 updateDisplay();
             }, (error) => {
                 console.error('Fehler beim Laden der Daten:', error);
-                updateDisplay(); // Fallback auf lokale Daten
+                updateDisplay();
             });
         }
 
@@ -1062,7 +1078,6 @@
             const itemsGrid = document.getElementById('itemsGrid');
             itemsGrid.innerHTML = '';
             data.items.forEach(item => {
-                // Sicherstellen, dass persons ein Array ist
                 if (!Array.isArray(item.persons)) {
                     item.persons = [];
                 }
@@ -1093,7 +1108,6 @@
             const additionalItemsGrid = document.getElementById('additionalItemsGrid');
             additionalItemsGrid.innerHTML = '';
             data.additionalItems.forEach(item => {
-                // Sicherstellen, dass persons ein Array ist
                 if (!Array.isArray(item.persons)) {
                     item.persons = [];
                 }
@@ -1144,6 +1158,10 @@
                 const item = items.find(i => i.id === itemId);
                 if (item && Array.isArray(item.persons)) {
                     item.persons = item.persons.filter(p => p !== personName);
+                    if (item.persons.length === 0 && items === data.additionalItems && !data.items.some(i => i.id === item.id)) {
+                        const index = items.findIndex(i => i.id === itemId);
+                        if (index !== -1) items.splice(index, 1);
+                    }
                     saveData();
                     showGoodbyeEffect();
                 }
@@ -1170,12 +1188,13 @@
         // Admin-Logik
         function adminLogin() {
             const password = document.getElementById('adminPassword').value;
-            if (password === "admin") {
+            if (password === "tojomajo") {
                 isAdminLoggedIn = true;
                 document.getElementById('adminLogin').style.display = 'none';
                 document.getElementById('adminControls').style.display = 'block';
-                document.getElementById('exportSection').style.display = 'block'; // Anzeige der Export-Optionen
+                document.getElementById('exportSection').style.display = 'block';
                 document.getElementById('testApiBtn').onclick = connectToFirebase;
+                alert("Yes Daddy, CUM IN ME 💦");
             } else {
                 alert('Falsches Passwort!');
             }
@@ -1185,7 +1204,7 @@
             isAdminLoggedIn = false;
             document.getElementById('adminControls').style.display = 'none';
             document.getElementById('adminLogin').style.display = 'block';
-            document.getElementById('exportSection').style.display = 'none'; // Verbergen der Export-Optionen
+            document.getElementById('exportSection').style.display = 'none';
         }
 
         // Firebase-Verbindung herstellen
@@ -1213,15 +1232,45 @@
             link.click();
         }
 
+        function exportToExcel() {
+            let csv = "Kategorie,Beitrag,Personen\n";
+            data.items.forEach(item => {
+                csv += `Benötigt,"${item.name || ''}","${(item.persons || []).join(';')}"\n`;
+            });
+            data.additionalItems.forEach(item => {
+                csv += `Zusätzlich,"${item.name || ''}","${(item.persons || []).join(';')}"\n`;
+            });
+            const uri = 'data:application/vnd.ms-excel,' + encodeURIComponent(csv);
+            const link = document.createElement('a');
+            link.href = uri;
+            link.download = 'partybeiträge.xls';
+            link.click();
+        }
+
         function generateNewBin() {
             const newBin = 'BIN_' + Math.random().toString(36).substr(2, 9).toUpperCase();
             alert('Neuer BIN generiert: ' + newBin);
         }
 
         // Danke- und Abschiedseffekte
-        const thankYouMessages = ["DANKE!", "Vielen Dank!", "Super!", "Danke schön!", "Toll!", "Vielen Dank für deine Anmeldung!", "Fantastisch!", "Danke dir!", "Großartig!", "Vielen Dank für deinen Beitrag!"];
-        const thankYouSubtexts = ["Dein Beitrag ist registriert!", "Du rockst die Party!", "Alles klar!", "Dein Name ist jetzt dabei!", "Party wird besser mit dir!", "Du bist im Team!", "Perfekt!", "Danke fürs Mitmachen!", "Du machst den Unterschied!", "Top Job!"];
-        const goodbyeMessages = ["Tschüss!", "Bis bald!", "Schade!", "Auf Wiedersehen!", "Ciao!", "Du bist raus!", "Okay, bis später!", "Danke trotzdem!", "Wir sehen uns!", "Take care!"];
+        const thankYouMessages = [
+            "🙏 Daaaaaankööö! 🙏",
+            "💕 Du bist die/der Geilste! 💕",
+            "💣 Hammer-fett-bombe-krass! 💣",
+            "🥰 Echt?! Thnx!!! 🥰",
+            "🛟 Du bist die Rettung 🛟",
+            "❤️ Ich hasse alle: Außer DICH! ❤️",
+            "❤️‍🔥 Wir lieben Dich! ❤️‍🔥"
+        ];
+        const goodbyeReactions = [
+            "👋 Schade, vielleicht was anderes?!",
+            "💔 Wir werden deinen Beitrag vermissen!",
+            "🫡 Verstanden, abgemeldet.",
+            "😥 Komm bald wieder!",
+            "💨 Tschüssikowski!",
+            "👋 Bleib sauber!",
+            "🫡 Bis bald, Cowboy!"
+        ];
 
         function showThankYouEffect() {
             if (!isAdminLoggedIn) {
@@ -1230,11 +1279,25 @@
                 const subtext = document.getElementById('thankYouSubtext');
                 const randomIndex = Math.floor(Math.random() * thankYouMessages.length);
                 text.textContent = thankYouMessages[randomIndex];
-                subtext.textContent = thankYouSubtexts[randomIndex];
+                subtext.textContent = "";
                 overlay.classList.add('show');
                 setTimeout(() => overlay.classList.remove('show'), 4000);
 
-                for (let i = 0; i < 20; i++) {
+                // Radiale Laserstrahlen hinzufügen
+                const laserLines = document.querySelector('.laser-lines');
+                laserLines.innerHTML = '';
+                for (let i = 0; i < 8; i++) {
+                    const laser = document.createElement('div');
+                    laser.className = 'radial-laser';
+                    laser.style.transformOrigin = 'center';
+                    laser.style.left = '50%';
+                    laser.style.top = '50%';
+                    laser.style.animationDelay = `${i * 0.25}s`;
+                    laserLines.appendChild(laser);
+                    setTimeout(() => laser.remove(), 4000);
+                }
+
+                for (let i = 0; i < 30; i++) {
                     const particle = document.createElement('div');
                     particle.className = 'particle';
                     particle.style.left = Math.random() * 100 + 'vw';
@@ -1251,9 +1314,9 @@
                 const overlay = document.getElementById('thankYouOverlay');
                 const text = document.getElementById('thankYouText');
                 const subtext = document.getElementById('thankYouSubtext');
-                const randomIndex = Math.floor(Math.random() * goodbyeMessages.length);
-                text.textContent = goodbyeMessages[randomIndex];
-                subtext.textContent = "Dein Austrag wurde verarbeitet!";
+                const randomIndex = Math.floor(Math.random() * goodbyeReactions.length);
+                text.textContent = goodbyeReactions[randomIndex];
+                subtext.textContent = "";
                 overlay.classList.add('show');
                 setTimeout(() => overlay.classList.remove('show'), 4000);
 
@@ -1297,7 +1360,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             createStars();
             createNeonLines();
-            initializeFirebase(); // Sofortige Initialisierung bei Ladevorgang
+            initializeFirebase();
             firebase.database().ref('.info/connected').on('value', (snap) => {
                 const status = document.querySelector('.drive-status');
                 status.className = 'drive-status' + (snap.val() ? ' connected' : ' disconnected');
