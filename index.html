@@ -46,9 +46,24 @@
             animation: twinkle 2s infinite alternate;
         }
 
+        .shooting-star-laser {
+            position: absolute;
+            width: 1px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, #00ffff, #ff00ff, transparent);
+            animation: shoot-laser 2s linear forwards;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
         @keyframes twinkle {
             0% { opacity: 0.3; }
             100% { opacity: 1; }
+        }
+
+        @keyframes shoot-laser {
+            0% { transform: translateY(0) scaleY(1); opacity: 0.8; }
+            100% { transform: translateY(-100vh) scaleY(2); opacity: 0; }
         }
 
         .neon-lines {
@@ -905,6 +920,7 @@
             .admin-btn { width: 100%; max-width: 300px; }
             .admin-title { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
             .laser-beam { height: clamp(0.5px, 1vw, 1px); }
+            .shooting-star-laser { height: clamp(50px, 10vw, 100px); }
         }
         @media (max-width: 480px) {
             .title { font-size: clamp(1.8rem, 5.5vw, 2rem); letter-spacing: 0px; }
@@ -924,6 +940,7 @@
             .add-item-card { padding: 15px; }
             .additional-item-card { padding: 15px; }
             .laser-beam { height: clamp(0.3px, 0.8vw, 0.5px); }
+            .shooting-star-laser { height: clamp(30px, 8vw, 50px); }
         }
     </style>
 </head>
@@ -1158,7 +1175,7 @@
                 const item = items.find(i => i.id === itemId);
                 if (item && Array.isArray(item.persons)) {
                     item.persons = item.persons.filter(p => p !== personName);
-                    if (item.persons.length === 0 && items === data.additionalItems && !data.items.some(i => i.id === item.id)) {
+                    if (item.persons.length === 0 && items === data.additionalItems && !data.items.some(i => i.id === itemId)) {
                         const index = items.findIndex(i => i.id === itemId);
                         if (index !== -1) items.splice(index, 1);
                     }
@@ -1188,7 +1205,7 @@
         // Admin-Logik
         function adminLogin() {
             const password = document.getElementById('adminPassword').value;
-            if (password === "tojomajo") {
+            if (password === "admin") {
                 isAdminLoggedIn = true;
                 document.getElementById('adminLogin').style.display = 'none';
                 document.getElementById('adminControls').style.display = 'block';
@@ -1342,6 +1359,17 @@
                 star.style.left = `${Math.random() * 100}%`;
                 star.style.animationDelay = `${Math.random() * 2}s`;
                 stars.appendChild(star);
+
+                // Lasersternschnuppen hinzufügen
+                if (Math.random() < 0.2) { // 20% Chance für eine Schnuppe pro Stern
+                    const shootingStar = document.createElement('div');
+                    shootingStar.className = 'shooting-star-laser';
+                    shootingStar.style.top = `${Math.random() * 100}%`;
+                    shootingStar.style.left = `${Math.random() * 100}%`;
+                    shootingStar.style.animationDelay = `${Math.random() * 5}s`;
+                    stars.appendChild(shootingStar);
+                    setTimeout(() => shootingStar.remove(), 2000);
+                }
             }
         }
 
@@ -1361,6 +1389,17 @@
             createStars();
             createNeonLines();
             initializeFirebase();
+            // Kontinuierliche Erzeugung von Lasersternschnuppen
+            setInterval(() => {
+                const stars = document.querySelector('.stars');
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star-laser';
+                shootingStar.style.top = `${Math.random() * 100}%`;
+                shootingStar.style.left = `${Math.random() * 100}%`;
+                shootingStar.style.animationDelay = '0s';
+                stars.appendChild(shootingStar);
+                setTimeout(() => shootingStar.remove(), 2000);
+            }, 3000); // Alle 3 Sekunden eine neue Schnuppe
             firebase.database().ref('.info/connected').on('value', (snap) => {
                 const status = document.querySelector('.drive-status');
                 status.className = 'drive-status' + (snap.val() ? ' connected' : ' disconnected');
