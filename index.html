@@ -7,9 +7,10 @@
 <meta content="Partybeiträge für die 4 x 40 B-Day-Bash Party am 01.-03.08.2025 im Anglerheim Jena" name="description"/>
 <meta content="Birthday Party, Partybeiträge, Geburtstag, Party, Jena" name="keywords"/>
 
-<!-- Firebase SDK für Realtime Database -->
+<!-- Firebase SDK für Realtime Database - COMPAT VERSION -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
 <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 
@@ -17,383 +18,6 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-    }
-
-    // Admin-Bereich Logik
-    function adminLogin() {
-        const passwordInput = document.getElementById('adminPassword');
-        if (passwordInput.value === ADMIN_PASSWORD) {
-            document.getElementById('adminLogin').style.display = 'none';
-            document.getElementById('adminControls').style.display = 'block';
-            checkAdminStatus();
-        } else {
-            alert('Falsches Passwort!');
-        }
-        passwordInput.value = '';
-    }
-
-    function adminLogout() {
-        document.getElementById('adminLogin').style.display = 'block';
-        document.getElementById('adminControls').style.display = 'none';
-        googleDriveConnected = false;
-        updateDriveStatus();
-    }
-
-    function checkAdminStatus() {
-        const adminPasswordElement = document.getElementById('adminPassword');
-        if (document.getElementById('adminControls').style.display === 'block' || adminPasswordElement.value === ADMIN_PASSWORD) {
-            document.getElementById('adminLogin').style.display = 'none';
-            document.getElementById('adminControls').style.display = 'block';
-            document.getElementById('exportSection').style.display = 'block';
-            if (CLIENT_ID !== 'YOUR_CLIENT_ID' && API_KEY !== 'YOUR_API_KEY') {
-                updateDriveStatus();
-                document.getElementById('driveStatus').style.display = 'block';
-            } else {
-                document.getElementById('driveStatus').style.display = 'none';
-            }
-        } else {
-            document.getElementById('adminLogin').style.display = 'block';
-            document.getElementById('adminControls').style.display = 'none';
-            document.getElementById('driveStatus').style.display = 'none';
-            document.getElementById('exportSection').style.display = 'none';
-        }
-    }
-
-    // Google Drive Integration
-    function gapiLoaded() {
-        gapi.load('client', initializeGapiClient);
-    }
-
-    function initializeGapiClient() {
-        gapi.client.init({
-            apiKey: API_KEY,
-            discoveryDocs: DISCOVERY_DOCS,
-        }).then(() => {
-            gapiInited = true;
-            maybeEnableButtons();
-        });
-    }
-
-    function gisLoaded() {
-        tokenClient = google.accounts.oauth2.initTokenClient({
-            client_id: CLIENT_ID,
-            scope: SCOPES,
-            callback: (tokenResponse) => {
-                if (tokenResponse && tokenResponse.access_token) {
-                    googleDriveConnected = true;
-                    updateDriveStatus();
-                    loadFromGoogleDrive();
-                }
-            },
-        });
-        gisInited = true;
-        maybeEnableButtons();
-    }
-
-    function maybeEnableButtons() {
-        if (gapiInited && gisInited) {
-            // Buttons können hier aktiviert werden falls nötig
-        }
-    }
-
-    function connectToGoogleDrive() {
-        if (!googleDriveConnected) {
-            tokenClient.callback = (resp) => {
-                if (resp.error) {
-                    throw (resp);
-                }
-                googleDriveConnected = true;
-                updateDriveStatus();
-                loadFromGoogleDrive();
-            };
-
-            if (gapi.client.getToken() === null) {
-                tokenClient.requestAccessToken({prompt: 'consent'});
-            } else {
-                tokenClient.requestAccessToken({prompt: ''});
-            }
-        }
-    }
-
-    function updateDriveStatus() {
-        const driveStatusDiv = document.getElementById('driveStatus');
-        const statusTextSpan = document.getElementById('statusText');
-        const connectBtn = document.getElementById('connectBtn');
-
-        if (googleDriveConnected) {
-            driveStatusDiv.classList.remove('disconnected');
-            driveStatusDiv.classList.add('connected');
-            statusTextSpan.textContent = 'Verbunden';
-            connectBtn.style.display = 'none';
-        } else {
-            driveStatusDiv.classList.remove('connected');
-            driveStatusDiv.classList.add('disconnected');
-            statusTextSpan.textContent = 'Nicht verbunden';
-            connectBtn.style.display = 'block';
-        }
-    }
-
-    // Google Drive file handling
-    const FILE_NAME = 'party_data.json';
-    const EXCEL_FILE_NAME = 'party_beitraege.xlsx';
-    let fileId = null;
-
-    async function loadFromGoogleDrive() {
-        try {
-            const response = await gapi.client.drive.files.list({
-                spaces: 'appDataFolder',
-                q: `name = '${FILE_NAME}'`
-            });
-            const files = response.result.files;
-            if (files.length > 0) {
-                fileId = files[0].id;
-                const fileContentResponse = await gapi.client.drive.files.get({
-                    fileId: fileId,
-                    alt: 'media'
-                });
-                const loadedData = JSON.parse(fileContentResponse.body);
-                data.items = data.items.map(defaultItem => {
-                    const loadedItem = loadedData.items.find(item => item.id === defaultItem.id);
-                    return loadedItem ? { ...defaultItem, ...loadedItem } : defaultItem;
-                });
-                loadedData.items.forEach(loadedItem => {
-                    if (!data.items.some(defaultItem => defaultItem.id === loadedItem.id)) {
-                        data.items.push(loadedItem);
-                    }
-                });
-                data.additionalItems = loadedData.additionalItems || [];
-                console.log('Data loaded from Google Drive:', data);
-                createItemCards();
-                createAdditionalItemCards();
-            } else {
-                console.log('No data file found on Google Drive, creating a new one.');
-                saveToGoogleDrive();
-            }
-        } catch (error) {
-            console.error('Error loading from Google Drive:', error);
-            alert('Fehler beim Laden der Daten von Google Drive. Überprüfen Sie Ihre Verbindung und Berechtigungen.');
-        }
-    }
-
-    async function saveToGoogleDrive() {
-        const fileMetadata = {
-            'name': FILE_NAME,
-            'parents': ['appDataFolder']
-        };
-        const media = {
-            mimeType: 'application/json',
-            body: JSON.stringify(data)
-        };
-
-        try {
-            if (fileId) {
-                await gapi.client.drive.files.update({
-                    fileId: fileId,
-                    resource: fileMetadata,
-                    media: media,
-                    fields: 'id'
-                });
-                console.log('Data updated on Google Drive.');
-            } else {
-                const response = await gapi.client.drive.files.create({
-                    resource: fileMetadata,
-                    media: media,
-                    fields: 'id'
-                });
-                fileId = response.result.id;
-                console.log('Data saved to Google Drive, file ID:', fileId);
-            }
-        } catch (error) {
-            console.error('Error saving to Google Drive:', error);
-            alert('Fehler beim Speichern der Daten auf Google Drive. Überprüfen Sie Ihre Verbindung und Berechtigungen.');
-        }
-    }
-
-    // Export Functions
-    function exportToCSV() {
-        let csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += "Kategorie,Beitrag,Name,Anzahl_Eingetragen\n";
-
-        data.items.forEach(item => {
-            if (item.persons.length > 0) {
-                item.persons.forEach(person => {
-                    csvContent += `Benötigt,"${item.name}","${person}",${item.persons.length}\n`;
-                });
-            } else {
-                csvContent += `Benötigt,"${item.name}",,0\n`;
-            }
-        });
-
-        data.additionalItems.forEach(item => {
-            if (item.persons.length > 0) {
-                item.persons.forEach(person => {
-                    csvContent += `Weitere Beiträge,"${item.name}","${person}",${item.persons.length}\n`;
-                });
-            } else {
-                csvContent += `Weitere Beiträge,"${item.name}",,0\n`;
-            }
-        });
-
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "party_beitraege.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        showThankYouEffect("CSV Export erfolgreich!");
-    }
-
-    function exportToExcel() {
-        let csvContent = "data:application/vnd.ms-excel;charset=utf-8,";
-        csvContent += "Kategorie\tBeitrag\tName\tAnzahl_Eingetragen\n";
-
-        data.items.forEach(item => {
-            if (item.persons.length > 0) {
-                item.persons.forEach(person => {
-                    csvContent += `Benötigt\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
-                });
-            } else {
-                csvContent += `Benötigt\t"${item.name}"\t\t0\n`;
-            }
-        });
-
-        data.additionalItems.forEach(item => {
-            if (item.persons.length > 0) {
-                item.persons.forEach(person => {
-                    csvContent += `Weitere Beiträge\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
-                });
-            } else {
-                csvContent += `Weitere Beiträge\t"${item.name}"\t\t0\n`;
-            }
-        });
-
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "party_beitraege.xls");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        showThankYouEffect("Excel Export erfolgreich!");
-    }
-
-    // Neue Sync-Funktion für Google Drive
-    async function syncWithGoogleDrive() {
-        if (!googleDriveConnected) {
-            alert('Bitte zuerst mit Google Drive verbinden!');
-            return;
-        }
-
-        try {
-            let excelData = "Kategorie\tBeitrag\tName\tAnzahl_Eingetragen\n";
-
-            data.items.forEach(item => {
-                if (item.persons.length > 0) {
-                    item.persons.forEach(person => {
-                        excelData += `Benötigt\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
-                    });
-                } else {
-                    excelData += `Benötigt\t"${item.name}"\t\t0\n`;
-                }
-            });
-
-            data.additionalItems.forEach(item => {
-                if (item.persons.length > 0) {
-                    item.persons.forEach(person => {
-                        excelData += `Weitere Beiträge\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
-                    });
-                } else {
-                    excelData += `Weitere Beiträge\t"${item.name}"\t\t0\n`;
-                }
-            });
-
-            const excelListResponse = await gapi.client.drive.files.list({
-                q: `name = '${EXCEL_FILE_NAME}'`
-            });
-
-            const fileMetadata = {
-                'name': EXCEL_FILE_NAME
-            };
-            const media = {
-                mimeType: 'application/vnd.ms-excel',
-                body: excelData
-            };
-
-            if (excelListResponse.result.files.length > 0) {
-                await gapi.client.drive.files.update({
-                    fileId: excelListResponse.result.files[0].id,
-                    resource: fileMetadata,
-                    media: media,
-                    fields: 'id'
-                });
-                showThankYouEffect("Google Drive synchronisiert!");
-            } else {
-                await gapi.client.drive.files.create({
-                    resource: fileMetadata,
-                    media: media,
-                    fields: 'id'
-                });
-                showThankYouEffect("Excel auf Google Drive erstellt!");
-            }
-
-            await saveToGoogleDrive();
-
-        } catch (error) {
-            console.error('Error syncing with Google Drive:', error);
-            alert('Fehler bei der Synchronisation mit Google Drive!');
-        }
-    }
-
-    function showShareLink() {
-        if (!googleDriveConnected) {
-            alert('Bitte zuerst mit Google Drive verbinden!');
-            return;
-        }
-        
-        const currentUrl = window.location.href;
-        
-        const textArea = document.createElement('textarea');
-        textArea.value = currentUrl;
-        document.body.appendChild(textArea);
-        textArea.select();
-        
-        try {
-            document.execCommand('copy');
-            showThankYouEffect("Link in Zwischenablage kopiert!");
-        } catch (err) {
-            alert(`Link zum Teilen: ${currentUrl}`);
-        }
-        
-        document.body.removeChild(textArea);
-    }
-
-    // Sterne erzeugen
-    function createStars() {
-        const starsContainer = document.querySelector('.stars');
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.style.top = `${Math.random() * 100}%`;
-            star.style.left = `${Math.random() * 100}%`;
-            star.style.animationDelay = `${Math.random() * 2}s`;
-            starsContainer.appendChild(star);
-        }
-    }
-
-    // Neon-Linien erzeugen
-    function createNeonLines() {
-        const neonLinesContainer = document.querySelector('.neon-lines');
-        for (let i = 0; i < 5; i++) {
-            const line = document.createElement('div');
-            line.classList.add('neon-line');
-            line.style.top = `${Math.random() * 100}%`;
-            line.style.animationDelay = `${Math.random() * 2}s`;
-            line.style.animationDuration = `${3 + Math.random() * 2}s`;
-            neonLinesContainer.appendChild(line);
-        }
     }
     
     body {
@@ -450,7 +74,7 @@
         100% { transform: translateX(100vw); }
     }
 
-    /* Neuer dezenter Lasereffekt */
+    /* Dezenter Lasereffekt */
     .laser-background {
         position: fixed;
         top: 0;
@@ -1633,17 +1257,17 @@
     }
     @media (max-width: 768px) {
         .title {
-            font-size: clamp(2rem, 6vw, 2.5rem); /* Vergrößert für Mobile */
+            font-size: clamp(2rem, 6vw, 2.5rem);
             letter-spacing: 1px;
         }
         .header {
-            padding: 35px; /* Etwas mehr Padding für Mobile */
+            padding: 35px;
         }
         .date {
-            font-size: clamp(1.1rem, 3.5vw, 1.6rem); /* Auch etwas größer */
+            font-size: clamp(1.1rem, 3.5vw, 1.6rem);
         }
         .subtitle {
-            font-size: clamp(1rem, 2.8vw, 1.3rem); /* Auch etwas größer */
+            font-size: clamp(1rem, 2.8vw, 1.3rem);
         }
         .section-title {
             font-size: clamp(1.2rem, 3.5vw, 1.5rem);
@@ -1731,7 +1355,7 @@
     }
     @media (max-width: 480px) {
         .title {
-            font-size: clamp(1.8rem, 5.5vw, 2rem); /* Noch größer für sehr kleine Bildschirme */
+            font-size: clamp(1.8rem, 5.5vw, 2rem);
             letter-spacing: 0px;
         }
         .date {
@@ -1748,7 +1372,7 @@
             padding: 15px;
         }
         .header {
-            padding: 25px; /* Mehr Padding für kleinste Geräte */
+            padding: 25px;
         }
         .admin-section {
             padding: 15px;
@@ -1813,10 +1437,6 @@
         .matrix-line {
             width: 1px;
             height: 12px;
-        }
-        .progress-bar,
-        .progress-text {
-            display: none !important;
         }
     }
 </style>
@@ -1909,316 +1529,250 @@
 </div>
 
 <script>
-    // Google Drive API-Variablen
-    const CLIENT_ID = 'YOUR_CLIENT_ID'; // Ersetze dies durch deine Client ID
-    const API_KEY = 'YOUR_API_KEY';     // Ersetze dies durch deinen API Key
-    const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
-    const SCOPES = 'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.file';
+// ===================================================================
+// GLOBALE VARIABLEN - ALLES ZUERST HIER DEFINIERT!
+// ===================================================================
 
-    let tokenClient;
-    let gapiInited = false;
-    let gisInited = false;
-    let googleDriveConnected = false;
+console.log("🔥 Lade globale Variablen...");
 
-    // Admin-Passwort (Beispiel, sollte in einer echten Anwendung sicherer gehandhabt werden)
-    const ADMIN_PASSWORD = "admin";
+// Firebase Konfiguration
+const firebaseConfig = {
+    apiKey: "AIzaSyCscOj9Gw21rLXCIN64dy_ng5Ltc-ZIuzc",
+    authDomain: "beitraege-83f19.firebaseapp.com", 
+    databaseURL: "https://beitraege-83f19-default-rtdb.europe-west1.firebasedatabase.app/",
+    projectId: "beitraege-83f19",
+    storageBucket: "beitraege-83f19.firebasestorage.app",
+    messagingSenderId: "46726303848",
+    appId: "1:46726303848:web:464ecfb98fd0faa8cb2bdd"
+};
 
-    // Datenstruktur - Unbegrenzte Personen pro Beitrag
-    let data = {
-        items: [
-            { id: "nudelsalat", name: "Nudelsalat", persons: [] },
-            { id: "kartoffelsalat", name: "Kartoffelsalat", persons: [] },
-            { id: "kraeuterbutter", name: "Kräuterbutter", persons: [] },
-            { id: "nutella-erdnussbutter", name: "Nutella, Erdnussbutter", persons: [] },
-            { id: "kuchen", name: "Kuchen", persons: [] },
-            { id: "marmelade-honig", name: "Marmelade, Honig", persons: [] },
-            { id: "aufschnitt-wurst-kaese", name: "Aufschnitt (Wurst, Käse)", persons: [] },
-            { id: "aufstriche-herzhaft", name: "Aufstriche (herzhaft)", persons: [] },
-            { id: "stockbrot-teig", name: "Stockbrot-Teig", persons: [] },
-            { id: "dessert", name: "Dessert", persons: [] },
-            { id: "cole-slaw", name: "Cole Slaw", persons: [] }
-        ],
-        additionalItems: []
-    };
+// Firebase-Status
+var isFirebaseConnected = false;
+var database = null;
 
-    // Listen von Dankes- und Abschiedsreaktionen
-    const thankYouReactions = [
-        "🙏 Daaaaaankööö! 🙏",
-        "💕 Du bist die/der Geilste! 💕",
-        "💣 Hammer-fett-bombe-krass! 💣",
-        "🥰 Echt?! Thnx!!! 🥰",
-        "🛟 Du bist die Rettung 🛟",
-        "❤️ Ich hasse alle: Außer DICH! ❤️",
-        "❤️‍🔥 Wir lieben Dich! ❤️‍🔥"
-    ];
+// Google Drive Variablen
+const CLIENT_ID = 'YOUR_CLIENT_ID';
+const API_KEY = 'YOUR_API_KEY';
+const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
+const SCOPES = 'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.file';
 
-    const goodbyeReactions = [
-        "👋 Schade, bis zum nächsten Mal!",
-        "💔 Wir werden dich vermissen!",
-        "🫡 Verstanden, abgemeldet.",
-        "😥 Komm bald wieder!",
-        "💨 Tschüssikowski!",
-        "👋 Bleib sauber!",
-        "🫡 Bis bald, Cowboy!"
-    ];
+var tokenClient;
+var gapiInited = false;
+var gisInited = false;
+var googleDriveConnected = false;
 
-    function getRandomReaction(reactionList) {
-        return reactionList[Math.floor(Math.random() * reactionList.length)];
+// Admin
+const ADMIN_PASSWORD = "admin";
+
+// Datenstruktur mit 11 Standard-Items
+var data = {
+    items: [
+        { id: "nudelsalat", name: "Nudelsalat", persons: [] },
+        { id: "kartoffelsalat", name: "Kartoffelsalat", persons: [] },
+        { id: "kraeuterbutter", name: "Kräuterbutter", persons: [] },
+        { id: "nutella-erdnussbutter", name: "Nutella, Erdnussbutter", persons: [] },
+        { id: "kuchen", name: "Kuchen", persons: [] },
+        { id: "marmelade-honig", name: "Marmelade, Honig", persons: [] },
+        { id: "aufschnitt-wurst-kaese", name: "Aufschnitt (Wurst, Käse)", persons: [] },
+        { id: "aufstriche-herzhaft", name: "Aufstriche (herzhaft)", persons: [] },
+        { id: "stockbrot-teig", name: "Stockbrot-Teig", persons: [] },
+        { id: "dessert", name: "Dessert", persons: [] },
+        { id: "cole-slaw", name: "Cole Slaw", persons: [] }
+    ],
+    additionalItems: []
+};
+
+// Reaktionen
+const thankYouReactions = [
+    "🙏 Daaaaaankööö! 🙏",
+    "💕 Du bist die/der Geilste! 💕",
+    "💣 Hammer-fett-bombe-krass! 💣",
+    "🥰 Echt?! Thnx!!! 🥰",
+    "🛟 Du bist die Rettung 🛟",
+    "❤️ Ich hasse alle: Außer DICH! ❤️",
+    "❤️‍🔥 Wir lieben Dich! ❤️‍🔥"
+];
+
+const goodbyeReactions = [
+    "👋 Schade, bis zum nächsten Mal!",
+    "💔 Wir werden dich vermissen!",
+    "🫡 Verstanden, abgemeldet.",
+    "😥 Komm bald wieder!",
+    "💨 Tschüssikowski!",
+    "👋 Bleib sauber!",
+    "🫡 Bis bald, Cowboy!"
+];
+
+console.log("✅ Globale Variablen geladen!");
+console.log("📊 Anzahl Standard-Items:", data.items.length);
+
+// ===================================================================
+// HILFSFUNKTIONEN
+// ===================================================================
+
+function getRandomReaction(reactionList) {
+    return reactionList[Math.floor(Math.random() * reactionList.length)];
+}
+
+function updateFirebaseStatus() {
+    console.log("📡 updateFirebaseStatus aufgerufen, isFirebaseConnected:", isFirebaseConnected);
+    const statusDiv = document.querySelector('.firebase-status');
+    if (statusDiv) {
+        if (isFirebaseConnected) {
+            statusDiv.innerHTML = '<span style="color: #00ff00;">🔥 Firebase: Verbunden (Echtzeit-Sync aktiv)</span>';
+        } else {
+            statusDiv.innerHTML = '<span style="color: #ffaa00;">⚠️ Firebase: Lokaler Modus (nur auf diesem Gerät)</span>';
+        }
     }
+}
 
-    // Firebase Status anzeigen - MUSS VOR INITIALISIERUNG STEHEN
-    function updateFirebaseStatus() {
-        const statusDiv = document.querySelector('.firebase-status');
-        if (statusDiv) {
-            if (isFirebaseConnected) {
-                statusDiv.innerHTML = '<span style="color: #00ff00;">🔥 Firebase Realtime Database: Verbunden (Echtzeit-Sync aktiv)</span>';
+function debugData() {
+    console.log("🔍 Debug - Aktuelle Daten:", {
+        isFirebaseConnected: isFirebaseConnected,
+        dataItems: data.items,
+        dataItemsLength: data.items.length,
+        additionalItems: data.additionalItems
+    });
+}
+
+// ===================================================================
+// FIREBASE INITIALISIERUNG
+// ===================================================================
+
+console.log("🔥 Starte Firebase-Initialisierung...");
+
+if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "DEINE_FIREBASE_API_KEY") {
+    try {
+        console.log("🔥 Initialisiere Firebase App...");
+        firebase.initializeApp(firebaseConfig);
+        console.log("✅ Firebase App initialisiert");
+        
+        database = firebase.database();
+        console.log("✅ Database-Referenz erstellt");
+        
+        // Test-Verbindung
+        database.ref('.info/connected').on('value', function(snapshot) {
+            if (snapshot.val() === true) {
+                isFirebaseConnected = true;
+                console.log("🔥 Firebase Realtime Database verbunden!");
+                updateFirebaseStatus();
             } else {
-                statusDiv.innerHTML = '<span style="color: #ffaa00;">⚠️ Firebase: Lokaler Modus (nur auf diesem Gerät)</span>';
+                isFirebaseConnected = false;
+                console.log("⚠️ Firebase Realtime Database getrennt");
+                updateFirebaseStatus();
             }
-        }
-    }
-
-    // Debug-Funktion
-    function debugData() {
-        console.log("🔍 Debug - Aktuelle Daten:", {
-            isFirebaseConnected: isFirebaseConnected,
-            dataItems: data.items,
-            dataItemsLength: data.items.length,
-            additionalItems: data.additionalItems,
-            additionalItemsLength: data.additionalItems.length
         });
+        
+    } catch (error) {
+        console.error("❌ Firebase Fehler:", error);
+        isFirebaseConnected = false;
     }
+} else {
+    console.log("⚠️ Firebase nicht konfiguriert - lokaler Modus");
+    isFirebaseConnected = false;
+}
 
-    // Hilfsfunktionen
-    function showThankYouEffect(message) {
-        const overlay = document.getElementById('thankYouOverlay');
-        const thankYouText = overlay.querySelector('.thank-you-text');
-        const thankYouSubtext = overlay.querySelector('.thank-you-subtext');
+// ===================================================================
+// UI FUNKTIONEN
+// ===================================================================
 
-        thankYouText.textContent = getRandomReaction(thankYouReactions);
-        thankYouSubtext.textContent = message || "Vielen Dank für Ihre Anmeldung!";
-
-        overlay.classList.add('show');
-        createParticles(100, overlay);
-        createMatrixEffect(overlay);
-        createScanlineEffect(overlay);
-
-        setTimeout(() => {
-            overlay.classList.remove('show');
-            overlay.innerHTML = `<div class="thank-you-content">
-                                    <div class="retro-grid"></div>
-                                    <div class="laser-lines">
-                                        <div class="laser-line" style="width: 300px; animation-delay: 0s;"></div>
-                                        <div class="laser-line" style="width: 400px; animation-delay: 0.3s;"></div>
-                                        <div class="laser-line" style="width: 250px; animation-delay: 0.6s;"></div>
-                                    </div>
-                                    <div class="thank-you-text">DANKE!</div>
-                                    <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
-                                </div>`;
-        }, 4000);
+function createItemCards() {
+    console.log("🎯 createItemCards() START");
+    console.log("📊 data.items:", data.items);
+    console.log("📊 data.items.length:", data.items.length);
+    
+    const itemsGrid = document.getElementById('itemsGrid');
+    if (!itemsGrid) {
+        console.error("❌ itemsGrid nicht gefunden!");
+        return;
     }
-
-    function showGoodbyeEffect(message) {
-        const overlay = document.getElementById('thankYouOverlay');
-        const thankYouText = overlay.querySelector('.thank-you-text');
-        const thankYouSubtext = overlay.querySelector('.thank-you-subtext');
-
-        thankYouText.textContent = getRandomReaction(goodbyeReactions);
-        thankYouSubtext.textContent = message || "Auf Wiedersehen!";
-
-        overlay.classList.add('show');
-        createParticles(100, overlay, 'orange');
-        createMatrixEffect(overlay, 'orange');
-        createScanlineEffect(overlay, 'orange');
-
-        setTimeout(() => {
-            overlay.classList.remove('show');
-            overlay.innerHTML = `<div class="thank-you-content">
-                                    <div class="retro-grid"></div>
-                                    <div class="laser-lines">
-                                        <div class="laser-line" style="width: 300px; animation-delay: 0s;"></div>
-                                        <div class="laser-line" style="width: 400px; animation-delay: 0.3s;"></div>
-                                        <div class="laser-line" style="width: 250px; animation-delay: 0.6s;"></div>
-                                    </div>
-                                    <div class="thank-you-text">DANKE!</div>
-                                    <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
-                                </div>`;
-        }, 4000);
+    
+    // Leere Grid
+    itemsGrid.innerHTML = '';
+    
+    // Prüfe Daten
+    if (!data.items || data.items.length === 0) {
+        console.error("❌ Keine Items in data.items!");
+        itemsGrid.innerHTML = '<div style="color: red; padding: 20px; border: 2px solid red;">❌ FEHLER: Keine Items gefunden!</div>';
+        return;
     }
-
-    function createParticles(count, container, colorClass = '') {
-        for (let i = 0; i < count; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            if (colorClass) particle.classList.add(`particle-${colorClass}`);
-            particle.style.left = `${Math.random() * 100}%`;
-            particle.style.top = `${Math.random() * 100}%`;
-            particle.style.animationDelay = `${Math.random() * 2}s`;
-            container.appendChild(particle);
+    
+    // Erstelle Karten
+    data.items.forEach((item, index) => {
+        console.log(`📦 Erstelle Item ${index + 1}: ${item.name}`);
+        
+        const itemCard = document.createElement('div');
+        itemCard.classList.add('item-card');
+        
+        if (item.persons && item.persons.length > 0) {
+            itemCard.classList.add('taken');
         }
-    }
 
-    function createMatrixEffect(container, colorClass = '') {
-        const matrixEffect = document.createElement('div');
-        matrixEffect.classList.add('matrix-effect');
-        container.appendChild(matrixEffect);
-
-        for (let i = 0; i < 30; i++) {
-            const line = document.createElement('div');
-            line.classList.add('matrix-line');
-            if (colorClass) line.classList.add(`matrix-line-${colorClass}`);
-            line.style.left = `${Math.random() * 100}%`;
-            line.style.animationDuration = `${2 + Math.random() * 3}s`;
-            line.style.animationDelay = `${Math.random() * 2}s`;
-            matrixEffect.appendChild(line);
+        let personsListHtml = '';
+        if (item.persons && Array.isArray(item.persons)) {
+            personsListHtml = item.persons.map(person => `
+                <div class="person-entry">
+                    <span class="person-name">${person}</span>
+                    <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id}', '${person}', false)">X</button>
+                </div>
+            `).join('');
         }
-    }
 
-    function createScanlineEffect(container, colorClass = '') {
-        const scanline = document.createElement('div');
-        scanline.classList.add('scanline');
-        if (colorClass) scanline.classList.add(`scanline-${colorClass}`);
-        scanline.style.animationDuration = `${1 + Math.random() * 2}s`;
-        container.appendChild(scanline);
-    }
+        itemCard.innerHTML = `
+            <div class="item-name">${item.name}</div>
+            ${item.persons && item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
+            <div class="persons-list">${personsListHtml}</div>
+            <div class="item-controls">
+                <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
+                <button class="btn btn-take" onclick="registerPerson('${item.id}', false)">Eintragen</button>
+            </div>
+        `;
+        
+        itemsGrid.appendChild(itemCard);
 
-    // Speichern und Laden der Daten
-    function saveData() {
-        localStorage.setItem('partyData', JSON.stringify(data));
-        if (googleDriveConnected) {
-            saveToGoogleDrive();
-        }
-    }
-
-    function loadData() {
-        const savedData = localStorage.getItem('partyData');
-        if (savedData) {
-            const parsedData = JSON.parse(savedData);
-            data.items = data.items.map(defaultItem => {
-                const loadedItem = parsedData.items.find(item => item.id === defaultItem.id);
-                return loadedItem ? { ...defaultItem, ...loadedItem } : defaultItem;
-            });
-            parsedData.items.forEach(loadedItem => {
-                if (!data.items.some(defaultItem => defaultItem.id === loadedItem.id)) {
-                    data.items.push(loadedItem);
+        // Event Listener für Enter
+        const inputElement = itemCard.querySelector(`#input-${item.id}`);
+        if (inputElement) {
+            inputElement.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    registerPerson(item.id, false);
                 }
             });
-            data.additionalItems = parsedData.additionalItems || [];
         }
+    });
+    
+    console.log("✅ createItemCards() FERTIG - Karten erstellt:", data.items.length);
+}
+
+function createAdditionalItemCards() {
+    console.log("🎯 createAdditionalItemCards() START");
+    
+    const additionalItemsGrid = document.getElementById('additionalItemsGrid');
+    if (!additionalItemsGrid) {
+        console.error("❌ additionalItemsGrid nicht gefunden!");
+        return;
     }
+    
+    additionalItemsGrid.innerHTML = '';
 
-    // Fortschrittsbalken aktualisieren
-    function updateProgress() {
-        const currentPersonsItems = data.items.reduce((sum, item) => sum + item.persons.length, 0);
-        const currentPersonsAdditionalItems = data.additionalItems.reduce((sum, item) => sum + item.persons.length, 0);
-        const totalPersons = currentPersonsItems + currentPersonsAdditionalItems;
-
-        // Dynamische Fortschrittsberechnung basierend auf Einträgen
-        const totalItems = data.items.length + data.additionalItems.length;
-        let progressPercentage = 0;
-        if (totalItems > 0) {
-            const averagePersonsPerItem = totalPersons / totalItems;
-            progressPercentage = Math.min(averagePersonsPerItem * 20, 100); // 5 Personen = 100%
-        }
-        
-        document.getElementById('progressFill').style.width = `${progressPercentage}%`;
-        
-        let progressText = '';
-        if (totalPersons === 1) {
-            progressText = `1 Person eingetragen`;
-        } else if (totalPersons > 1) {
-            progressText = `${totalPersons} Personen eingetragen`;
-        } else {
-            progressText = `Noch keine Einträge`;
-        }
-        document.getElementById('progressText').textContent = progressText;
-    }
-
-    // Item-Karten erstellen (für "Benötigte Partybeiträge") - MIT DEBUG
-    function createItemCards() {
-        console.log("🎯 createItemCards() gestartet");
-        console.log("📊 Anzahl Items:", data.items.length);
-        console.log("📋 Items:", data.items);
-        
-        const itemsGrid = document.getElementById('itemsGrid');
-        if (!itemsGrid) {
-            console.error("❌ itemsGrid Element nicht gefunden!");
-            return;
-        }
-        
-        console.log("🧹 Leere itemsGrid...");
-        itemsGrid.innerHTML = '';
-
-        if (!data.items || data.items.length === 0) {
-            console.error("❌ Keine Items vorhanden!");
-            itemsGrid.innerHTML = '<div style="color: red; text-align: center; padding: 20px;">❌ Keine Beiträge gefunden! Bitte Browser-Konsole prüfen.</div>';
-            return;
-        }
-
-        console.log("🔄 Erstelle Karten für", data.items.length, "Items...");
-        
-        data.items.forEach((item, index) => {
-            console.log(`📦 Erstelle Karte ${index + 1}:`, item.name);
-            
+    if (data.additionalItems && data.additionalItems.length > 0) {
+        data.additionalItems.forEach(item => {
             const itemCard = document.createElement('div');
-            itemCard.classList.add('item-card');
-            if (item.persons && item.persons.length > 0) {
-                itemCard.classList.add('taken');
-            }
+            itemCard.classList.add('additional-item-card');
 
             let personsListHtml = '';
             if (item.persons && Array.isArray(item.persons)) {
                 personsListHtml = item.persons.map(person => `
                     <div class="person-entry">
                         <span class="person-name">${person}</span>
-                        <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id}', '${person}', false)">X</button>
+                        <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id}', '${person}', true)">X</button>
                     </div>
                 `).join('');
             }
 
             itemCard.innerHTML = `
-                <div class="item-name">${item.name}</div>
-                ${item.persons && item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
-                <div class="persons-list">${personsListHtml}</div>
-                <div class="item-controls">
-                    <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
-                    <button class="btn btn-take" onclick="registerPerson('${item.id}', false)">Eintragen</button>
-                </div>
-            `;
-            itemsGrid.appendChild(itemCard);
-
-            const inputElement = itemCard.querySelector(`#input-${item.id}`);
-            if (inputElement) {
-                inputElement.addEventListener('keypress', function(event) {
-                    if (event.key === 'Enter') {
-                        registerPerson(item.id, false);
-                    }
-                });
-            }
-        });
-        
-        console.log("✅ createItemCards() abgeschlossen! Karten erstellt:", data.items.length);
-    }
-
-    // Zusätzliche Item-Karten erstellen
-    function createAdditionalItemCards() {
-        const additionalItemsGrid = document.getElementById('additionalItemsGrid');
-        additionalItemsGrid.innerHTML = '';
-
-        data.additionalItems.forEach(item => {
-            const itemCard = document.createElement('div');
-            itemCard.classList.add('additional-item-card');
-
-            let personsListHtml = item.persons.map(person => `
-                <div class="person-entry">
-                    <span class="person-name">${person}</span>
-                    <button class="btn-small btn-unregister" onclick="unregisterPerson('${item.id}', '${person}', true)">X</button>
-                </div>
-            `).join('');
-
-            itemCard.innerHTML = `
                 <div class="additional-item-name">${item.name}</div>
-                ${item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
+                ${item.persons && item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
                 <div class="persons-list">${personsListHtml}</div>
                 <div class="item-controls">
                     <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
@@ -2237,612 +1791,436 @@
             }
         });
     }
+    
+    console.log("✅ createAdditionalItemCards() FERTIG");
+}
 
-    // Person eintragen
-    function registerPerson(itemId, isAdditional) {
-        const inputElement = document.getElementById(`input-${itemId}`);
-        const personName = inputElement.value.trim();
+// ===================================================================
+// ANIMATIONEN UND EFFEKTE
+// ===================================================================
 
-        if (personName) {
-            let itemArray = isAdditional ? data.additionalItems : data.items;
-            let item = itemArray.find(i => i.id === itemId);
+function showThankYouEffect(message) {
+    const overlay = document.getElementById('thankYouOverlay');
+    const thankYouText = overlay.querySelector('.thank-you-text');
+    const thankYouSubtext = overlay.querySelector('.thank-you-subtext');
 
-            if (item) {
-                const existingPerson = item.persons.find(p => p.toLowerCase() === personName.toLowerCase());
-                if (existingPerson) {
-                    alert('Dieser Name ist bereits eingetragen!');
-                    return;
-                }
-                
-                item.persons.push(personName);
-                inputElement.value = '';
-                saveData();
-                if (isAdditional) {
-                    createAdditionalItemCards();
-                } else {
-                    createItemCards();
-                }
-                showThankYouEffect("Eintrag erfolgreich!");
-            }
-        } else {
-            alert('Bitte gib deinen Namen ein!');
-        }
+    thankYouText.textContent = getRandomReaction(thankYouReactions);
+    thankYouSubtext.textContent = message || "Vielen Dank für Ihre Anmeldung!";
+
+    overlay.classList.add('show');
+    createParticles(100, overlay);
+    createMatrixEffect(overlay);
+    createScanlineEffect(overlay);
+
+    setTimeout(() => {
+        overlay.classList.remove('show');
+        overlay.innerHTML = `<div class="thank-you-content">
+                                <div class="retro-grid"></div>
+                                <div class="laser-lines">
+                                    <div class="laser-line" style="width: 300px; animation-delay: 0s;"></div>
+                                    <div class="laser-line" style="width: 400px; animation-delay: 0.3s;"></div>
+                                    <div class="laser-line" style="width: 250px; animation-delay: 0.6s;"></div>
+                                </div>
+                                <div class="thank-you-text">DANKE!</div>
+                                <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
+                            </div>`;
+    }, 4000);
+}
+
+function showGoodbyeEffect(message) {
+    const overlay = document.getElementById('thankYouOverlay');
+    const thankYouText = overlay.querySelector('.thank-you-text');
+    const thankYouSubtext = overlay.querySelector('.thank-you-subtext');
+
+    thankYouText.textContent = getRandomReaction(goodbyeReactions);
+    thankYouSubtext.textContent = message || "Auf Wiedersehen!";
+
+    overlay.classList.add('show');
+    createParticles(100, overlay, 'orange');
+    createMatrixEffect(overlay, 'orange');
+    createScanlineEffect(overlay, 'orange');
+
+    setTimeout(() => {
+        overlay.classList.remove('show');
+        overlay.innerHTML = `<div class="thank-you-content">
+                                <div class="retro-grid"></div>
+                                <div class="laser-lines">
+                                    <div class="laser-line" style="width: 300px; animation-delay: 0s;"></div>
+                                    <div class="laser-line" style="width: 400px; animation-delay: 0.3s;"></div>
+                                    <div class="laser-line" style="width: 250px; animation-delay: 0.6s;"></div>
+                                </div>
+                                <div class="thank-you-text">DANKE!</div>
+                                <div class="thank-you-subtext">Vielen Dank für Ihre Anmeldung!</div>
+                            </div>`;
+    }, 4000);
+}
+
+function createParticles(count, container, colorClass = '') {
+    for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        if (colorClass) particle.classList.add(`particle-${colorClass}`);
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.animationDelay = `${Math.random() * 2}s`;
+        container.appendChild(particle);
     }
+}
 
-    // Person austragen
-    function unregisterPerson(itemId, personName, isAdditional) {
-        let itemArray = isAdditional ? data.additionalItems : data.items;
-        let itemToFind = itemArray.find(i => i.id === itemId);
-        let itemName = itemToFind ? itemToFind.name : "Unbekannter Beitrag";
+function createMatrixEffect(container, colorClass = '') {
+    const matrixEffect = document.createElement('div');
+    matrixEffect.classList.add('matrix-effect');
+    container.appendChild(matrixEffect);
 
-        if (confirm(`Möchtest du "${personName}" wirklich von "${itemName}" austragen?`)) {
-            let item = itemArray.find(i => i.id === itemId);
-
-            if (item) {
-                item.persons = item.persons.filter(p => p !== personName);
-                saveData();
-                if (isAdditional) {
-                    createAdditionalItemCards();
-                } else {
-                    createItemCards();
-                }
-                showGoodbyeEffect("Erfolgreich ausgetragen!");
-            }
-        }
+    for (let i = 0; i < 30; i++) {
+        const line = document.createElement('div');
+        line.classList.add('matrix-line');
+        if (colorClass) line.classList.add(`matrix-line-${colorClass}`);
+        line.style.left = `${Math.random() * 100}%`;
+        line.style.animationDuration = `${2 + Math.random() * 3}s`;
+        line.style.animationDelay = `${Math.random() * 2}s`;
+        matrixEffect.appendChild(line);
     }
+}
 
-    // Neues Item hinzufügen
-    function addNewItem() {
-        const newItemInput = document.getElementById('newItemInput');
-        const newItemName = newItemInput.value.trim();
+function createScanlineEffect(container, colorClass = '') {
+    const scanline = document.createElement('div');
+    scanline.classList.add('scanline');
+    if (colorClass) scanline.classList.add(`scanline-${colorClass}`);
+    scanline.style.animationDuration = `${1 + Math.random() * 2}s`;
+    container.appendChild(scanline);
+}
 
-        if (newItemName) {
-            const newItemId = newItemName.toLowerCase().replace(/[^a-z0-9]/g, '-');
-            const existingItem = data.items.find(item => item.id === newItemId) || data.additionalItems.find(item => item.id === newItemId);
-
-            if (existingItem) {
-                alert('Dieser Beitrag existiert bereits!');
-                return;
-            }
-
-            data.additionalItems.push({
-                id: newItemId,
-                name: newItemName,
-                persons: []
-            });
-            newItemInput.value = '';
-            saveData();
-            createAdditionalItemCards();
-            showThankYouEffect("Beitrag hinzugefügt!");
-        } else {
-            alert('Bitte gib einen Namen für den neuen Beitrag ein!');
-        }
+function createStars() {
+    const starsContainer = document.querySelector('.stars');
+    for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.animationDelay = `${Math.random() * 2}s`;
+        starsContainer.appendChild(star);
     }
+}
 
-    // Admin-Bereich Logik
-    function adminLogin() {
-        const passwordInput = document.getElementById('adminPassword');
-        if (passwordInput.value === ADMIN_PASSWORD) {
-            document.getElementById('adminLogin').style.display = 'none';
-            document.getElementById('adminControls').style.display = 'block';
-            checkAdminStatus();
-        } else {
-            alert('Falsches Passwort!');
-        }
-        passwordInput.value = '';
+function createNeonLines() {
+    const neonLinesContainer = document.querySelector('.neon-lines');
+    for (let i = 0; i < 5; i++) {
+        const line = document.createElement('div');
+        line.classList.add('neon-line');
+        line.style.top = `${Math.random() * 100}%`;
+        line.style.animationDelay = `${Math.random() * 2}s`;
+        line.style.animationDuration = `${3 + Math.random() * 2}s`;
+        neonLinesContainer.appendChild(line);
     }
+}
 
-    function adminLogout() {
-        document.getElementById('adminLogin').style.display = 'block';
-        document.getElementById('adminControls').style.display = 'none';
-        googleDriveConnected = false;
-        updateDriveStatus();
-    }
+// ===================================================================
+// DATEN FUNKTIONEN (VEREINFACHT)
+// ===================================================================
 
-    function checkAdminStatus() {
-        const adminPasswordElement = document.getElementById('adminPassword');
-        if (document.getElementById('adminControls').style.display === 'block' || adminPasswordElement.value === ADMIN_PASSWORD) {
-            document.getElementById('adminLogin').style.display = 'none';
-            document.getElementById('adminControls').style.display = 'block';
-            document.getElementById('exportSection').style.display = 'block';
-            if (CLIENT_ID !== 'YOUR_CLIENT_ID' && API_KEY !== 'YOUR_API_KEY') {
-                updateDriveStatus();
-                document.getElementById('driveStatus').style.display = 'block';
-            } else {
-                document.getElementById('driveStatus').style.display = 'none';
-            }
-        } else {
-            document.getElementById('adminLogin').style.display = 'block';
-            document.getElementById('adminControls').style.display = 'none';
-            document.getElementById('driveStatus').style.display = 'none';
-            document.getElementById('exportSection').style.display = 'none';
-        }
-    }
+function saveData() {
+    localStorage.setItem('partyData', JSON.stringify(data));
+    console.log("💾 Daten lokal gespeichert");
+}
 
-    // Google Drive Integration
-    function gapiLoaded() {
-        gapi.load('client', initializeGapiClient);
-    }
-
-    function initializeGapiClient() {
-        gapi.client.init({
-            apiKey: API_KEY,
-            discoveryDocs: DISCOVERY_DOCS,
-        }).then(() => {
-            gapiInited = true;
-            maybeEnableButtons();
-        });
-    }
-
-    function gisLoaded() {
-        tokenClient = google.accounts.oauth2.initTokenClient({
-            client_id: CLIENT_ID,
-            scope: SCOPES,
-            callback: (tokenResponse) => {
-                if (tokenResponse && tokenResponse.access_token) {
-                    googleDriveConnected = true;
-                    updateDriveStatus();
-                    loadFromGoogleDrive();
-                }
-            },
-        });
-        gisInited = true;
-        maybeEnableButtons();
-    }
-
-    function maybeEnableButtons() {
-        if (gapiInited && gisInited) {
-            // Buttons können hier aktiviert werden falls nötig
-        }
-    }
-
-    function connectToGoogleDrive() {
-        if (!googleDriveConnected) {
-            tokenClient.callback = (resp) => {
-                if (resp.error) {
-                    throw (resp);
-                }
-                googleDriveConnected = true;
-                updateDriveStatus();
-                loadFromGoogleDrive();
-            };
-
-            if (gapi.client.getToken() === null) {
-                tokenClient.requestAccessToken({prompt: 'consent'});
-            } else {
-                tokenClient.requestAccessToken({prompt: ''});
-            }
-        }
-    }
-
-    function updateDriveStatus() {
-        const driveStatusDiv = document.getElementById('driveStatus');
-        const statusTextSpan = document.getElementById('statusText');
-        const connectBtn = document.getElementById('connectBtn');
-
-        if (googleDriveConnected) {
-            driveStatusDiv.classList.remove('disconnected');
-            driveStatusDiv.classList.add('connected');
-            statusTextSpan.textContent = 'Verbunden';
-            connectBtn.style.display = 'none';
-        } else {
-            driveStatusDiv.classList.remove('connected');
-            driveStatusDiv.classList.add('disconnected');
-            statusTextSpan.textContent = 'Nicht verbunden';
-            connectBtn.style.display = 'block';
-        }
-    }
-
-    // Google Drive file handling
-    const FILE_NAME = 'party_data.json';
-    const EXCEL_FILE_NAME = 'party_beitraege.xlsx';
-    let fileId = null;
-
-    async function loadFromGoogleDrive() {
+function loadData() {
+    const savedData = localStorage.getItem('partyData');
+    if (savedData) {
         try {
-            const response = await gapi.client.drive.files.list({
-                spaces: 'appDataFolder',
-                q: `name = '${FILE_NAME}'`
-            });
-            const files = response.result.files;
-            if (files.length > 0) {
-                fileId = files[0].id;
-                const fileContentResponse = await gapi.client.drive.files.get({
-                    fileId: fileId,
-                    alt: 'media'
-                });
-                const loadedData = JSON.parse(fileContentResponse.body);
+            const parsedData = JSON.parse(savedData);
+            if (parsedData.items && Array.isArray(parsedData.items)) {
+                // Merge mit Standard-Items
                 data.items = data.items.map(defaultItem => {
-                    const loadedItem = loadedData.items.find(item => item.id === defaultItem.id);
+                    const loadedItem = parsedData.items.find(item => item.id === defaultItem.id);
                     return loadedItem ? { ...defaultItem, ...loadedItem } : defaultItem;
                 });
-                loadedData.items.forEach(loadedItem => {
-                    if (!data.items.some(defaultItem => defaultItem.id === loadedItem.id)) {
-                        data.items.push(loadedItem);
-                    }
-                });
-                data.additionalItems = loadedData.additionalItems || [];
-                console.log('Data loaded from Google Drive:', data);
-                createItemCards();
-                createAdditionalItemCards();
-            } else {
-                console.log('No data file found on Google Drive, creating a new one.');
-                saveToGoogleDrive();
             }
+            data.additionalItems = parsedData.additionalItems || [];
+            console.log("✅ Daten aus localStorage geladen");
         } catch (error) {
-            console.error('Error loading from Google Drive:', error);
-            alert('Fehler beim Laden der Daten von Google Drive. Überprüfen Sie Ihre Verbindung und Berechtigungen.');
+            console.error("❌ Fehler beim Laden:", error);
         }
     }
+}
 
-    async function saveToGoogleDrive() {
-        const fileMetadata = {
-            'name': FILE_NAME,
-            'parents': ['appDataFolder']
-        };
-        const media = {
-            mimeType: 'application/json',
-            body: JSON.stringify(data)
-        };
+// ===================================================================
+// PERSON EINTRAGEN/AUSTRAGEN
+// ===================================================================
 
-        try {
-            if (fileId) {
-                await gapi.client.drive.files.update({
-                    fileId: fileId,
-                    resource: fileMetadata,
-                    media: media,
-                    fields: 'id'
-                });
-                console.log('Data updated on Google Drive.');
-            } else {
-                const response = await gapi.client.drive.files.create({
-                    resource: fileMetadata,
-                    media: media,
-                    fields: 'id'
-                });
-                fileId = response.result.id;
-                console.log('Data saved to Google Drive, file ID:', fileId);
-            }
-        } catch (error) {
-            console.error('Error saving to Google Drive:', error);
-            alert('Fehler beim Speichern der Daten auf Google Drive. Überprüfen Sie Ihre Verbindung und Berechtigungen.');
-        }
-    }
+function registerPerson(itemId, isAdditional) {
+    const inputElement = document.getElementById(`input-${itemId}`);
+    const personName = inputElement.value.trim();
 
-    // Export Functions
-    function exportToCSV() {
-        let csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += "Kategorie,Beitrag,Name,Anzahl_Eingetragen\n";
+    if (personName) {
+        let itemArray = isAdditional ? data.additionalItems : data.items;
+        let item = itemArray.find(i => i.id === itemId);
 
-        data.items.forEach(item => {
-            if (item.persons.length > 0) {
-                item.persons.forEach(person => {
-                    csvContent += `Benötigt,"${item.name}","${person}",${item.persons.length}\n`;
-                });
-            } else {
-                csvContent += `Benötigt,"${item.name}",,0\n`;
-            }
-        });
-
-        data.additionalItems.forEach(item => {
-            if (item.persons.length > 0) {
-                item.persons.forEach(person => {
-                    csvContent += `Weitere Beiträge,"${item.name}","${person}",${item.persons.length}\n`;
-                });
-            } else {
-                csvContent += `Weitere Beiträge,"${item.name}",,0\n`;
-            }
-        });
-
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "party_beitraege.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        showThankYouEffect("CSV Export erfolgreich!");
-    }
-
-    function exportToExcel() {
-        let csvContent = "data:application/vnd.ms-excel;charset=utf-8,";
-        csvContent += "Kategorie\tBeitrag\tName\tAnzahl_Eingetragen\n";
-
-        data.items.forEach(item => {
-            if (item.persons.length > 0) {
-                item.persons.forEach(person => {
-                    csvContent += `Benötigt\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
-                });
-            } else {
-                csvContent += `Benötigt\t"${item.name}"\t\t0\n`;
-            }
-        });
-
-        data.additionalItems.forEach(item => {
-            if (item.persons.length > 0) {
-                item.persons.forEach(person => {
-                    csvContent += `Weitere Beiträge\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
-                });
-            } else {
-                csvContent += `Weitere Beiträge\t"${item.name}"\t\t0\n`;
-            }
-        });
-
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "party_beitraege.xls");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        showThankYouEffect("Excel Export erfolgreich!");
-    }
-
-    // Neue Sync-Funktion für Google Drive
-    async function syncWithGoogleDrive() {
-        if (!googleDriveConnected) {
-            alert('Bitte zuerst mit Google Drive verbinden!');
-            return;
-        }
-
-        try {
-            // Excel-Daten für Google Drive vorbereiten
-            let excelData = "Kategorie\tBeitrag\tName\tAnzahl_Eingetragen\n";
-
-            data.items.forEach(item => {
-                if (item.persons.length > 0) {
-                    item.persons.forEach(person => {
-                        excelData += `Benötigt\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
-                    });
-                } else {
-                    excelData += `Benötigt\t"${item.name}"\t\t0\n`;
-                }
-            });
-
-            data.additionalItems.forEach(item => {
-                if (item.persons.length > 0) {
-                    item.persons.forEach(person => {
-                        excelData += `Weitere Beiträge\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
-                    });
-                } else {
-                    excelData += `Weitere Beiträge\t"${item.name}"\t\t0\n`;
-                }
-            });
-
-            // Prüfen ob Excel-Datei bereits existiert
-            const excelListResponse = await gapi.client.drive.files.list({
-                q: `name = '${EXCEL_FILE_NAME}'`
-            });
-
-            const fileMetadata = {
-                'name': EXCEL_FILE_NAME
-            };
-            const media = {
-                mimeType: 'application/vnd.ms-excel',
-                body: excelData
-            };
-
-            if (excelListResponse.result.files.length > 0) {
-                // Update existing file
-                await gapi.client.drive.files.update({
-                    fileId: excelListResponse.result.files[0].id,
-                    resource: fileMetadata,
-                    media: media,
-                    fields: 'id'
-                });
-                showThankYouEffect("Google Drive synchronisiert!");
-            } else {
-                // Create new file
-                await gapi.client.drive.files.create({
-                    resource: fileMetadata,
-                    media: media,
-                    fields: 'id'
-                });
-                showThankYouEffect("Excel auf Google Drive erstellt!");
-            }
-
-            // Zusätzlich JSON-Daten speichern
-            await saveToGoogleDrive();
-
-        } catch (error) {
-            console.error('Error syncing with Google Drive:', error);
-            alert('Fehler bei der Synchronisation mit Google Drive!');
-        }
-    }
-
-    function showShareLink() {
-        if (!googleDriveConnected) {
-            alert('Bitte zuerst mit Google Drive verbinden!');
-            return;
-        }
-        
-        const currentUrl = window.location.href;
-        
-        // Erstelle einen temporären Textbereich für die Zwischenablage
-        const textArea = document.createElement('textarea');
-        textArea.value = currentUrl;
-        document.body.appendChild(textArea);
-        textArea.select();
-        
-        try {
-            document.execCommand('copy');
-            showThankYouEffect("Link in Zwischenablage kopiert!");
-        } catch (err) {
-            alert(`Link zum Teilen: ${currentUrl}`);
-        }
-        
-        document.body.removeChild(textArea);
-    }
-
-    // Sterne erzeugen
-    function createStars() {
-        const starsContainer = document.querySelector('.stars');
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.style.top = `${Math.random() * 100}%`;
-            star.style.left = `${Math.random() * 100}%`;
-            star.style.animationDelay = `${Math.random() * 2}s`;
-            starsContainer.appendChild(star);
-        }
-    }
-
-    // Neon-Linien erzeugen
-    function createNeonLines() {
-        const neonLinesContainer = document.querySelector('.neon-lines');
-        for (let i = 0; i < 5; i++) {
-            const line = document.createElement('div');
-            line.classList.add('neon-line');
-            line.style.top = `${Math.random() * 100}%`;
-            line.style.animationDelay = `${Math.random() * 2}s`;
-            line.style.animationDuration = `${3 + Math.random() * 2}s`;
-            neonLinesContainer.appendChild(line);
-        }
-    }
-
-    // Initialisierung - ROBUSTE VERSION MIT DEBUGGING
-    document.addEventListener('DOMContentLoaded', async function() {
-        console.log("🚀 =================================");
-        console.log("🚀 APP INITIALISIERUNG GESTARTET");
-        console.log("🚀 =================================");
-        
-        try {
-            // Prüfe ob grundlegende Elemente vorhanden sind
-            const itemsGrid = document.getElementById('itemsGrid');
-            if (!itemsGrid) {
-                console.error("❌ KRITISCHER FEHLER: itemsGrid Element nicht gefunden!");
-                alert("FEHLER: HTML-Element 'itemsGrid' nicht gefunden! Bitte Seite neu laden.");
+        if (item) {
+            const existingPerson = item.persons.find(p => p.toLowerCase() === personName.toLowerCase());
+            if (existingPerson) {
+                alert('Dieser Name ist bereits eingetragen!');
                 return;
             }
-            console.log("✅ itemsGrid Element gefunden");
             
-            // Firebase Status anzeigen
-            console.log("📡 Setze Firebase-Status...");
-            updateFirebaseStatus();
+            item.persons.push(personName);
+            inputElement.value = '';
+            saveData();
             
-            // UI-Grundlagen erstellen
-            console.log("⭐ Erstelle Sterne und Neon-Linien...");
-            createStars();
-            createNeonLines();
-            
-            // WICHTIG: Standard-Items IMMER zuerst anzeigen
-            console.log("📋 Zeige Standard-Items an...");
-            console.log("🔍 Data vor createItemCards:", data);
-            console.log("🔍 Data.items Länge:", data.items ? data.items.length : "UNDEFINED");
-            
-            // Sofort Items anzeigen ohne auf Firebase zu warten
-            createItemCards();
-            createAdditionalItemCards();
-            
-            // Fallback: Falls immer noch nichts da ist, manuelle Erstellung
-            setTimeout(() => {
-                const grid = document.getElementById('itemsGrid');
-                if (grid && grid.children.length === 0) {
-                    console.warn("⚠️ FALLBACK: Erstelle manuelle Item-Liste");
-                    grid.innerHTML = `
-                        <div style="color: yellow; padding: 20px; border: 2px solid #ffff00; border-radius: 10px; text-align: center;">
-                            <h3>🔄 FALLBACK-MODUS</h3>
-                            <p>Items werden manuell geladen...</p>
-                            <button onclick="forceReload()" style="padding: 10px 20px; margin-top: 10px; border: none; border-radius: 5px; background: #ff00ff; color: white; cursor: pointer;">🔄 Neu laden</button>
-                        </div>
-                    `;
-                }
-            }, 2000);
-            
-            // Dann versuche Daten zu laden
-            console.log("💾 Versuche Daten zu laden...");
-            await loadData();
-            
-            // UI nach dem Laden aktualisieren
-            console.log("🔄 Aktualisiere UI nach Datenladung...");
-            createItemCards();
-            createAdditionalItemCards();
-            
-            // Echtzeit-Listener einrichten (nur wenn Firebase verfügbar)
-            if (isFirebaseConnected) {
-                console.log("🔗 Richte Echtzeit-Listener ein...");
-                setupRealtimeListener();
+            if (isAdditional) {
+                createAdditionalItemCards();
+            } else {
+                createItemCards();
             }
-            
-            checkAdminStatus();
-            
-            // Event Listeners
-            console.log("🎧 Richte Event-Listeners ein...");
-            
-            // Enter-Taste für neues Item
-            const newItemInput = document.getElementById('newItemInput');
-            if (newItemInput) {
-                newItemInput.addEventListener('keypress', function(event) {
-                    if (event.key === 'Enter') {
-                        addNewItem();
-                    }
-                });
-            }
-            
-            // Enter-Taste für Admin-Login
-            const adminPassword = document.getElementById('adminPassword');
-            if (adminPassword) {
-                adminPassword.addEventListener('keypress', function(event) {
-                    if (event.key === 'Enter') {
-                        adminLogin();
-                    }
-                });
-            }
-            
-            // Focus-Effekte für Admin-Input
-            const adminInput = document.getElementById('adminPassword');
-            const adminGlow = document.querySelector('.admin-input-glow');
-            
-            if (adminInput && adminGlow) {
-                adminInput.addEventListener('focus', function() {
-                    adminGlow.style.opacity = '1';
-                });
-                
-                adminInput.addEventListener('blur', function() {
-                    adminGlow.style.opacity = '0';
-                });
-            }
+            showThankYouEffect("Eintrag erfolgreich!");
+        }
+    } else {
+        alert('Bitte gib deinen Namen ein!');
+    }
+}
 
-            // Initialize Google Drive nur wenn API keys vorhanden
-            if (CLIENT_ID !== 'YOUR_CLIENT_ID' && API_KEY !== 'YOUR_API_KEY') {
-                console.log("🌐 Initialisiere Google Drive...");
-                const scriptGapi = document.createElement('script');
-                scriptGapi.src = 'https://apis.google.com/js/api.js';
-                scriptGapi.onload = gapiLoaded;
-                document.head.appendChild(scriptGapi);
+function unregisterPerson(itemId, personName, isAdditional) {
+    let itemArray = isAdditional ? data.additionalItems : data.items;
+    let itemToFind = itemArray.find(i => i.id === itemId);
+    let itemName = itemToFind ? itemToFind.name : "Unbekannter Beitrag";
 
-                const scriptGis = document.createElement('script');
-                scriptGis.src = 'https://accounts.google.com/gsi/client';
-                scriptGis.onload = gisLoaded;
-                document.head.appendChild(scriptGis);
+    if (confirm(`Möchtest du "${personName}" wirklich von "${itemName}" austragen?`)) {
+        let item = itemArray.find(i => i.id === itemId);
+
+        if (item) {
+            item.persons = item.persons.filter(p => p !== personName);
+            saveData();
+            
+            if (isAdditional) {
+                createAdditionalItemCards();
+            } else {
+                createItemCards();
             }
-            
-            console.log("✅ ================================");
-            console.log("✅ APP-INITIALISIERUNG ERFOLGREICH!");
-            console.log("✅ ================================");
-            
-            // Debug-Info nach 3 Sekunden
-            setTimeout(() => {
-                debugData();
-                console.log("🔍 Finale Überprüfung:");
-                const finalGrid = document.getElementById('itemsGrid');
-                console.log("📊 itemsGrid Kinder:", finalGrid ? finalGrid.children.length : "NICHT GEFUNDEN");
-            }, 3000);
-            
-        } catch (error) {
-            console.error("💥 KRITISCHER FEHLER bei Initialisierung:", error);
-            alert("KRITISCHER FEHLER: " + error.message + "\n\nBitte Seite neu laden!");
+            showGoodbyeEffect("Erfolgreich ausgetragen!");
+        }
+    }
+}
+
+function addNewItem() {
+    const newItemInput = document.getElementById('newItemInput');
+    const newItemName = newItemInput.value.trim();
+
+    if (newItemName) {
+        const newItemId = newItemName.toLowerCase().replace(/[^a-z0-9]/g, '-');
+        const existingItem = data.items.find(item => item.id === newItemId) || data.additionalItems.find(item => item.id === newItemId);
+
+        if (existingItem) {
+            alert('Dieser Beitrag existiert bereits!');
+            return;
+        }
+
+        data.additionalItems.push({
+            id: newItemId,
+            name: newItemName,
+            persons: []
+        });
+        newItemInput.value = '';
+        saveData();
+        createAdditionalItemCards();
+        showThankYouEffect("Beitrag hinzugefügt!");
+    } else {
+        alert('Bitte gib einen Namen für den neuen Beitrag ein!');
+    }
+}
+
+// ===================================================================
+// ADMIN FUNKTIONEN (VEREINFACHT)
+// ===================================================================
+
+function adminLogin() {
+    const passwordInput = document.getElementById('adminPassword');
+    if (passwordInput.value === ADMIN_PASSWORD) {
+        document.getElementById('adminLogin').style.display = 'none';
+        document.getElementById('adminControls').style.display = 'block';
+        document.getElementById('exportSection').style.display = 'block';
+    } else {
+        alert('Falsches Passwort!');
+    }
+    passwordInput.value = '';
+}
+
+function adminLogout() {
+    document.getElementById('adminLogin').style.display = 'block';
+    document.getElementById('adminControls').style.display = 'none';
+    document.getElementById('exportSection').style.display = 'none';
+}
+
+function exportToCSV() {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Kategorie,Beitrag,Name,Anzahl_Eingetragen\n";
+
+    data.items.forEach(item => {
+        if (item.persons.length > 0) {
+            item.persons.forEach(person => {
+                csvContent += `Benötigt,"${item.name}","${person}",${item.persons.length}\n`;
+            });
+        } else {
+            csvContent += `Benötigt,"${item.name}",,0\n`;
         }
     });
+
+    data.additionalItems.forEach(item => {
+        if (item.persons.length > 0) {
+            item.persons.forEach(person => {
+                csvContent += `Weitere Beiträge,"${item.name}","${person}",${item.persons.length}\n`;
+            });
+        } else {
+            csvContent += `Weitere Beiträge,"${item.name}",,0\n`;
+        }
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "party_beitraege.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     
-    // Notfall-Reload Funktion
-    window.forceReload = function() {
-        console.log("🔄 FORCE RELOAD ausgeführt");
+    showThankYouEffect("CSV Export erfolgreich!");
+}
+
+function exportToExcel() {
+    exportToCSV(); // Vereinfacht
+}
+
+function syncWithGoogleDrive() {
+    alert('Google Drive Sync noch nicht implementiert');
+}
+
+function showShareLink() {
+    const currentUrl = window.location.href;
+    const textArea = document.createElement('textarea');
+    textArea.value = currentUrl;
+    document.body.appendChild(textArea);
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+        showThankYouEffect("Link kopiert!");
+    } catch (err) {
+        alert(`Link: ${currentUrl}`);
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+// ===================================================================
+// NOTFALL-FUNKTIONEN
+// ===================================================================
+
+window.forceCreateItems = function() {
+    console.log("🚨 NOTFALL: Force Create Items");
+    createItemCards();
+    createAdditionalItemCards();
+}
+
+window.forceDebug = function() {
+    debugData();
+}
+
+// ===================================================================
+// INITIALISIERUNG WENN DOM BEREIT
+// ===================================================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("🚀 =================================");
+    console.log("🚀 DOM CONTENT LOADED - APP START");
+    console.log("🚀 =================================");
+    
+    try {
+        // Prüfe HTML-Elemente
+        const itemsGrid = document.getElementById('itemsGrid');
+        if (!itemsGrid) {
+            console.error("❌ KRITISCH: itemsGrid nicht gefunden!");
+            alert("FEHLER: HTML-Struktur unvollständig!");
+            return;
+        }
+        console.log("✅ itemsGrid gefunden");
+        
+        // Firebase Status setzen
+        updateFirebaseStatus();
+        
+        // UI-Grundlagen
+        createStars();
+        createNeonLines();
+        
+        // Daten laden
+        loadData();
+        
+        // WICHTIG: Items SOFORT anzeigen
+        console.log("📋 Erstelle Items SOFORT...");
         createItemCards();
         createAdditionalItemCards();
-    };
+        
+        // Event Listeners
+        const newItemInput = document.getElementById('newItemInput');
+        if (newItemInput) {
+            newItemInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    addNewItem();
+                }
+            });
+        }
+        
+        const adminPassword = document.getElementById('adminPassword');
+        if (adminPassword) {
+            adminPassword.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    adminLogin();
+                }
+            });
+        }
+        
+        // Admin Focus-Effekte
+        const adminInput = document.getElementById('adminPassword');
+        const adminGlow = document.querySelector('.admin-input-glow');
+        if (adminInput && adminGlow) {
+            adminInput.addEventListener('focus', function() {
+                adminGlow.style.opacity = '1';
+            });
+            adminInput.addEventListener('blur', function() {
+                adminGlow.style.opacity = '0';
+            });
+        }
+        
+        console.log("✅ =================================");
+        console.log("✅ APP ERFOLGREICH INITIALISIERT!");
+        console.log("✅ =================================");
+        
+        // Debug nach 2 Sekunden
+        setTimeout(() => {
+            console.log("🔍 Debug nach 2 Sekunden:");
+            debugData();
+            const grid = document.getElementById('itemsGrid');
+            console.log("📊 itemsGrid Kinder-Anzahl:", grid ? grid.children.length : "NICHT GEFUNDEN");
+            
+            if (grid && grid.children.length === 0) {
+                console.warn("⚠️ KEINE ITEMS ANGEZEIGT! Versuche Notfall-Erstellung...");
+                grid.innerHTML = `
+                    <div style="color: yellow; padding: 20px; border: 2px solid yellow; border-radius: 10px; text-align: center; background: rgba(255,255,0,0.1);">
+                        <h3>⚠️ NOTFALL-MODUS</h3>
+                        <p>Items werden nicht angezeigt!</p>
+                        <button onclick="forceCreateItems()" style="padding: 10px 20px; margin: 10px; border: none; border-radius: 5px; background: #ff00ff; color: white; cursor: pointer; font-family: inherit;">🔄 Items neu laden</button>
+                        <button onclick="forceDebug()" style="padding: 10px 20px; margin: 10px; border: none; border-radius: 5px; background: #00ffff; color: black; cursor: pointer; font-family: inherit;">🔍 Debug Info</button>
+                    </div>
+                `;
+            }
+        }, 2000);
+        
+    } catch (error) {
+        console.error("💥 KRITISCHER FEHLER:", error);
+        alert("KRITISCHER FEHLER: " + error.message);
+    }
+});
+
+console.log("✅ Script vollständig geladen!");
+
 </script>
 
 </body>
