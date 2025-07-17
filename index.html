@@ -833,7 +833,27 @@ async function saveToAPI() {
     try {
         updateStatus('syncing', '🔄 Speichere...', 'Übertrage Daten');
         
-        const response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
+        // Versuche zuerst mit Master Key
+        console.log("🔑 Versuche mit Master Key...");
+        let response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': '$2a$10$bgRXNVHpFNOpDO70VX5sf..5y.UvqHzfKZSRODi4KSmwdikOkbrB6'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+            console.log("✅ Erfolgreich gespeichert (Master Key)");
+            isOnline = true;
+            updateStatus('connected', '✅ Online - Sync aktiv', 'JSONBin.io verbunden');
+            return true;
+        }
+        
+        // Falls Master Key fehlschlägt, versuche Access Key
+        console.log("🔑 Versuche mit Access Key...");
+        response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -843,13 +863,13 @@ async function saveToAPI() {
         });
         
         if (response.ok) {
-            console.log("✅ Erfolgreich gespeichert");
+            console.log("✅ Erfolgreich gespeichert (Access Key)");
             isOnline = true;
             updateStatus('connected', '✅ Online - Sync aktiv', 'JSONBin.io verbunden');
             return true;
         } else {
-            console.error("❌ Speichern fehlgeschlagen:", response.status);
-            throw new Error('Speichern fehlgeschlagen');
+            console.error("❌ Speichern fehlgeschlagen:", response.status, response.statusText);
+            throw new Error(`Speichern fehlgeschlagen: ${response.status}`);
         }
     } catch (error) {
         console.error("❌ API Fehler:", error);
@@ -865,16 +885,19 @@ async function loadFromAPI() {
     try {
         updateStatus('syncing', '🔄 Lade Daten...', 'Verbinde mit JSONBin.io');
         
-        const response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
+        // Versuche zuerst mit Master Key
+        console.log("🔑 Versuche mit Master Key...");
+        let response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
             method: 'GET',
             headers: {
-                'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
+                'X-Master-Key': '$2a$10$bgRXNVHpFNOpDO70VX5sf..5y.UvqHzfKZSRODi4KSmwdikOkbrB6'
             }
         });
         
         if (response.ok) {
+            console.log("✅ Erfolgreich geladen (Master Key)");
             const result = await response.json();
-            console.log("✅ Daten erhalten:", result);
+            console.log("📊 Daten erhalten:", result);
             
             if (result.record) {
                 const loadedData = result.record;
@@ -900,8 +923,47 @@ async function loadFromAPI() {
                 return true;
             }
         } else {
-            console.error("❌ Laden fehlgeschlagen:", response.status);
-            throw new Error('Laden fehlgeschlagen');
+            // Falls Master Key fehlschlägt, versuche Access Key
+            console.log("🔑 Versuche mit Access Key...");
+            response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
+                method: 'GET',
+                headers: {
+                    'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
+                }
+            });
+            
+            if (response.ok) {
+                console.log("✅ Erfolgreich geladen (Access Key)");
+                const result = await response.json();
+                console.log("📊 Daten erhalten:", result);
+                
+                if (result.record) {
+                    const loadedData = result.record;
+                    
+                    // Merge Items
+                    if (loadedData.items) {
+                        data.items = data.items.map(defaultItem => {
+                            const loadedItem = loadedData.items.find(item => item.id === defaultItem.id);
+                            return loadedItem || defaultItem;
+                        });
+                    }
+                    
+                    // Additional Items
+                    if (loadedData.additionalItems) {
+                        data.additionalItems = loadedData.additionalItems;
+                    }
+                    
+                    data.lastUpdate = loadedData.lastUpdate || Date.now();
+                    
+                    isOnline = true;
+                    updateStatus('connected', '✅ Online - Sync aktiv', 'JSONBin.io verbunden');
+                    console.log("✅ Daten erfolgreich geladen");
+                    return true;
+                }
+            } else {
+                console.error("❌ Laden fehlgeschlagen:", response.status, response.statusText);
+                throw new Error(`Laden fehlgeschlagen: ${response.status}`);
+            }
         }
     } catch (error) {
         console.error("❌ API Fehler:", error);
@@ -1127,7 +1189,62 @@ function forceSync() {
     });
 }
 
-// AUTO SYNC
+// TEST FUNKTION
+async function testConnection() {
+    console.log("🧪 === TESTE VERBINDUNG ===");
+    
+    try {
+        // Test mit Master Key
+        console.log("🔑 Teste Master Key...");
+        let response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
+            method: 'GET',
+            headers: {
+                'X-Master-Key': '$2a$10$bgRXNVHpFNOpDO70VX5sf..5y.UvqHzfKZSRODi4KSmwdikOkbrB6'
+            }
+        });
+        
+        if (response.ok) {
+            console.log("✅ Master Key funktioniert!");
+            const result = await response.json();
+            console.log("📊 Daten:", result);
+            showMessage("Master Key Verbindung erfolgreich!");
+            return true;
+        } else {
+            console.log("❌ Master Key fehlgeschlagen:", response.status);
+        }
+        
+        // Test mit Access Key
+        console.log("🔑 Teste Access Key...");
+        response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
+            method: 'GET',
+            headers: {
+                'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
+            }
+        });
+        
+        if (response.ok) {
+            console.log("✅ Access Key funktioniert!");
+            const result = await response.json();
+            console.log("📊 Daten:", result);
+            showMessage("Access Key Verbindung erfolgreich!");
+            return true;
+        } else {
+            console.log("❌ Access Key fehlgeschlagen:", response.status);
+        }
+        
+        console.log("❌ Beide Keys fehlgeschlagen");
+        showMessage("Beide Keys fehlgeschlagen!", true);
+        return false;
+        
+    } catch (error) {
+        console.error("❌ Verbindungstest fehlgeschlagen:", error);
+        showMessage("Verbindungstest fehlgeschlagen!", true);
+        return false;
+    }
+}
+
+// Füge Test-Funktion zum Window hinzu
+window.testConnection = testConnection;
 function startAutoSync() {
     console.log("⏰ Starte Auto-Sync");
     
@@ -1138,12 +1255,23 @@ function startAutoSync() {
             console.log("🔄 Auto-Sync Check");
             
             try {
-                const response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
+                // Versuche zuerst mit Master Key
+                let response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
                     method: 'GET',
                     headers: {
-                        'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
+                        'X-Master-Key': '$2a$10$bgRXNVHpFNOpDO70VX5sf..5y.UvqHzfKZSRODi4KSmwdikOkbrB6'
                     }
                 });
+                
+                if (!response.ok) {
+                    // Falls Master Key fehlschlägt, versuche Access Key
+                    response = await fetch(`${JSONBIN_CONFIG.BASE_URL}${JSONBIN_CONFIG.BIN_ID}`, {
+                        method: 'GET',
+                        headers: {
+                            'X-Access-Key': JSONBIN_CONFIG.ACCESS_KEY
+                        }
+                    });
+                }
                 
                 if (response.ok) {
                     const result = await response.json();
@@ -1152,13 +1280,14 @@ function startAutoSync() {
                         await loadFromAPI();
                         renderItems();
                         renderAdditionalItems();
+                        console.log("✅ Auto-Sync erfolgreich");
                     }
                 }
             } catch (error) {
                 console.warn("⚠️ Auto-Sync Fehler:", error);
             }
         }
-    }, 15000); // Alle 15 Sekunden
+    }, 10000); // Alle 10 Sekunden
 }
 
 // INITIALISIERUNG
@@ -1218,7 +1347,22 @@ window.addEventListener('beforeunload', () => {
     if (syncInterval) clearInterval(syncInterval);
 });
 
+// DEBUG FUNKTIONEN
+window.testConnection = testConnection;
+window.forceSync = forceSync;
+window.showData = function() {
+    console.log("📊 === AKTUELLE DATEN ===");
+    console.log("Standard Items:", data.items.length);
+    console.log("Additional Items:", data.additionalItems.length);
+    console.log("Online:", isOnline);
+    console.log("Vollständige Daten:", data);
+};
+
 console.log("✅ Script vollständig geladen");
+console.log("🔧 Debug-Befehle verfügbar:");
+console.log("  - testConnection() - Teste JSONBin Verbindung");
+console.log("  - forceSync() - Erzwinge Synchronisation");
+console.log("  - showData() - Zeige aktuelle Daten");
 </script>
 
 </body>
