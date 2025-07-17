@@ -1,13 +1,4 @@
-Nudelsalat
-Kartoffelsalat
-Kräuterbutter
-Nutella, Erdnussbutter
-Kuchen
-Marmelade, Honig
-Aufschnitt (Wurst, Käse)
-Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <!DOCTYPE html>
-
 <html lang="de">
 <head>
 <meta charset="utf-8"/>
@@ -77,6 +68,81 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
         0% { transform: translateX(-100%); }
         100% { transform: translateX(100vw); }
     }
+
+    /* Neuer dezenter Lasereffekt */
+    .laser-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -2;
+        overflow: hidden;
+    }
+
+    .laser-beam {
+        position: absolute;
+        width: 1px;
+        height: 100vh;
+        background: linear-gradient(0deg, 
+            transparent 0%, 
+            rgba(0, 255, 255, 0.1) 20%, 
+            rgba(255, 0, 255, 0.15) 50%, 
+            rgba(0, 255, 255, 0.1) 80%, 
+            transparent 100%);
+        animation: laser-move 8s linear infinite;
+        opacity: 0.6;
+    }
+
+    .laser-beam:nth-child(2) {
+        animation-delay: -2s;
+        background: linear-gradient(0deg, 
+            transparent 0%, 
+            rgba(255, 0, 255, 0.1) 20%, 
+            rgba(0, 255, 255, 0.15) 50%, 
+            rgba(255, 0, 255, 0.1) 80%, 
+            transparent 100%);
+    }
+
+    .laser-beam:nth-child(3) {
+        animation-delay: -4s;
+        animation-duration: 10s;
+    }
+
+    .laser-beam:nth-child(4) {
+        animation-delay: -6s;
+        animation-duration: 12s;
+        background: linear-gradient(0deg, 
+            transparent 0%, 
+            rgba(255, 255, 0, 0.08) 20%, 
+            rgba(255, 0, 255, 0.12) 50%, 
+            rgba(255, 255, 0, 0.08) 80%, 
+            transparent 100%);
+    }
+
+    @keyframes laser-move {
+        0% { 
+            left: -10px; 
+            transform: rotate(1deg);
+        }
+        25% { 
+            left: 25%; 
+            transform: rotate(-0.5deg);
+        }
+        50% { 
+            left: 50%; 
+            transform: rotate(0.8deg);
+        }
+        75% { 
+            left: 75%; 
+            transform: rotate(-0.3deg);
+        }
+        100% { 
+            left: calc(100% + 10px); 
+            transform: rotate(0.5deg);
+        }
+    }
     
     .container {
         max-width: 1200px;
@@ -121,30 +187,6 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
         opacity: 0.8;
     }
     
-    .progress-bar {
-        width: 100%;
-        height: 30px;
-        background: rgba(0, 0, 0, 0.5);
-        border-radius: 15px;
-        overflow: visible;
-        margin-bottom: 40px;
-        border: 2px solid #00ffff;
-    }
-    
-    .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #ff00ff, #00ffff);
-        transition: width 0.3s ease;
-        border-radius: 15px;
-    }
-    
-    .progress-text {
-        text-align: center;
-        margin-top: 10px;
-        font-size: 1.1rem;
-        color: #00ffff;
-    }
-    
     .items-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -163,10 +205,10 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
     }
 
     .section-title.highlighted-plus {
-        font-size: clamp(1.8rem, 4.5vw, 2.5rem); /* Make it larger */
-        color: #ffff00; /* Change color to a bright yellow */
-        text-shadow: 0 0 20px #ffff00, 0 0 30px rgba(255, 255, 0, 0.8); /* Stronger glow */
-        animation: pulse-plus 1.5s infinite alternate; /* Add a pulse animation */
+        font-size: clamp(1.8rem, 4.5vw, 2.5rem);
+        color: #ffff00;
+        text-shadow: 0 0 20px #ffff00, 0 0 30px rgba(255, 255, 0, 0.8);
+        animation: pulse-plus 1.5s infinite alternate;
     }
 
     @keyframes pulse-plus {
@@ -323,8 +365,13 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
         margin-bottom: 10px;
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     }
-    
-    /* Removed item-counter class as per user request */
+
+    .item-counter {
+        font-size: 0.9rem;
+        color: #00ffff;
+        margin-bottom: 15px;
+        text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    }
     
     .persons-list {
         margin-bottom: 15px;
@@ -1222,8 +1269,17 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
     }
     @media (max-width: 768px) {
         .title {
-            font-size: clamp(1.5rem, 5vw, 2rem);
+            font-size: clamp(2rem, 6vw, 2.5rem); /* Vergrößert für Mobile */
             letter-spacing: 1px;
+        }
+        .header {
+            padding: 35px; /* Etwas mehr Padding für Mobile */
+        }
+        .date {
+            font-size: clamp(1.1rem, 3.5vw, 1.6rem); /* Auch etwas größer */
+        }
+        .subtitle {
+            font-size: clamp(1rem, 2.8vw, 1.3rem); /* Auch etwas größer */
         }
         .section-title {
             font-size: clamp(1.2rem, 3.5vw, 1.5rem);
@@ -1262,7 +1318,7 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
             max-height: 120px;
         }
         .thank-you-text {
-            font-size: clamp(2rem, 8vw, 4rem); /* Ensure responsiveness */
+            font-size: clamp(2rem, 8vw, 4rem);
         }
         .export-btn {
             display: block;
@@ -1311,14 +1367,14 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
     }
     @media (max-width: 480px) {
         .title {
-            font-size: clamp(1.2rem, 4.5vw, 1.5rem);
+            font-size: clamp(1.8rem, 5.5vw, 2rem); /* Noch größer für sehr kleine Bildschirme */
             letter-spacing: 0px;
         }
         .date {
-            font-size: clamp(0.8rem, 2.5vw, 1rem);
+            font-size: clamp(1rem, 3vw, 1.3rem);
         }
         .subtitle {
-            font-size: clamp(0.7rem, 2vw, 0.9rem);
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
         }
         .section-title {
             font-size: clamp(1rem, 3vw, 1.2rem);
@@ -1328,7 +1384,7 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
             padding: 15px;
         }
         .header {
-            padding: 20px;
+            padding: 25px; /* Mehr Padding für kleinste Geräte */
         }
         .admin-section {
             padding: 15px;
@@ -1394,12 +1450,22 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
             width: 1px;
             height: 12px;
         }
+        .progress-bar,
+        .progress-text {
+            display: none !important;
+        }
     }
 </style>
 </head>
 <body>
 <div class="stars"></div>
 <div class="neon-lines"></div>
+<div class="laser-background">
+    <div class="laser-beam"></div>
+    <div class="laser-beam"></div>
+    <div class="laser-beam"></div>
+    <div class="laser-beam"></div>
+</div>
 
 <div class="container">
     <div class="header">
@@ -1407,11 +1473,6 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
         <div class="date">01. - 03. 08. 2025</div>
         <div class="subtitle">Partybeiträge • Anglerheim Jena</div>
     </div>
-
-    <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-    </div>
-    <div class="progress-text" id="progressText">0 Beiträge</div>
 
     <div class="section-title">🎯 Benötigte Partybeiträge</div>
     <div class="items-grid" id="itemsGrid">
@@ -1469,6 +1530,7 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
                 <div class="export-section" id="exportSection">
                     <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
                     <button class="export-btn" onclick="exportToExcel()">📈 Excel Export</button>
+                    <button class="export-btn" onclick="syncWithGoogleDrive()">🔄 Drive Sync</button>
                     <button class="export-btn" onclick="showShareLink()">🔗 Share Link</button>
                 </div>
             </div>
@@ -1496,17 +1558,17 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
     // Admin-Passwort (Beispiel, sollte in einer echten Anwendung sicherer gehandhabt werden)
     const ADMIN_PASSWORD = "admin";
 
-    // Datenstruktur
+    // Datenstruktur - Unbegrenzte Personen pro Beitrag
     let data = {
         items: [
-            { id: "nudelsalat", name: "Nudelsalat", persons: [], max: 1 },
-            { id: "kartoffelsalat", name: "Kartoffelsalat", persons: [], max: 1 },
-            { id: "kraeuterbutter", name: "Kräuterbutter", persons: [], max: 1 },
-            { id: "nutella-erdnussbutter", name: "Nutella, Erdnussbutter", persons: [], max: 1 },
-            { id: "kuchen", name: "Kuchen", persons: [], max: 1 },
-            { id: "marmelade-honig", name: "Marmelade, Honig", persons: [], max: 1 },
-            { id: "aufschnitt-wurst-kaese", name: "Aufschnitt (Wurst, Käse)", persons: [], max: 1 },
-            { id: "aufstriche-herzhaft", name: "Aufstriche (herzhaft)", persons: [], max: 1 }
+            { id: "nudelsalat", name: "Nudelsalat", persons: [] },
+            { id: "kartoffelsalat", name: "Kartoffelsalat", persons: [] },
+            { id: "kraeuterbutter", name: "Kräuterbutter", persons: [] },
+            { id: "nutella-erdnussbutter", name: "Nutella, Erdnussbutter", persons: [] },
+            { id: "kuchen", name: "Kuchen", persons: [] },
+            { id: "marmelade-honig", name: "Marmelade, Honig", persons: [] },
+            { id: "aufschnitt-wurst-kaese", name: "Aufschnitt (Wurst, Käse)", persons: [] },
+            { id: "aufstriche-herzhaft", name: "Aufstriche (herzhaft)", persons: [] }
         ],
         additionalItems: []
     };
@@ -1515,7 +1577,7 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
     const thankYouReactions = [
         "🙏 Daaaaaankööö! 🙏",
         "💕 Du bist die/der Geilste! 💕",
-        "💣 Hammerfettbombekrass! 💣",
+        "💣 Hammer-fett-bombe-krass! 💣",
         "🥰 Echt?! Thnx!!! 🥰",
         "🛟 Du bist die Rettung 🛟",
         "❤️ Ich hasse alle: Außer DICH! ❤️",
@@ -1542,8 +1604,8 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
         const thankYouText = overlay.querySelector('.thank-you-text');
         const thankYouSubtext = overlay.querySelector('.thank-you-subtext');
 
-        thankYouText.textContent = getRandomReaction(thankYouReactions); // Use random thank you reaction
-        thankYouSubtext.textContent = message || "Vielen Dank für Ihre Anmeldung!"; // Customize subtext or use generic
+        thankYouText.textContent = getRandomReaction(thankYouReactions);
+        thankYouSubtext.textContent = message || "Vielen Dank für Ihre Anmeldung!";
 
         overlay.classList.add('show');
         createParticles(100, overlay);
@@ -1552,7 +1614,6 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
 
         setTimeout(() => {
             overlay.classList.remove('show');
-            // Reset overlay content to default after animation
             overlay.innerHTML = `<div class="thank-you-content">
                                     <div class="retro-grid"></div>
                                     <div class="laser-lines">
@@ -1571,8 +1632,8 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
         const thankYouText = overlay.querySelector('.thank-you-text');
         const thankYouSubtext = overlay.querySelector('.thank-you-subtext');
 
-        thankYouText.textContent = getRandomReaction(goodbyeReactions); // Use random goodbye reaction
-        thankYouSubtext.textContent = message || "Auf Wiedersehen!"; // Customize subtext or use generic
+        thankYouText.textContent = getRandomReaction(goodbyeReactions);
+        thankYouSubtext.textContent = message || "Auf Wiedersehen!";
 
         overlay.classList.add('show');
         createParticles(100, overlay, 'orange');
@@ -1581,7 +1642,6 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
 
         setTimeout(() => {
             overlay.classList.remove('show');
-            // Reset overlay content to default after animation
             overlay.innerHTML = `<div class="thank-you-content">
                                     <div class="retro-grid"></div>
                                     <div class="laser-lines">
@@ -1643,12 +1703,10 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
         const savedData = localStorage.getItem('partyData');
         if (savedData) {
             const parsedData = JSON.parse(savedData);
-            // Merge loaded data with default items, prioritizing loaded values for existing IDs
             data.items = data.items.map(defaultItem => {
                 const loadedItem = parsedData.items.find(item => item.id === defaultItem.id);
-                return loadedItem ? loadedItem : defaultItem;
+                return loadedItem ? { ...defaultItem, ...loadedItem } : defaultItem;
             });
-            // Add any additional items that were loaded but not in the default list
             parsedData.items.forEach(loadedItem => {
                 if (!data.items.some(defaultItem => defaultItem.id === loadedItem.id)) {
                     data.items.push(loadedItem);
@@ -1660,27 +1718,25 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
 
     // Fortschrittsbalken aktualisieren
     function updateProgress() {
-        const totalMaxPersonsItems = data.items.reduce((sum, item) => sum + (item.max || 1), 0);
         const currentPersonsItems = data.items.reduce((sum, item) => sum + item.persons.length, 0);
-
-        const totalMaxPersonsAdditionalItems = data.additionalItems.reduce((sum, item) => sum + (item.max || 1), 0);
         const currentPersonsAdditionalItems = data.additionalItems.reduce((sum, item) => sum + item.persons.length, 0);
+        const totalPersons = currentPersonsItems + currentPersonsAdditionalItems;
 
-        const totalMax = totalMaxPersonsItems + totalMaxPersonsAdditionalItems;
-        const currentPersons = currentPersonsItems + currentPersonsAdditionalItems;
-
+        // Dynamische Fortschrittsberechnung basierend auf Einträgen
+        const totalItems = data.items.length + data.additionalItems.length;
         let progressPercentage = 0;
-        if (totalMax > 0) {
-            progressPercentage = (currentPersons / totalMax) * 100;
+        if (totalItems > 0) {
+            const averagePersonsPerItem = totalPersons / totalItems;
+            progressPercentage = Math.min(averagePersonsPerItem * 20, 100); // 5 Personen = 100%
         }
         
         document.getElementById('progressFill').style.width = `${progressPercentage}%`;
         
         let progressText = '';
-        if (currentPersons === 1) {
-            progressText = `1 Eintrag`;
-        } else if (currentPersons > 1) {
-            progressText = `${currentPersons} Einträge`;
+        if (totalPersons === 1) {
+            progressText = `1 Person eingetragen`;
+        } else if (totalPersons > 1) {
+            progressText = `${totalPersons} Personen eingetragen`;
         } else {
             progressText = `Noch keine Einträge`;
         }
@@ -1690,12 +1746,12 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
     // Item-Karten erstellen (für "Benötigte Partybeiträge")
     function createItemCards() {
         const itemsGrid = document.getElementById('itemsGrid');
-        itemsGrid.innerHTML = ''; // Vorherige Karten löschen
+        itemsGrid.innerHTML = '';
 
         data.items.forEach(item => {
             const itemCard = document.createElement('div');
             itemCard.classList.add('item-card');
-            if (item.persons.length >= item.max) {
+            if (item.persons.length > 0) {
                 itemCard.classList.add('taken');
             }
 
@@ -1708,12 +1764,12 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
 
             itemCard.innerHTML = `
                 <div class="item-name">${item.name}</div>
+                ${item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
                 <div class="persons-list">${personsListHtml}</div>
-                ${item.persons.length < item.max ? `
-                    <div class="item-controls">
-                        <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
-                        <button class="btn btn-take" onclick="registerPerson('${item.id}', false)">Eintragen</button>
-                    </div>` : `<div class="complete-message">Vielen Dank! Genug Leute haben sich eingetragen.</div>`}
+                <div class="item-controls">
+                    <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
+                    <button class="btn btn-take" onclick="registerPerson('${item.id}', false)">Eintragen</button>
+                </div>
             `;
             itemsGrid.appendChild(itemCard);
 
@@ -1731,7 +1787,7 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
     // Zusätzliche Item-Karten erstellen
     function createAdditionalItemCards() {
         const additionalItemsGrid = document.getElementById('additionalItemsGrid');
-        additionalItemsGrid.innerHTML = ''; // Vorherige Karten löschen
+        additionalItemsGrid.innerHTML = '';
 
         data.additionalItems.forEach(item => {
             const itemCard = document.createElement('div');
@@ -1746,6 +1802,7 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
 
             itemCard.innerHTML = `
                 <div class="additional-item-name">${item.name}</div>
+                ${item.persons.length > 0 ? `<div class="item-counter">${item.persons.length} ${item.persons.length === 1 ? 'Person' : 'Personen'}</div>` : ''}
                 <div class="persons-list">${personsListHtml}</div>
                 <div class="item-controls">
                     <input type="text" class="name-input" id="input-${item.id}" placeholder="Dein Name"/>
@@ -1754,7 +1811,6 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
             `;
             additionalItemsGrid.appendChild(itemCard);
 
-            // Add event listener for Enter key to the newly created input field
             const inputElement = itemCard.querySelector(`#input-${item.id}`);
             if (inputElement) {
                 inputElement.addEventListener('keypress', function(event) {
@@ -1776,27 +1832,20 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
             let item = itemArray.find(i => i.id === itemId);
 
             if (item) {
-                // Check for duplicate name case-insensitively
                 const existingPerson = item.persons.find(p => p.toLowerCase() === personName.toLowerCase());
                 if (existingPerson) {
                     alert('Dieser Name ist bereits eingetragen!');
                     return;
                 }
-
-                if (!isAdditional && item.persons.length >= item.max) {
-                    alert('Maximale Anzahl an Personen für diesen Beitrag erreicht!');
-                    return;
-                }
                 
                 item.persons.push(personName);
-                inputElement.value = ''; // Eingabefeld leeren
+                inputElement.value = '';
                 saveData();
                 if (isAdditional) {
                     createAdditionalItemCards();
                 } else {
                     createItemCards();
                 }
-                updateProgress();
                 showThankYouEffect("Eintrag erfolgreich!");
             }
         } else {
@@ -1808,7 +1857,7 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
     function unregisterPerson(itemId, personName, isAdditional) {
         let itemArray = isAdditional ? data.additionalItems : data.items;
         let itemToFind = itemArray.find(i => i.id === itemId);
-        let itemName = itemToFind ? itemToFind.name : "Unbekannter Beitrag"; // Fallback for safety
+        let itemName = itemToFind ? itemToFind.name : "Unbekannter Beitrag";
 
         if (confirm(`Möchtest du "${personName}" wirklich von "${itemName}" austragen?`)) {
             let item = itemArray.find(i => i.id === itemId);
@@ -1821,7 +1870,6 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
                 } else {
                     createItemCards();
                 }
-                updateProgress();
                 showGoodbyeEffect("Erfolgreich ausgetragen!");
             }
         }
@@ -1834,7 +1882,6 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
 
         if (newItemName) {
             const newItemId = newItemName.toLowerCase().replace(/[^a-z0-9]/g, '-');
-            // Check if item already exists in either items or additionalItems
             const existingItem = data.items.find(item => item.id === newItemId) || data.additionalItems.find(item => item.id === newItemId);
 
             if (existingItem) {
@@ -1847,10 +1894,9 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
                 name: newItemName,
                 persons: []
             });
-            newItemInput.value = ''; // Eingabefeld leeren
+            newItemInput.value = '';
             saveData();
             createAdditionalItemCards();
-            updateProgress();
             showThankYouEffect("Beitrag hinzugefügt!");
         } else {
             alert('Bitte gib einen Namen für den neuen Beitrag ein!');
@@ -1879,17 +1925,15 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
 
     function checkAdminStatus() {
         const adminPasswordElement = document.getElementById('adminPassword');
-        // Check if admin is logged in (controls visible) or if password matches
         if (document.getElementById('adminControls').style.display === 'block' || adminPasswordElement.value === ADMIN_PASSWORD) {
             document.getElementById('adminLogin').style.display = 'none';
             document.getElementById('adminControls').style.display = 'block';
+            document.getElementById('exportSection').style.display = 'block';
             if (CLIENT_ID !== 'YOUR_CLIENT_ID' && API_KEY !== 'YOUR_API_KEY') {
                 updateDriveStatus();
                 document.getElementById('driveStatus').style.display = 'block';
-                document.getElementById('exportSection').style.display = 'block';
             } else {
                 document.getElementById('driveStatus').style.display = 'none';
-                document.getElementById('exportSection').style.display = 'none';
             }
         } else {
             document.getElementById('adminLogin').style.display = 'block';
@@ -1932,7 +1976,7 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
 
     function maybeEnableButtons() {
         if (gapiInited && gisInited) {
-            // Buttons can be enabled here if needed, but connectToGoogleDrive handles it on click
+            // Buttons können hier aktiviert werden falls nötig
         }
     }
 
@@ -1948,10 +1992,8 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
             };
 
             if (gapi.client.getToken() === null) {
-                // Prompt the user to select a Google account and authorize the app.
                 tokenClient.requestAccessToken({prompt: 'consent'});
             } else {
-                // Skip display of account chooser and consent dialog for efficiency.
                 tokenClient.requestAccessToken({prompt: ''});
             }
         }
@@ -1977,6 +2019,7 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
 
     // Google Drive file handling
     const FILE_NAME = 'party_data.json';
+    const EXCEL_FILE_NAME = 'party_beitraege.xlsx';
     let fileId = null;
 
     async function loadFromGoogleDrive() {
@@ -1993,12 +2036,10 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
                     alt: 'media'
                 });
                 const loadedData = JSON.parse(fileContentResponse.body);
-                // Merge loaded data with default items, prioritizing loaded values for existing IDs
                 data.items = data.items.map(defaultItem => {
                     const loadedItem = loadedData.items.find(item => item.id === defaultItem.id);
-                    return loadedItem ? loadedItem : defaultItem;
+                    return loadedItem ? { ...defaultItem, ...loadedItem } : defaultItem;
                 });
-                // Add any additional items from loaded data that are not in the current default items
                 loadedData.items.forEach(loadedItem => {
                     if (!data.items.some(defaultItem => defaultItem.id === loadedItem.id)) {
                         data.items.push(loadedItem);
@@ -2008,10 +2049,9 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
                 console.log('Data loaded from Google Drive:', data);
                 createItemCards();
                 createAdditionalItemCards();
-                updateProgress();
             } else {
                 console.log('No data file found on Google Drive, creating a new one.');
-                saveToGoogleDrive(); // Create file if it doesn't exist
+                saveToGoogleDrive();
             }
         } catch (error) {
             console.error('Error loading from Google Drive:', error);
@@ -2031,7 +2071,6 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
 
         try {
             if (fileId) {
-                // Update existing file
                 await gapi.client.drive.files.update({
                     fileId: fileId,
                     resource: fileMetadata,
@@ -2040,7 +2079,6 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
                 });
                 console.log('Data updated on Google Drive.');
             } else {
-                // Create new file
                 const response = await gapi.client.drive.files.create({
                     resource: fileMetadata,
                     media: media,
@@ -2058,25 +2096,25 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
     // Export Functions
     function exportToCSV() {
         let csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += "Kategorie,Beitrag,Name\n";
+        csvContent += "Kategorie,Beitrag,Name,Anzahl_Eingetragen\n";
 
         data.items.forEach(item => {
             if (item.persons.length > 0) {
                 item.persons.forEach(person => {
-                    csvContent += `Benötigt,${item.name},"${person}"\n`;
+                    csvContent += `Benötigt,"${item.name}","${person}",${item.persons.length}\n`;
                 });
             } else {
-                csvContent += `Benötigt,${item.name},\n`; // Still list items with no persons
+                csvContent += `Benötigt,"${item.name}",,0\n`;
             }
         });
 
         data.additionalItems.forEach(item => {
             if (item.persons.length > 0) {
                 item.persons.forEach(person => {
-                    csvContent += `Weitere Beiträge,${item.name},"${person}"\n`;
+                    csvContent += `Weitere Beiträge,"${item.name}","${person}",${item.persons.length}\n`;
                 });
             } else {
-                csvContent += `Weitere Beiträge,${item.name},\n`;
+                csvContent += `Weitere Beiträge,"${item.name}",,0\n`;
             }
         });
 
@@ -2087,46 +2125,139 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        
+        showThankYouEffect("CSV Export erfolgreich!");
     }
 
     function exportToExcel() {
-        // This is a simplified approach using CSV, true Excel export requires a library or server-side.
-        // For a simple browser-side solution, generating a CSV with .xls extension often works.
         let csvContent = "data:application/vnd.ms-excel;charset=utf-8,";
-        csvContent += "Kategorie\tBeitrag\tName\n"; // Use tab for better Excel column separation
+        csvContent += "Kategorie\tBeitrag\tName\tAnzahl_Eingetragen\n";
 
         data.items.forEach(item => {
             if (item.persons.length > 0) {
                 item.persons.forEach(person => {
-                    csvContent += `Benötigt\t${item.name}\t"${person}"\n`;
+                    csvContent += `Benötigt\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
                 });
             } else {
-                csvContent += `Benötigt\t${item.name}\t\n`;
+                csvContent += `Benötigt\t"${item.name}"\t\t0\n`;
             }
         });
 
         data.additionalItems.forEach(item => {
             if (item.persons.length > 0) {
                 item.persons.forEach(person => {
-                    csvContent += `Weitere Beiträge\t${item.name}\t"${person}"\n`;
+                    csvContent += `Weitere Beiträge\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
                 });
             } else {
-                csvContent += `Weitere Beiträge\t${item.name}\t\n`;
+                csvContent += `Weitere Beiträge\t"${item.name}"\t\t0\n`;
             }
         });
 
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "party_beitraege.xls"); // .xls extension
+        link.setAttribute("download", "party_beitraege.xls");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        
+        showThankYouEffect("Excel Export erfolgreich!");
+    }
+
+    // Neue Sync-Funktion für Google Drive
+    async function syncWithGoogleDrive() {
+        if (!googleDriveConnected) {
+            alert('Bitte zuerst mit Google Drive verbinden!');
+            return;
+        }
+
+        try {
+            // Excel-Daten für Google Drive vorbereiten
+            let excelData = "Kategorie\tBeitrag\tName\tAnzahl_Eingetragen\n";
+
+            data.items.forEach(item => {
+                if (item.persons.length > 0) {
+                    item.persons.forEach(person => {
+                        excelData += `Benötigt\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
+                    });
+                } else {
+                    excelData += `Benötigt\t"${item.name}"\t\t0\n`;
+                }
+            });
+
+            data.additionalItems.forEach(item => {
+                if (item.persons.length > 0) {
+                    item.persons.forEach(person => {
+                        excelData += `Weitere Beiträge\t"${item.name}"\t"${person}"\t${item.persons.length}\n`;
+                    });
+                } else {
+                    excelData += `Weitere Beiträge\t"${item.name}"\t\t0\n`;
+                }
+            });
+
+            // Prüfen ob Excel-Datei bereits existiert
+            const excelListResponse = await gapi.client.drive.files.list({
+                q: `name = '${EXCEL_FILE_NAME}'`
+            });
+
+            const fileMetadata = {
+                'name': EXCEL_FILE_NAME
+            };
+            const media = {
+                mimeType: 'application/vnd.ms-excel',
+                body: excelData
+            };
+
+            if (excelListResponse.result.files.length > 0) {
+                // Update existing file
+                await gapi.client.drive.files.update({
+                    fileId: excelListResponse.result.files[0].id,
+                    resource: fileMetadata,
+                    media: media,
+                    fields: 'id'
+                });
+                showThankYouEffect("Google Drive synchronisiert!");
+            } else {
+                // Create new file
+                await gapi.client.drive.files.create({
+                    resource: fileMetadata,
+                    media: media,
+                    fields: 'id'
+                });
+                showThankYouEffect("Excel auf Google Drive erstellt!");
+            }
+
+            // Zusätzlich JSON-Daten speichern
+            await saveToGoogleDrive();
+
+        } catch (error) {
+            console.error('Error syncing with Google Drive:', error);
+            alert('Fehler bei der Synchronisation mit Google Drive!');
+        }
     }
 
     function showShareLink() {
-        alert("Funktion für Share Link noch nicht implementiert.");
-        // Implement Google Drive sharing API here if needed
+        if (!googleDriveConnected) {
+            alert('Bitte zuerst mit Google Drive verbinden!');
+            return;
+        }
+        
+        const currentUrl = window.location.href;
+        
+        // Erstelle einen temporären Textbereich für die Zwischenablage
+        const textArea = document.createElement('textarea');
+        textArea.value = currentUrl;
+        document.body.appendChild(textArea);
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+            showThankYouEffect("Link in Zwischenablage kopiert!");
+        } catch (err) {
+            alert(`Link zum Teilen: ${currentUrl}`);
+        }
+        
+        document.body.removeChild(textArea);
     }
 
     // Sterne erzeugen
@@ -2157,12 +2288,11 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
 
     // Initialisierung
     document.addEventListener('DOMContentLoaded', function() {
-        loadData(); // This now correctly handles merging with default items
+        loadData();
         createStars();
         createNeonLines();
         createItemCards();
         createAdditionalItemCards();
-        updateProgress();
         checkAdminStatus();
         
         // Enter-Taste für neues Item
@@ -2193,7 +2323,7 @@ Aufstriche (herzhaft)<meta content="width=device-width, initial-scale=1" name="v
             });
         }
 
-        // Initialize Google Drive only if API keys are provided
+        // Initialize Google Drive nur wenn API keys vorhanden
         if (CLIENT_ID !== 'YOUR_CLIENT_ID' && API_KEY !== 'YOUR_API_KEY') {
             const scriptGapi = document.createElement('script');
             scriptGapi.src = 'https://apis.google.com/js/api.js';
