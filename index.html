@@ -1966,29 +1966,6 @@
         return reactionList[Math.floor(Math.random() * reactionList.length)];
     }
 
-    // Firebase Status anzeigen - MUSS VOR INITIALISIERUNG STEHEN
-    function updateFirebaseStatus() {
-        const statusDiv = document.querySelector('.firebase-status');
-        if (statusDiv) {
-            if (isFirebaseConnected) {
-                statusDiv.innerHTML = '<span style="color: #00ff00;">🔥 Firebase Realtime Database: Verbunden (Echtzeit-Sync aktiv)</span>';
-            } else {
-                statusDiv.innerHTML = '<span style="color: #ffaa00;">⚠️ Firebase: Lokaler Modus (nur auf diesem Gerät)</span>';
-            }
-        }
-    }
-
-    // Debug-Funktion
-    function debugData() {
-        console.log("🔍 Debug - Aktuelle Daten:", {
-            isFirebaseConnected: isFirebaseConnected,
-            dataItems: data.items,
-            dataItemsLength: data.items.length,
-            additionalItems: data.additionalItems,
-            additionalItemsLength: data.additionalItems.length
-        });
-    }
-
     // Hilfsfunktionen
     function showThankYouEffect(message) {
         const overlay = document.getElementById('thankYouOverlay');
