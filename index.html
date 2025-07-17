@@ -560,7 +560,7 @@ body {
         <div class="subtitle">Partybeiträge • Anglerheim Jena</div>
         <div class="sync-status" id="syncStatus">
             <div class="status-text" id="statusText">Lokaler Modus - Funktioniert ohne Internet</div>
-            <div class="sync-details" id="syncDetails">Gib in der Konsole 'testAPI()' ein um die Synchronisation zu testen</div>
+            <div class="sync-details" id="syncDetails">👆 Für Synchronisation: Admin → "🔗 Test API" klicken</div>
         </div>
     </div>
 
@@ -601,6 +601,7 @@ body {
                 <h3>⚙️ SYSTEM CONTROL</h3>
                 <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
                 <button class="export-btn" onclick="testAPI()">🔗 Test API</button>
+                <button class="export-btn" onclick="createNewBin()">🆕 Neuer BIN</button>
             </div>
         </div>
     </div>
@@ -1053,15 +1054,64 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // GLOBAL FUNCTIONS
 window.testAPI = testAPI;
+window.createNewBin = async function() {
+    console.log("🆕 === ERSTELLE NEUEN BIN ===");
+    
+    const newBinData = {
+        items: data.items,
+        additionalItems: data.additionalItems,
+        lastUpdate: Date.now()
+    };
+    
+    try {
+        const response = await fetch('https://api.jsonbin.io/v3/b', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': API_CONFIG.MASTER_KEY,
+                'X-Bin-Name': '4x40-Party-Beitraege-' + Date.now()
+            },
+            body: JSON.stringify(newBinData)
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            const newBinId = result.metadata.id;
+            
+            API_CONFIG.BIN_ID = newBinId;
+            
+            console.log("✅ Neuer BIN erstellt!");
+            console.log("🆔 Neue BIN ID:", newBinId);
+            
+            alert(`✅ NEUER BIN ERSTELLT!\n\nBIN ID: ${newBinId}\n\nTeile diese ID mit anderen Gästen, damit sie sich auch eintragen können!`);
+            
+            updateStatus('connected', '✅ Neuer BIN erstellt!', `BIN ID: ${newBinId}`);
+            showMessage("Neuer BIN erfolgreich erstellt!");
+            
+            return newBinId;
+        } else {
+            throw new Error(`Fehler ${response.status}`);
+        }
+    } catch (error) {
+        console.error("❌ BIN-Erstellung fehlgeschlagen:", error);
+        showMessage("BIN-Erstellung fehlgeschlagen!", true);
+        return null;
+    }
+};
+
 window.showData = function() {
     console.log("📊 === AKTUELLE DATEN ===");
     console.log("Standard Items:", data.items.length);
     console.log("Additional Items:", data.additionalItems.length);
+    console.log("Aktuelle BIN ID:", API_CONFIG.BIN_ID);
     console.log("Vollständige Daten:", data);
 };
 
 console.log("✅ Script geladen - Lokaler Modus funktioniert");
-console.log("🔧 Debug-Befehle: testAPI(), showData()");
+console.log("🔧 Debug-Befehle:");
+console.log("  - testAPI() - Teste API und erstelle neuen BIN falls nötig");
+console.log("  - createNewBin() - Erstelle neuen BIN mit aktuellen Daten");
+console.log("  - showData() - Zeige aktuelle Daten");
 </script>
 
 </body>
