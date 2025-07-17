@@ -2,9 +2,6 @@
 <html lang="de">
 <head>
     <meta charset="utf-8"/>
-    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="expires" content="0">
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>4 x 40 B-Day-Bash - Partybeiträge</title>
     <meta content="Partybeiträge für die 4 x 40 B-Day-Bash Party am 01.-03.08.2025 im Anglerheim Jena" name="description"/>
@@ -49,25 +46,9 @@
             animation: twinkle 2s infinite alternate;
         }
 
-        .shooting-star-laser {
-            position: absolute;
-            width: 1px;
-            height: 100px;
-            background: linear-gradient(to bottom, transparent, #00ffff, #ff00ff, transparent);
-            animation: shoot-laser 2s linear forwards;
-            opacity: 0.8;
-            pointer-events: none;
-            animation-play-state: running;
-        }
-
         @keyframes twinkle {
             0% { opacity: 0.3; }
             100% { opacity: 1; }
-        }
-
-        @keyframes shoot-laser {
-            0% { transform: translateY(0) scaleY(1); opacity: 0.8; }
-            100% { transform: translateY(-100vh) scaleY(2); opacity: 0; }
         }
 
         .neon-lines {
@@ -206,15 +187,6 @@
         @keyframes pulse-plus {
             0% { transform: scale(1); opacity: 1; }
             100% { transform: scale(1.05); opacity: 0.9; }
-        }
-        
-        .hint {
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            color: #00ffff;
-            text-align: center;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-            margin-bottom: 20px;
-            opacity: 0.9;
         }
         
         .additional-section {
@@ -933,8 +905,6 @@
             .admin-btn { width: 100%; max-width: 300px; }
             .admin-title { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
             .laser-beam { height: clamp(0.5px, 1vw, 1px); }
-            .shooting-star-laser { height: clamp(50px, 10vw, 100px); }
-            .hint { font-size: clamp(0.8rem, 1.8vw, 1rem); }
         }
         @media (max-width: 480px) {
             .title { font-size: clamp(1.8rem, 5.5vw, 2rem); letter-spacing: 0px; }
@@ -954,8 +924,6 @@
             .add-item-card { padding: 15px; }
             .additional-item-card { padding: 15px; }
             .laser-beam { height: clamp(0.3px, 0.8vw, 0.5px); }
-            .shooting-star-laser { height: clamp(30px, 8vw, 50px); }
-            .hint { font-size: clamp(0.7rem, 1.6vw, 0.9rem); }
         }
     </style>
 </head>
@@ -982,7 +950,6 @@
         </div>
 
         <div class="section-title">🎯 Benötigte Partybeiträge</div>
-        <div class="hint">📝 **Hinweis:** Du kannst ganz unten auch eigene Partybeiträge vorschlagen! 👇</div>
         <div class="items-grid" id="itemsGrid"></div>
 
         <div class="additional-section">
@@ -1191,7 +1158,7 @@
                 const item = items.find(i => i.id === itemId);
                 if (item && Array.isArray(item.persons)) {
                     item.persons = item.persons.filter(p => p !== personName);
-                    if (item.persons.length === 0 && items === data.additionalItems && !data.items.some(i => i.id === itemId)) {
+                    if (item.persons.length === 0 && items === data.additionalItems && !data.items.some(i => i.id === item.id)) {
                         const index = items.findIndex(i => i.id === itemId);
                         if (index !== -1) items.splice(index, 1);
                     }
@@ -1375,17 +1342,6 @@
                 star.style.left = `${Math.random() * 100}%`;
                 star.style.animationDelay = `${Math.random() * 2}s`;
                 stars.appendChild(star);
-
-                // Sofortige Lasersternschnuppen beim Laden
-                if (Math.random() < 0.1) { // 10% Chance für eine sofortige Schnuppe
-                    const shootingStar = document.createElement('div');
-                    shootingStar.className = 'shooting-star-laser';
-                    shootingStar.style.top = `${Math.random() * 100}%`;
-                    shootingStar.style.left = `${Math.random() * 100}%`;
-                    shootingStar.style.animationDelay = '0s';
-                    stars.appendChild(shootingStar);
-                    setTimeout(() => shootingStar.remove(), 2000);
-                }
             }
         }
 
@@ -1405,19 +1361,6 @@
             createStars();
             createNeonLines();
             initializeFirebase();
-            // Kontinuierliche Erzeugung von Lasersternschnuppen mit minimalem Delay
-            setTimeout(() => {
-                setInterval(() => {
-                    const stars = document.querySelector('.stars');
-                    const shootingStar = document.createElement('div');
-                    shootingStar.className = 'shooting-star-laser';
-                    shootingStar.style.top = `${Math.random() * 100}%`;
-                    shootingStar.style.left = `${Math.random() * 100}%`;
-                    shootingStar.style.animationDelay = '0s';
-                    stars.appendChild(shootingStar);
-                    setTimeout(() => shootingStar.remove(), 2000);
-                }, 2000); // Alle 2 Sekunden eine neue Schnuppe
-            }, 100); // Kleiner Initial-Delay von 100ms
             firebase.database().ref('.info/connected').on('value', (snap) => {
                 const status = document.querySelector('.drive-status');
                 status.className = 'drive-status' + (snap.val() ? ' connected' : ' disconnected');
