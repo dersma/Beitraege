@@ -1233,7 +1233,7 @@
                         <input type="text" class="name-input" id="input-${item.id || ''}" placeholder="Dein Name" onkeypress="if(event.key === 'Enter') registerPerson('${item.id || ''}', true)"/>
                         <button class="btn btn-take" onclick="registerPerson('${item.id || ''}', true)">Eintragen</button>
                     </div>
-                    <button class="btn btn-release" onclick="deleteAdditionalItem('${item.id || ''}')">Beitrag löschen</button>
+                    <button class="btn btn-release" style="margin-top: 15px;" onclick="deleteAdditionalItem('${item.id || ''}')">Beitrag löschen</button>
                 `;
                 additionalItemsGrid.appendChild(card);
             });
@@ -1296,15 +1296,7 @@
                 data.additionalItems.push({ id, name, persons: [] });
                 input.value = '';
                 saveData();
-                showThankYouEffect();
-                // Warte kurz auf Update und setze Fokus auf das neue Namen-Feld
-                setTimeout(() => {
-                    const newInput = document.getElementById(`input-${id}`);
-                    if (newInput) {
-                        newInput.focus();
-                        newInput.placeholder = "Trage deinen Namen ein!";
-                    }
-                }, 500); // Kurze Verzögerung für den Update
+                showThankYouEffect('Trage jetzt deinen Namen ein!');
             }
         }
 
@@ -1399,14 +1391,14 @@
             "🫡 Bis bald, Cowboy!"
         ];
 
-        function showThankYouEffect() {
+        function showThankYouEffect(subtextMessage = "") {
             if (!isAdminLoggedIn) {
                 const overlay = document.getElementById('thankYouOverlay');
                 const text = document.getElementById('thankYouText');
                 const subtext = document.getElementById('thankYouSubtext');
                 const randomIndex = Math.floor(Math.random() * thankYouMessages.length);
                 text.textContent = thankYouMessages[randomIndex];
-                subtext.textContent = "";
+                subtext.textContent = subtextMessage;
                 overlay.classList.add('show');
                 setTimeout(() => overlay.classList.remove('show'), 4000);
 
