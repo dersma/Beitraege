@@ -9,7 +9,9 @@
     <meta content="Birthday Party, Partybeiträge, Geburtstag, Party, Jena" name="keywords"/>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 
@@ -190,6 +192,76 @@
         75% { top: 75%; transform: translateY(3px); }
         100% { top: calc(100% + 10px); transform: translateY(0); }
     }
+
+    /* Neue Laserschuss-Effekte */
+    .laser-shots {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -3;
+        overflow: hidden;
+    }
+
+    .laser-shot {
+        position: absolute;
+        width: 1px;
+        background: linear-gradient(to bottom, transparent, rgba(0, 255, 255, 0.6), rgba(255, 0, 255, 0.8), rgba(0, 255, 255, 0.6), transparent);
+        opacity: 0;
+        box-shadow: 0 0 3px rgba(0, 255, 255, 0.5);
+    }
+
+    .laser-shot.downward {
+        animation: laser-shot-down 2.5s linear infinite;
+    }
+
+    .laser-shot.upward {
+        animation: laser-shot-up 2.8s linear infinite;
+    }
+
+
+
+    @keyframes laser-shot-down {
+        0% { 
+            top: -50px; 
+            height: 30px; 
+            opacity: 0; 
+        }
+        10% { 
+            opacity: 0.8; 
+        }
+        90% { 
+            opacity: 0.6; 
+        }
+        100% { 
+            top: 100vh; 
+            height: 30px; 
+            opacity: 0; 
+        }
+    }
+
+    @keyframes laser-shot-up {
+        0% { 
+            top: calc(100vh + 50px); 
+            height: 25px; 
+            opacity: 0; 
+        }
+        10% { 
+            opacity: 0.7; 
+        }
+        90% { 
+            opacity: 0.5; 
+        }
+        100% { 
+            top: -50px; 
+            height: 25px; 
+            opacity: 0; 
+        }
+    }
+
+
     
     .container {
         max-width: 1200px;
@@ -1033,6 +1105,9 @@
         <div class="laser-beam"></div>
     </div>
 
+<!-- Neue Laserschuss-Effekte -->
+<div class="laser-shots" id="laserShots"></div>
+
 <div class="container">
     <div class="header">
         <h1 class="title">4 x 40 B-DAY-BASH</h1>
@@ -1045,64 +1120,65 @@
         </div>
     </div>
 
-    <div class="section-title">🎯 Benötigte Partybeiträge</div>
-    <div class="section-note">📝 Hinweis: Du kannst ganz unten auch eigene Partybeiträge vorschlagen! 👇</div>
-    <div class="items-grid" id="itemsGrid"></div>
+<div class="section-title">🎯 Benötigte Partybeiträge</div>
+<div class="section-note">📝 Hinweis: Du kannst ganz unten auch eigene Partybeiträge vorschlagen! 👇</div>
+<div class="items-grid" id="itemsGrid"></div>
 
-    <div class="additional-section">
-        <div class="section-title highlighted-plus">➕ Weitere Partybeiträge</div>
-        <div class="additional-items-grid" id="additionalItemsGrid"></div>
-        <div class="add-item-card">
-            <div class="add-item-title">Neuen Partybeitrag vorschlagen</div>
-            <div class="additional-note">Hier kannst du weitere Dinge eintragen, die du zur Party beitragen möchtest</div>
-            <div class="add-item-controls">
-                <input class="add-item-input" id="newItemInput" placeholder="z.B. Chips, Getränke, Deko..." type="text"/>
-                <button class="btn btn-add" onclick="addNewItem()">Hinzufügen</button>
+<div class="additional-section">
+    <div class="section-title highlighted-plus">➕ Weitere Partybeiträge</div>
+    <div class="additional-items-grid" id="additionalItemsGrid"></div>
+    <div class="add-item-card">
+        <div class="add-item-title">Neuen Partybeitrag vorschlagen</div>
+        <div class="additional-note">Hier kannst du weitere Dinge eintragen, die du zur Party beitragen möchtest</div>
+        <div class="add-item-controls">
+            <input class="add-item-input" id="newItemInput" placeholder="z.B. Chips, Getränke, Deko..." type="text"/>
+            <button class="btn btn-add" onclick="addNewItem()">Hinzufügen</button>
+        </div>
+    </div>
+</div>
+
+<div class="thank-you-overlay" id="thankYouOverlay">
+    <div class="thank-you-content">
+        <div class="retro-grid"></div>
+        <div class="laser-lines">
+            <div class="laser-line"></div>
+        </div>
+        <div class="thank-you-text" id="thankYouText"></div>
+        <div class="thank-you-subtext" id="thankYouSubtext"></div>
+    </div>
+</div>
+
+<div class="admin-section">
+    <div class="admin-login-bg"></div>
+    <div class="admin-login" id="adminLogin">
+        <div class="admin-title">🔐 ADMIN ACCESS</div>
+        <div class="admin-input-container">
+            <input class="admin-input" id="adminPassword" placeholder="Enter Password" type="password" onkeypress="if(event.key === 'Enter') adminLogin()"/>
+            <div class="admin-input-glow"></div>
+        </div>
+        <br/>
+        <button class="admin-btn" onclick="adminLogin()">Initialize</button>
+    </div>
+
+    <div class="admin-controls" id="adminControls" style="display: none;">
+        <button class="logout-btn" onclick="adminLogout()">Logout</button>
+        <div class="admin-panel">
+            <h3>⚙️ SYSTEM CONTROL</h3>
+            <div class="export-section" id="exportSection">
+                <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
+                <button class="export-btn" id="testApiBtn">🔗 Test API</button>
+                <button class="export-btn" onclick="generateNewBin()">🆕 Neuer BIN</button>
+                <button class="export-btn" onclick="exportToExcel()">📑 Excel Export</button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="thank-you-overlay" id="thankYouOverlay">
-        <div class="thank-you-content">
-            <div class="retro-grid"></div>
-            <div class="laser-lines">
-                <div class="laser-line"></div>
-            </div>
-            <div class="thank-you-text" id="thankYouText"></div>
-            <div class="thank-you-subtext" id="thankYouSubtext"></div>
-        </div>
-    </div>
+<div class="footer">
+    <h3>4 x 40 B-Day-Bash</h3>
+    <p>© 2025 All rights reserved.</p>
+</div>
 
-    <div class="admin-section">
-        <div class="admin-login-bg"></div>
-        <div class="admin-login" id="adminLogin">
-            <div class="admin-title">🔐 ADMIN ACCESS</div>
-            <div class="admin-input-container">
-                <input class="admin-input" id="adminPassword" placeholder="Enter Password" type="password" onkeypress="if(event.key === 'Enter') adminLogin()"/>
-                <div class="admin-input-glow"></div>
-            </div>
-            <br/>
-            <button class="admin-btn" onclick="adminLogin()">Initialize</button>
-        </div>
-
-        <div class="admin-controls" id="adminControls" style="display: none;">
-            <button class="logout-btn" onclick="adminLogout()">Logout</button>
-            <div class="admin-panel">
-                <h3>⚙️ SYSTEM CONTROL</h3>
-                <div class="export-section" id="exportSection">
-                    <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
-                    <button class="export-btn" id="testApiBtn">🔗 Test API</button>
-                    <button class="export-btn" onclick="generateNewBin()">🆕 Neuer BIN</button>
-                    <button class="export-btn" onclick="exportToExcel()">📑 Excel Export</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <h3>4 x 40 B-Day-Bash</h3>
-        <p>© 2025 All rights reserved.</p>
-    </div>
 </div>
 
 <script>
@@ -1481,10 +1557,50 @@
         }
     }
 
+    // Neue Funktion: Laserschüsse erzeugen
+    function createLaserShots() {
+        const laserContainer = document.getElementById('laserShots');
+        
+        // Funktion zum Erstellen eines einzelnen Laserschusses
+        function createSingleLaserShot() {
+            const laser = document.createElement('div');
+            laser.className = 'laser-shot';
+            
+            // Zufällige Klasse für die Richtung
+            const directions = ['downward', 'upward'];
+            const randomDirection = directions[Math.floor(Math.random() * directions.length)];
+            laser.classList.add(randomDirection);
+            
+            // Zufällige horizontale Position
+            laser.style.left = Math.random() * 100 + '%';
+            
+            // Zufälliger Farbverlauf
+            const colors = [
+                'linear-gradient(to bottom, transparent, rgba(0, 255, 255, 0.6), rgba(255, 0, 255, 0.8), rgba(0, 255, 255, 0.6), transparent)',
+                'linear-gradient(to bottom, transparent, rgba(255, 0, 255, 0.6), rgba(0, 255, 255, 0.8), rgba(255, 0, 255, 0.6), transparent)',
+                'linear-gradient(to bottom, transparent, rgba(255, 255, 0, 0.5), rgba(255, 0, 255, 0.7), rgba(255, 255, 0, 0.5), transparent)'
+            ];
+            laser.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            laserContainer.appendChild(laser);
+            
+            // Laserschuss nach Animation entfernen
+            setTimeout(() => {
+                if (laser.parentNode) {
+                    laser.parentNode.removeChild(laser);
+                }
+            }, 3500);
+        }
+        
+        // Kontinuierlich neue Laserschüsse erstellen
+        setInterval(createSingleLaserShot, 800 + Math.random() * 1200);
+    }
+
     // Initialisierung
     document.addEventListener('DOMContentLoaded', () => {
         createStars();
         createNeonLines();
+        createLaserShots(); // Neue Laserschüsse initialisieren
         initializeFirebase();
         firebase.database().ref('.info/connected').on('value', (snap) => {
             const status = document.querySelector('.drive-status');
@@ -1493,6 +1609,7 @@
         });
     });
 </script>
+
 <style>
     /* CSS für Partikel-Effekte */
     .particle {
