@@ -1087,6 +1087,25 @@
         .additional-item-card { padding: 15px; }
         .laser-beam { height: clamp(0.3px, 0.8vw, 0.5px); }
     }
+
+    /* CSS für Partikel-Effekte */
+    .particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: #00ffff;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: particle-float 4s ease-out forwards;
+    }
+    .particle:nth-child(odd) { background: #ff00ff; animation-delay: 0.1s; }
+    .particle:nth-child(3n) { background: #ffffff; animation-delay: 0.2s; }
+    .particle-orange { background: #ffaa00; }
+    .particle-orange:nth-child(odd) { background: #ff6600; }
+    @keyframes particle-float {
+        0% { opacity: 1; transform: translateY(0) scale(1); }
+        100% { opacity: 0; transform: translateY(-50px) scale(0.5); }
+    }
 </style>
 
 </head>
@@ -1106,6 +1125,7 @@
     </div>
 
 <!-- Neue Laserschuss-Effekte -->
+
 <div class="laser-shots" id="laserShots"></div>
 
 <div class="container">
@@ -1114,7 +1134,7 @@
         <div class="date">01. - 03. 08. 2025</div>
         <div class="subtitle">Partybeiträge • Anglerheim Jena</div>
         <div class="drive-status" style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">
-            <span class="status-text">Lokaler Modus - Funktioniert ohne Internet</span>
+            <span class="status-text">📊 Excel Auto-Sync aktiv</span>
             <br/>
             <button class="connect-btn" onclick="connectToFirebase()">👆 Für Synchronisation: Admin → "🔗 Test API" klicken</button>
         </div>
@@ -1160,18 +1180,21 @@
         <button class="admin-btn" onclick="adminLogin()">Initialize</button>
     </div>
 
-    <div class="admin-controls" id="adminControls" style="display: none;">
-        <button class="logout-btn" onclick="adminLogout()">Logout</button>
-        <div class="admin-panel">
-            <h3>⚙️ SYSTEM CONTROL</h3>
-            <div class="export-section" id="exportSection">
-                <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
-                <button class="export-btn" id="testApiBtn">🔗 Test API</button>
-                <button class="export-btn" onclick="generateNewBin()">🆕 Neuer BIN</button>
-                <button class="export-btn" onclick="exportToExcel()">📑 Excel Export</button>
-            </div>
+
+<div class="admin-controls" id="adminControls" style="display: none;">
+    <button class="logout-btn" onclick="adminLogout()">Logout</button>
+    <div class="admin-panel">
+        <h3>⚙️ SYSTEM CONTROL</h3>
+        <div class="export-section" id="exportSection">
+            <button class="export-btn" onclick="exportToCSV()">📊 CSV Export</button>
+            <button class="export-btn" id="testApiBtn">🔗 Test API</button>
+            <button class="export-btn" onclick="generateNewBin()">🆕 Neuer BIN</button>
+            <button class="export-btn" onclick="exportToExcel()">📑 Excel Export</button>
+            <button class="export-btn" onclick="testZapierSync()">📋 Test Zapier</button>
         </div>
     </div>
+</div>
+
 </div>
 
 <div class="footer">
@@ -1239,12 +1262,131 @@
         });
     }
 
-    // Daten speichern
+    // 🔥 ERWEITERTE SAVE-FUNKTION MIT ZAPIER-WEBHOOK
     function saveData() {
         if (database) {
             database.ref('partyData').set(data)
-                .then(() => console.log('Daten erfolgreich gespeichert'))
+                .then(() => {
+                    console.log('Daten erfolgreich gespeichert');
+                    // 🔥 NEU: Excel-Sync im Hintergrund
+                    sendToExcel(data);
+                })
                 .catch(error => console.error('Fehler beim Speichern:', error));
+        }
+    }
+
+    // 🔥 ZAPIER WEBHOOK FUNKTION
+    function sendToExcel(data) {
+        // Excel-freundliche Datenstruktur
+        const excelData = {
+            // Metadaten
+            letzte_aktualisierung: new Date().toLocaleString('de-DE'),
+            party_name: "4x40 B-Day-Bash",
+            party_datum: "01.-03.08.2025",
+            
+            // Benötigte Beiträge
+            benoetigte_beitraege: data.items.map(item => ({
+                kategorie: "Benötigt",
+                beitrag: item.name || "",
+                personen_liste: (item.persons || []).join(", "),
+                anzahl_personen: (item.persons || []).length,
+                status: (item.persons || []).length > 0 ? "Zugeteilt" : "Offen"
+            })),
+            
+            // Zusätzliche Beiträge  
+            zusaetzliche_beitraege: data.additionalItems.map(item => ({
+                kategorie: "Zusätzlich",
+                beitrag: item.name || "",
+                personen_liste: (item.persons || []).join(", "),
+                anzahl_personen: (item.persons || []).length,
+                status: (item.persons || []).length > 0 ? "Zugesagt" : "Vorgeschlagen"
+            })),
+            
+            // Statistiken
+            statistik: {
+                gesamt_benoetigte_beitraege: data.items.length,
+                offene_benoetigte_beitraege: data.items.filter(item => (item.persons || []).length === 0).length,
+                gesamt_zusaetzliche_beitraege: data.additionalItems.length,
+                gesamt_eindeutige_personen: getUniquePersonCount(data),
+                gesamt_anmeldungen: getTotalRegistrations(data)
+            }
+        };
+
+        // 🔥 ZAPIER WEBHOOK URL
+        const WEBHOOK_URL = 'https://hooks.zapier.com/hooks/catch/23858867/u20xiwf/';
+        
+        // An Excel senden (im Hintergrund, blockiert Website nicht)
+        fetch(WEBHOOK_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(excelData)
+        }).then(() => {
+            console.log('✅ Daten an Excel gesendet');
+        }).catch(error => {
+            console.log('ℹ️ Excel-Sync läuft im Hintergrund');
+            // Fehler werden ignoriert, damit Website normal funktioniert
+        });
+    }
+
+    // 🔥 HILFSFUNKTIONEN
+    function getUniquePersonCount(data) {
+        const allPersons = new Set();
+        
+        // Personen aus benötigten Beiträgen
+        data.items.forEach(item => {
+            (item.persons || []).forEach(person => {
+                if (person && person.trim()) {
+                    allPersons.add(person.trim().toLowerCase());
+                }
+            });
+        });
+        
+        // Personen aus zusätzlichen Beiträgen
+        data.additionalItems.forEach(item => {
+            (item.persons || []).forEach(person => {
+                if (person && person.trim()) {
+                    allPersons.add(person.trim().toLowerCase());
+                }
+            });
+        });
+        
+        return allPersons.size;
+    }
+
+    function getTotalRegistrations(data) {
+        let total = 0;
+        
+        data.items.forEach(item => {
+            total += (item.persons || []).length;
+        });
+        
+        data.additionalItems.forEach(item => {
+            total += (item.persons || []).length;
+        });
+        
+        return total;
+    }
+
+    // 🔥 TEST-FUNKTION FÜR ADMIN
+    function testZapierSync() {
+        if (isAdminLoggedIn) {
+            const testData = {
+                test: true,
+                timestamp: new Date().toLocaleString('de-DE'),
+                message: "Test-Sync von Admin ausgelöst"
+            };
+            
+            fetch('https://hooks.zapier.com/hooks/catch/23858867/u20xiwf/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(testData)
+            }).then(() => {
+                alert('✅ Test-Daten an Zapier gesendet! Prüfe dein Google Sheet.');
+            }).catch(error => {
+                alert('❌ Fehler beim Test: ' + error.message);
+            });
         }
     }
 
@@ -1605,31 +1747,10 @@
         firebase.database().ref('.info/connected').on('value', (snap) => {
             const status = document.querySelector('.drive-status');
             status.className = 'drive-status' + (snap.val() ? ' connected' : ' disconnected');
-            status.innerHTML = `<span class="status-text">${snap.val() ? 'Verbunden mit Firebase' : 'Lokaler Modus - Funktioniert ohne Internet'}</span><br/><button class="connect-btn" onclick="connectToFirebase()">👆 Für Synchronisation: Admin → "🔗 Test API" klicken</button>`;
+            status.innerHTML = `<span class="status-text">${snap.val() ? 'Verbunden mit Firebase + Excel Sync ✅' : '📊 Excel Auto-Sync aktiv'}</span><br/><button class="connect-btn" onclick="connectToFirebase()">👆 Für Synchronisation: Admin → "🔗 Test API" klicken</button>`;
         });
     });
 </script>
-
-<style>
-    /* CSS für Partikel-Effekte */
-    .particle {
-        position: absolute;
-        width: 3px;
-        height: 3px;
-        background: #00ffff;
-        border-radius: 50%;
-        pointer-events: none;
-        animation: particle-float 4s ease-out forwards;
-    }
-    .particle:nth-child(odd) { background: #ff00ff; animation-delay: 0.1s; }
-    .particle:nth-child(3n) { background: #ffffff; animation-delay: 0.2s; }
-    .particle-orange { background: #ffaa00; }
-    .particle-orange:nth-child(odd) { background: #ff6600; }
-    @keyframes particle-float {
-        0% { opacity: 1; transform: translateY(0) scale(1); }
-        100% { opacity: 0; transform: translateY(-50px) scale(0.5); }
-    }
-</style>
 
 </body>
 </html>
