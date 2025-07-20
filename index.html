@@ -1275,61 +1275,70 @@
         }
     }
 
-    // 🔥 ZAPIER WEBHOOK FUNKTION
-    function sendToExcel(data) {
-        // Excel-freundliche Datenstruktur
-        const excelData = {
-            // Metadaten
-            letzte_aktualisierung: new Date().toLocaleString('de-DE'),
-            party_name: "4x40 B-Day-Bash",
-            party_datum: "01.-03.08.2025",
-            
-            // Benötigte Beiträge
-            benoetigte_beitraege: data.items.map(item => ({
-                kategorie: "Benötigt",
-                beitrag: item.name || "",
-                personen_liste: (item.persons || []).join(", "),
-                anzahl_personen: (item.persons || []).length,
-                status: (item.persons || []).length > 0 ? "Zugeteilt" : "Offen"
-            })),
-            
-            // Zusätzliche Beiträge  
-            zusaetzliche_beitraege: data.additionalItems.map(item => ({
-                kategorie: "Zusätzlich",
-                beitrag: item.name || "",
-                personen_liste: (item.persons || []).join(", "),
-                anzahl_personen: (item.persons || []).length,
-                status: (item.persons || []).length > 0 ? "Zugesagt" : "Vorgeschlagen"
-            })),
-            
-            // Statistiken
-            statistik: {
-                gesamt_benoetigte_beitraege: data.items.length,
-                offene_benoetigte_beitraege: data.items.filter(item => (item.persons || []).length === 0).length,
-                gesamt_zusaetzliche_beitraege: data.additionalItems.length,
-                gesamt_eindeutige_personen: getUniquePersonCount(data),
-                gesamt_anmeldungen: getTotalRegistrations(data)
-            }
-        };
-
-        // 🔥 ZAPIER WEBHOOK URL
-        const WEBHOOK_URL = 'https://hooks.zapier.com/hooks/catch/23858867/u20xiwf/';
-        
-        // An Excel senden (im Hintergrund, blockiert Website nicht)
-        fetch(WEBHOOK_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(excelData)
-        }).then(() => {
-            console.log('✅ Daten an Excel gesendet');
-        }).catch(error => {
-            console.log('ℹ️ Excel-Sync läuft im Hintergrund');
-            // Fehler werden ignoriert, damit Website normal funktioniert
-        });
-    }
-
+// 🔥 ZAPIER WEBHOOK FUNKTION - REPARIERT!
+function sendToExcel(data) {
+    // Für jeden Beitrag einen separaten Webhook-Call
+    
+    // Benötigte Beiträge senden
+    data.items.forEach(item => {
+        if (item.persons && item.persons.length > 0) {
+            // Für jede Person einen eigenen Eintrag
+            item.persons.forEach(person => {
+                sendSingleWebhook({
+                    "Zeitstempel": new Date().toLocaleString('de-DE'),
+                    "Party": "4x40 B-Day-Bash",
+                    "Kategorie": "Benötigt",
+                    "Beitrag": item.name || "",
+                    "Personen": person || "",
+                    "Anzahl": 1,
+                    "Status": "Zugeteilt"
+                });
+            });
+        } else {
+            // Leere Beiträge auch senden
+            sendSingleWebhook({
+                "Zeitstempel": new Date().toLocaleString('de-DE'),
+                "Party": "4x40 B-Day-Bash", 
+                "Kategorie": "Benötigt",
+                "Beitrag": item.name || "",
+                "Personen": "",
+                "Anzahl": 0,
+                "Status": "Offen"
+            });
+        }
+    });
+    
+    // Zusätzliche Beiträge senden
+    data.additionalItems.forEach(item => {
+        if (item.persons && item.persons.length > 0) {
+            item.persons.forEach(person => {
+                sendSingleWebhook({
+                    "Zeitstempel": new Date().toLocaleString('de-DE'),
+                    "Party": "4x40 B-Day-Bash",
+                    "Kategorie": "Zusätzlich", 
+                    "Beitrag": item.name || "",
+                    "Personen": person || "",
+                    "Anzahl": 1,
+                    "Status": "Zugesagt"
+                });
+            });
+        }
+    });
+}
+// 🔥 NEUE HILFSFUNKTION
+function sendSingleWebhook(rowData) {
+    const WEBHOOK_URL = 'https://hooks.zapier.com/hooks/catch/23858867/u20xiwf/';
+    
+    fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(rowData)
+    }).then(() => {
+        console.log('✅ Daten gesendet:', rowData.Beitrag);
+    }).catch(error => {
+        console.log('ℹ️ Webhook im Hintergrund');
+    });
+}
     // 🔥 HILFSFUNKTIONEN
     function getUniquePersonCount(data) {
         const allPersons = new Set();
@@ -1429,17 +1438,16 @@ function fullSyncToExcel() {
     alert(`✅ ${syncCount} Datensätze an Excel gesendet!`);
 }
 
-// 🔥 HILFSFUNKTION: Einzelnes Item senden
+// 🔥 HILFSFUNKTION: Einzelnes Item senden - REPARIERT!
 function sendSingleItemToExcel(item, person, kategorie) {
     const singleItemData = {
-        letzte_aktualisierung: new Date().toLocaleString('de-DE'),
-        party_name: "4x40 B-Day-Bash",
-        party_datum: "01.-03.08.2025",
-        kategorie: kategorie,
-        beitrag: item.name || "",
-        personen_liste: person || "",
-        anzahl_personen: person ? 1 : 0,
-        status: person ? (kategorie === 'Benötigt' ? 'Zugeteilt' : 'Zugesagt') : 'Offen'
+        "Zeitstempel": new Date().toLocaleString('de-DE'),
+        "Party": "4x40 B-Day-Bash",
+        "Kategorie": kategorie,
+        "Beitrag": item.name || "",
+        "Personen": person || "",
+        "Anzahl": person ? 1 : 0,
+        "Status": person ? (kategorie === 'Benötigt' ? 'Zugeteilt' : 'Zugesagt') : 'Offen'
     };
 
     // An Zapier senden
