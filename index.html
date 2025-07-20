@@ -1339,15 +1339,6 @@ function sendSingleWebhook(rowData) {
         console.log('ℹ️ Webhook im Hintergrund');
     });
 }
-function logDeletion(action, beitrag, person = "", kategorie = "") {
-    const deletionData = {
-        "Zeitstempel": new Date().toLocaleString('de-DE'),
-        "Party": "4x40 B-Day-Bash",
-        "Kategorie": kategorie,
-        "Beitrag": beitrag,
-        "Personen": person,
-        "Anzahl": 0,
-        "Status": action
     // 🔥 HILFSFUNKTIONEN
     function getUniquePersonCount(data) {
         const allPersons = new Set();
@@ -1447,16 +1438,17 @@ function fullSyncToExcel() {
     alert(`✅ ${syncCount} Datensätze an Excel gesendet!`);
 }
 
-// 🔥 HILFSFUNKTION: Einzelnes Item senden - REPARIERT!
+// 🔥 HILFSFUNKTION: Einzelnes Item senden
 function sendSingleItemToExcel(item, person, kategorie) {
     const singleItemData = {
-        "Zeitstempel": new Date().toLocaleString('de-DE'),
-        "Party": "4x40 B-Day-Bash",
-        "Kategorie": kategorie,
-        "Beitrag": item.name || "",
-        "Personen": person || "",
-        "Anzahl": person ? 1 : 0,
-        "Status": person ? (kategorie === 'Benötigt' ? 'Zugeteilt' : 'Zugesagt') : 'Offen'
+        letzte_aktualisierung: new Date().toLocaleString('de-DE'),
+        party_name: "4x40 B-Day-Bash",
+        party_datum: "01.-03.08.2025",
+        kategorie: kategorie,
+        beitrag: item.name || "",
+        personen_liste: person || "",
+        anzahl_personen: person ? 1 : 0,
+        status: person ? (kategorie === 'Benötigt' ? 'Zugeteilt' : 'Zugesagt') : 'Offen'
     };
 
     // An Zapier senden
@@ -1558,44 +1550,34 @@ function sendSingleItemToExcel(item, person, kategorie) {
 
     // Person austragen - MIT LÖSCHABFRAGE
     function unregisterPerson(itemId, personName, isAdditional) {
-    if (!isAdminLoggedIn) {
-        // Zusätzliche Löschabfrage anzeigen
-        if (confirm('Wirklich löschen? 😢')) {
-            const items = isAdditional ? data.additionalItems : data.items;
-            const item = items.find(i => i.id === itemId);
-            if (item && Array.isArray(item.persons)) {
-                // 🔥 NEU: Löschung loggen BEVOR sie durchgeführt wird
-                logDeletion("AUSGETRAGEN", item.name, personName, isAdditional ? "Zusätzlich" : "Benötigt");
-                
-                item.persons = item.persons.filter(p => p !== personName);
-                if (item.persons.length === 0 && items === data.additionalItems && !data.items.some(i => i.id === item.id)) {
-                    const index = items.findIndex(i => i.id === itemId);
-                    if (index !== -1) items.splice(index, 1);
+        if (!isAdminLoggedIn) {
+            // Zusätzliche Löschabfrage anzeigen
+            if (confirm('Wirklich löschen? 😢')) {
+                const items = isAdditional ? data.additionalItems : data.items;
+                const item = items.find(i => i.id === itemId);
+                if (item && Array.isArray(item.persons)) {
+                    item.persons = item.persons.filter(p => p !== personName);
+                    if (item.persons.length === 0 && items === data.additionalItems && !data.items.some(i => i.id === item.id)) {
+                        const index = items.findIndex(i => i.id === itemId);
+                        if (index !== -1) items.splice(index, 1);
+                    }
+                    saveData();
+                    showGoodbyeEffect();
                 }
-                saveData();
-                showGoodbyeEffect();
             }
         }
     }
-}
 
     // Zusätzlichen Beitrag löschen - MIT LÖSCHABFRAGE
-    functiofunction deleteAdditionalItem(itemId) {
-    // Zusätzliche Löschabfrage anzeigen
-    if (confirm('Wirklich löschen? 😢')) {
-        const index = data.additionalItems.findIndex(i => i.id === itemId);
-        if (index !== -1) {
-            const item = data.additionalItems[index];
-            
-            // 🔥 NEU: Beitrag-Löschung loggen BEVOR sie durchgeführt wird
-            logDeletion("BEITRAG GELÖSCHT", item.name, "", "Zusätzlich");
-            
-            data.additionalItems.splice(index, 1);
-            saveData();
-            showGoodbyeEffect();
-        }
-    }
-}
+    function deleteAdditionalItem(itemId) {
+        // Zusätzliche Löschabfrage anzeigen
+        if (confirm('Wirklich löschen? 😢')) {
+            const index = data.additionalItems.findIndex(i => i.id === itemId);
+            if (index !== -1) {
+                data.additionalItems.splice(index, 1);
+                saveData();
+                showGoodbyeEffect();
+            }
         }
     }
 
