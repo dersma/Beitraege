@@ -1180,7 +1180,6 @@
         <button class="admin-btn" onclick="adminLogin()">Initialize</button>
     </div>
 
-
 <div class="admin-controls" id="adminControls" style="display: none;">
     <button class="logout-btn" onclick="adminLogout()">Logout</button>
     <div class="admin-panel">
@@ -1430,9 +1429,9 @@
     function createAdditionalItemCards() {
         const additionalItemsGrid = document.getElementById('additionalItemsGrid');
         additionalItemsGrid.innerHTML = '';
-        // Sortiere nach ID (Timestamp), um neueste oben zu zeigen, robust gegen alte IDs
+        // 🔥 GEÄNDERT: Sortiere nach ID (Timestamp), um älteste oben und neueste unten zu zeigen
         const getTimestamp = id => id.includes('_') ? parseInt(id.split('_')[1]) || 0 : 0;
-        const sortedItems = data.additionalItems.slice().sort((a, b) => getTimestamp(b.id) - getTimestamp(a.id));
+        const sortedItems = data.additionalItems.slice().sort((a, b) => getTimestamp(a.id) - getTimestamp(b.id)); // Aufsteigende Sortierung
         sortedItems.forEach(item => {
             if (!Array.isArray(item.persons)) {
                 item.persons = [];
