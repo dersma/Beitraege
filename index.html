@@ -1190,6 +1190,7 @@
             <button class="export-btn" onclick="generateNewBin()">🆕 Neuer BIN</button>
             <button class="export-btn" onclick="exportToExcel()">📑 Excel Export</button>
             <button class="export-btn" onclick="testZapierSync()">📋 Test Zapier</button>
+		<button class="export-btn" onclick="fullSyncToExcel()">🔄 Full Sync</button>
         </div>
     </div>
 </div>
@@ -1388,7 +1389,68 @@
             });
         }
     }
+// 🔥 NEUE FUNKTION: Full Sync aller bestehenden Daten
+function fullSyncToExcel() {
+    if (!isAdminLoggedIn) {
+        alert('❌ Nur für Admins!');
+        return;
+    }
+    
+    let syncCount = 0;
+    
+    // Benötigte Beiträge senden
+    data.items.forEach(item => {
+        if (item.persons && item.persons.length > 0) {
+            item.persons.forEach(person => {
+                sendSingleItemToExcel(item, person, 'Benötigt');
+                syncCount++;
+            });
+        } else {
+            // Auch leere Beiträge senden
+            sendSingleItemToExcel(item, '', 'Benötigt');
+            syncCount++;
+        }
+    });
+    
+    // Zusätzliche Beiträge senden  
+    data.additionalItems.forEach(item => {
+        if (item.persons && item.persons.length > 0) {
+            item.persons.forEach(person => {
+                sendSingleItemToExcel(item, person, 'Zusätzlich');
+                syncCount++;
+            });
+        } else {
+            // Auch leere Beiträge senden
+            sendSingleItemToExcel(item, '', 'Zusätzlich');
+            syncCount++;
+        }
+    });
+    
+    alert(`✅ ${syncCount} Datensätze an Excel gesendet!`);
+}
 
+// 🔥 HILFSFUNKTION: Einzelnes Item senden
+function sendSingleItemToExcel(item, person, kategorie) {
+    const singleItemData = {
+        letzte_aktualisierung: new Date().toLocaleString('de-DE'),
+        party_name: "4x40 B-Day-Bash",
+        party_datum: "01.-03.08.2025",
+        kategorie: kategorie,
+        beitrag: item.name || "",
+        personen_liste: person || "",
+        anzahl_personen: person ? 1 : 0,
+        status: person ? (kategorie === 'Benötigt' ? 'Zugeteilt' : 'Zugesagt') : 'Offen'
+    };
+
+    // An Zapier senden
+    fetch('https://hooks.zapier.com/hooks/catch/23858867/u20xiwf/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(singleItemData)
+    }).catch(error => {
+        console.log('Full-Sync Eintrag gesendet');
+    });
+}
     // Anzeige aktualisieren
     function updateDisplay() {
         createItemCards();
